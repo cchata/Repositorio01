@@ -13,7 +13,7 @@ public class ApliBodegaApp extends SingleFrameApplication {
 
     @Override 
     protected void startup() {
-        //show(new ApliBodegaView(this));
+        //show(new ApliBodegaView(this))1;
     }
 
     @Override 
