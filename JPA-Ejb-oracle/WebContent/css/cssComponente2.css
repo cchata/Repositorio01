@@ -1,0 +1,122 @@
+.button
+{
+	background-color: #81A3ED;
+	border          : none;
+	border-radius   : 2px;
+	box-shadow      : 0px 0px 2px rgba(0, 0, 0, 0.2);
+	color           : white;
+	cursor          : pointer;
+	margin          : 4px;
+	padding         : 6px;
+	vertical-align  : middle;
+}
+
+
+.button:hover
+{
+	background-color: #A83939;
+	color: yellow;
+}
+
+.label
+{
+	display       : inline-block;
+	vertical-align: middle; 
+	width         : 250px;
+}
+
+.password
+{
+	border        : none;
+	border-radius : 2px;
+	box-shadow    : 0px 0px 2px rgba(0, 0, 0, 0.2);
+	margin        : 4px;
+	padding       : 10px;
+	vertical-align: middle;
+	width         : 400px;
+}
+
+.select
+{
+	border        : none;
+	border-radius : 2px;
+	box-shadow    : 0px 0px 2px rgba(0, 0, 0, 0.2);
+	margin        : 4px;
+	padding       : 5px;
+	vertical-align: middle;
+	width         : 400px;
+}
+
+
+.table{
+	padding:0px;
+    border-spacing: 0px;
+	text-align    : left;
+	vertical-align: middle;
+	width         : 100%;
+}
+
+.table tr {
+ padding:0px;
+ border-spacing: 0px;
+ font-size: 12px;
+ border:0px #acacac solid;
+ color: #606060;
+}
+
+
+.table td {
+ padding:0px;
+ border-spacing: 0px;
+ font-size: 12px;
+ border:1px #eeeeee solid;
+}
+.table  tr th
+{
+	font-size  : 14px;
+	font-weight: bold;
+	text-align: center;
+	color: white;
+	background: #0080ff;
+}
+
+
+.table tr:nth-child(2n) {
+ background: #ffffff;
+}
+ 
+.table tr:nth-child(2n+1){
+ background: #ecffec;
+}
+
+.table  tr:HOVER {
+	color: #0080ff;
+	background: #d2ffff;
+}
+
+.text
+{
+	border        : none;
+	border-radius : 2px;
+	box-shadow    : 0px 0px 2px rgba(0, 0, 0, 0.2);
+	margin        : 4px;
+	padding       : 10px;
+	vertical-align: middle;
+	width         : 400px;
+}
+
+.textArea
+{
+	border        : none;
+	border-radius : 2px;
+	box-shadow    : 0px 0px 2px rgba(0, 0, 0, 0.2);
+	margin        : 4px;
+	padding       : 10px;
+	vertical-align: middle;
+	width         : 400px;
+}
+
+.formulario{
+	font-family: italic ,Arial;
+	font-size: 13px;
+}

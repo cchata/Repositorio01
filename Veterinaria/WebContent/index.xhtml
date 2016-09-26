@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="resources/css/generico.css" />
+	<title>SISTEMA DE VETERINARIA</title>
+</h:head>
+<h:body>
+	<div class="conteiner">
+		<h:form id="frmLogin">
+			<p:growl id="mensajeGeneral" showDetail="false" sticky="false" />
+			<p:panel   header="Acceso al Sistema de Veterinaria"  style="width:600px; height:245px; margin:0 auto; text-align:center; font-size:20px;">
+				<h:panelGrid columns="2" cellpadding="5"  styleClass ="datosGrid1">
+					<p:outputLabel for="txtNombre" value="Ingrese Nombre de Usuario: " />
+					<p:inputText    id="txtNombre" required="true" value="#{loginFormBean.nombreUsuario}" />
+
+					<p:outputLabel for="txtContraseña" value="Ingrese Password: " />
+					<p:password     id="txtContraseña" required="true" value="#{loginFormBean.password}" />
+
+					<h:panelGroup />
+					<p:commandButton id="btnValidar" value="Validar Usuario" update="frmLogin" action="#{loginFormBean.validarUsuario()}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</div>
+</h:body>
+</html>
+
