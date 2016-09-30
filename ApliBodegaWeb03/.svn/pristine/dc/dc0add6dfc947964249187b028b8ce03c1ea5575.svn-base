@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:poll interval="1" listener="#{confirmarRecepcionPesado.cargarPesoBalanza()}" 
+                update=":formPesadoRollo:pesoKg" widgetVar="poll" autoStart="false" />
+    </h:form>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Confirmar Recepción de estampado </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <div class="widget-body-toolbar">
+                            <div >
+                                Estado:
+                                <ul>
+                                    <li>Aprobado, Si se encuentra dentro de la tolerancia.</li>
+                                    <li>Rechazado, Si no se encuentra dentro de la tolerancia</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" jsf:id="formPesadoRollo">
+                            <div class="row">
+                                
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> OPERARIO: </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu class="form-control" id="operarioId"
+                                                                     value="#{confirmarRecepcionPesado.operario}"
+                                                                     required="true" label="Operario">
+                                                        <f:selectItem itemLabel="Seleccione un Operario" />
+                                                        <f:selectItems value="#{confirmarRecepcionPesado.listaOperarios}" var="oper"
+                                                                       itemLabel="#{oper.nombre}" itemValue="#{oper.codigo}" />
+                                                    </h:selectOneMenu>
+                                                    <!--<input type="text" class="form-control" value="Juan"/>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> # BALANZA: </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu class="form-control" id="numerBal" 
+                                                                     value="#{confirmarRecepcionPesado.numeroBalanza}">
+                                                        <f:selectItem itemValue="0" itemLabel="Sin Balanza" />
+                                                        <f:selectItems value="#{confirmarRecepcionPesado.listaBalanzas}" var="bal"
+                                                                       itemLabel="#{bal.numeroBalanza}" itemValue="#{bal.numeroBalanza}" />
+                                                        <p:ajax  listener="#{confirmarRecepcionPesado.activarPoll()}" process="@this" update="pesoKg"/>
+                                                    </h:selectOneMenu>
+                                                    <!--<input type="text" class="form-control" placeholder="Ingrese # OB" value="0"/>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> OB: </span>
+                                                <div class="icon-addon addon-sm">
+                                                    <input type="text" class="form-control" disabled="disabled" jsf:id="obx"
+                                                           jsf:value="#{confirmarRecepcionPesado.cabezeraRecepcion.ob}"/>
+                                                    <label class="glyphicon glyphicon-search"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"># Bulto: </span>
+                                                <div class="icon-addon addon-sm">
+                                                    <input type="text" class="form-control" disabled="disabled" jsf:id="bultox"
+                                                           jsf:value="#{confirmarRecepcionPesado.cabezeraRecepcion.bultosTotales}"/>
+                                                    <label class="glyphicon glyphicon-search"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Peso Total OB: </span>
+                                                <div class="icon-addon addon-sm">
+                                                    <input type="text" class="form-control" jsf:id="pesox"
+                                                           disabled="disabled" jsf:value="#{confirmarRecepcionPesado.cabezeraRecepcion.kilosTotales}"/>
+                                                    <label class="glyphicon glyphicon-search"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                               
+                            </div>
+                            <!--<hr/>-->
+                            <div>
+                                <div class="col-sm-4">
+                                    <div class="form-group has-success">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> SECUENCIA: </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" class="form-control" 
+                                                           jsf:value="#{confirmarRecepcionPesado.cabezeraRecepcion.codigoEtiqueta}"
+                                                           placeholder="Lectora de Barra" >
+                                                        <p:ajax event="blur" process="@this, operarioId, numerBal"
+                                                                oncomplete="if(args.validationFailed){alert('FALTA SELECCIONAR UN OPERARIO');}"
+                                                                listener="#{confirmarRecepcionPesado.buscarDetalleEtiqueta()}" />
+                                                    </input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">Kg</span>
+                                                <div class="addon-sm">
+                                                    <input type="text" jsf:id="pesoKg" class="form-control"
+                                                           jsf:required="true" jsf:label="Peso" 
+                                                           jsf:value="#{confirmarRecepcionPesado.kilos}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">Metros</span>
+                                                <div class="addon-sm">
+                                                    <input type="text" class="form-control" jsf:required="true"
+                                                           jsf:label="Metros"
+                                                           jsf:value="#{confirmarRecepcionPesado.metros}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p:commandLink class="btn btn-success" style="width: 100%;"
+                                                   update=":tableGeneralId"
+                                                   oncomplete="if(args.validationFailed){alert('Faltan llenar campos...');}"
+                                                   action="#{confirmarRecepcionPesado.actualizarPesdoRolloRecepcion()}">
+                                        ACTUALIZAR
+                                    </p:commandLink>
+                                    <!--<a class="btn btn-success" style="width: 100%;">  </a>-->
+                                </div>
+                                <div class="col-sm-2">
+<!--                                    <p:commandLink class="btn btn-primary" style="width: 100%;">
+                                        CONFIRMAR
+                                    </p:commandLink>-->
+                                    <!--<a class="btn btn-primary" style="width: 100%;"> CONFIRMAR </a>-->
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr/><br/>
+
+                        <div class="table-responsive" jsf:id="tableGeneralId">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="7%"># Bulto.</th>
+                                        <th>Kilogramos</th>
+                                        <th>Metros</th>
+                                        <th>Fecha Pesado</th>
+                                        <th>Operario Pesado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{confirmarRecepcionPesado.cabezeraRecepcion.lista}" var="pr">
+                                        <tr class="#{pr.kilos eq null?'danger':'success'}">
+                                            <td width="7%">#{pr.secuencia}</td>
+                                            <td>#{pr.kilos}</td>
+                                            <td>#{pr.metros}</td>
+                                            <td>#{pr.fechaPesado}</td>
+                                            <td>#{pr.operario}</td>
+                                        </tr>
+                                    </ui:repeat>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <script>
+        /**
+         * EVENTO QUE ACTUALIZA LA BALANZA
+         * @param {type} val
+         * @returns {undefined}
+         */
+        function cambiarBalanza(val) {
+//            document.getElementById("soloBalanzaForm:balanzaInput").value = val;
+//            actualizarBalanza();
+//            console.log(val);
+            if (val == 0) {
+                PF('poll').stop();
+                console.log(document.getElementById("formPesadoRollo:pesoKg").value);
+                document.getElementById("formPesadoRollo:pesoKg").value = '';
+//                document.getElementById("for 
+//                mPesadoRollo:pesoKg").value = '';
+            } else if (!PF('poll').active) {
+                document.getElementById("formPesadoRollo:pesoKg").value = '';
+                console.log(document.getElementById("formPesadoRollo:pesoKg").value);
+                PF('poll').start();
+            }
+        }
+
+
+//        function runScript(e) {
+//            document.getElementById("formBuscar:codLeido").value = document.getElementById("formPesadoRollo:secuencia").value;
+//            document.getElementById("formBuscar:codigoOperarioRC").value = document.getElementById("formPesadoRollo:codigoOperario").value;
+//            console.log(document.getElementById("formBuscar:codLeido").value);
+//            if (e.keyCode == 13) {
+//                actualizarRollo();
+//                document.getElementById("formPesadoRollo:secuencia").value = "";
+//                return false;
+//            }
+//        }
+
+        $(document).ready(function () {
+//            document.getElementById("soloBalanzaForm:balanzaInput").value = 0;
+            cambiarBalanza(0);
+            limpiarCSSTablaPrimeFaces();
+        });
+
+        document.getElementById("formPesadoRollo:numerBal").value = "0";
+        document.getElementById("formPesadoRollo:pesoKg").value = "";
+    </script>
+
+</ui:composition>

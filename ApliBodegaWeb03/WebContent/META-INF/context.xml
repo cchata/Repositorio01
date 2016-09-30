@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context antiJARLocking="false"  path="Programacion">
+	<Resource auth="Container" 
+				driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" 
+				maxActive="20"
+				maxIdle="10"
+				maxWait="-1" 
+				name="jdbc/sqlserver" 
+				type="javax.sql.DataSource" 
+				url="jdbc:sqlserver://localhost:1433;databaseName=bdBodega" 
+				username="sa" 
+				password="root"/> 
+</Context>

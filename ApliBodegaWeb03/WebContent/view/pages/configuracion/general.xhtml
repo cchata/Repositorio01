@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+     <div class="well">
+        <h:form>
+            <table class="table table-striped table-forum">
+                <thead>
+                    <tr>
+                        <th colspan="2">CONFIGURACIÓN GENERAL</th>
+                        <th style="width: 100px;" class="text-center hidden-xs hidden-sm">VALOR</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- TR -->
+                    <tr>
+                        <td style="width: 40px;" class="text-center"><i class="fa fa-globe fa-2x text-muted"></i></td>
+                        <td>
+                            <h4>
+                                <a href="javascript:void(0);">
+                                    IMPRESORA POR DEFECTO - ETIQUETA
+                                </a>
+                                <small>Seleccione una impresora por defecto para las etiquetas (SOLO ETIQUETAS).</small>
+                            </h4>
+                        </td>
+                        <td class="text-center hidden-xs hidden-sm">
+                            <h:selectOneMenu value="#{configuracionGeneralController.configuracion.nombreImpresora}">
+                                <f:selectItem itemValue="" itemLabel="SELECCIONE TIQUETERA" />
+                                <f:selectItems value="#{configuracionGeneralController.nombresTiqueteras}" var="eti"
+                                               itemValue="#{eti}" itemLabel="#{eti}" />
+                            </h:selectOneMenu>
+                        </td>
+                        
+                    </tr>
+                   
+
+                </tbody>
+            </table>
+
+
+            <div align="center">
+
+                <p:commandLink class="btn btn-success" ajax="false"
+                               action="#{configuracionGeneralController.guardarConfiguracion()}">
+                    - - GUARDAR CONFIGURACIÓN - -
+                </p:commandLink>
+
+            </div>
+        </h:form>
+    </div>
+
+
+
+</ui:composition>

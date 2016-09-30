@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>LISTADO DE GUÍAS </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <div class="widget-body-toolbar">
+                            <div >
+                                <label >LISTA DE GUÍAS: <strong>""</strong>, en esta vista se visualizaran las guías con sus respectivos estados.</label>
+                            </div>
+                        </div>
+                        <!--                        <form class="form-horizontal">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <div class="col-md-10">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <span class="input-group-addon"> OPERARIO: </span>
+                                                                        <div class="icon-addon addon-sm">
+                                                                            <input type="text" class="form-control" value="JOSE"/>
+                                                                            <label class="glyphicon glyphicon-search"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <span class="input-group-addon"> GUÍA: </span>
+                                                                        <div class="addon-sm">
+                                                                            <input type="text" class="form-control" value="0001"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <span class="input-group-addon"> FECHA: </span>
+                                                                        <div class="addon-sm">
+                                                                            <input type="text" class="form-control" value="16/01/2015 15:30"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr/>
+                                                    <div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <span class="input-group-addon"> RUC: </span>
+                                                                        <div class="addon-sm">
+                                                                            <input type="text" class="form-control"  value="12345678910"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <span class="input-group-addon">DESTINO: </span>
+                                                                        <div class="addon-sm">
+                                                                            <input type="text" class="form-control" value="DIREECCIÓN DESTINO"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <a class="btn btn-success" style="width: 100%;"> Confirmar </a>
+                                                        </div>
+                                                    </div>
+                                                </form>-->
+                        <hr/>
+                        <div class="table-responsive">
+                            <p:dataTable value="#{guiaController.listaGuiaDespacho}" var="guia"
+                                         rows="10" paginator="true" emptyMessage="No se ha encontrado ninguna guía" >
+
+                                <p:column headerText="Guía" sortBy="#{guia.numeroGuia}">
+                                    #{guia.numeroGuia}
+                                </p:column>
+                                <p:column headerText="RUC" sortBy="#{guia.numeroRuc}">
+                                    #{guia.numeroRuc}
+                                </p:column>
+                                <p:column headerText="Razón Social" sortBy="#{guia.razonSocial}">
+                                    #{guia.razonSocial}
+                                </p:column>
+                                <p:column headerText="Cantidad OB's" sortBy="#{guia.cantidadOBs}">
+                                    #{guia.cantidadOBs}
+                                </p:column>
+                                <p:column headerText="Cantidad Rollos" sortBy="#{guia.cantidadRollos}">
+                                    #{guia.cantidadRollos}
+                                </p:column>
+                                <p:column headerText="Kilos" sortBy="#{guia.kilos}">
+                                    #{guia.kilos}
+                                </p:column>
+                                <p:column headerText="Estado" sortBy="#{guia.estado}">
+                                    #{guia.estado}
+                                </p:column>
+                                <p:column headerText="F. Registro" sortBy="#{guia.fechaRegistro}">
+                                    #{guia.fechaRegistro}
+                                </p:column>
+                                <p:column headerText="F. Validación" sortBy="#{guia.fechaValidacion}">
+                                    #{guia.fechaValidacion}
+                                </p:column>
+                                <p:column headerText="F. Despacho" sortBy="#{guia.fechaDespacho}">
+                                    #{guia.fechaDespacho}
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header"><i class="fa fa-edit"></i></f:facet>
+                                    <p:commandLink rendered="#{(guia.estado eq 'Registrado')}"
+                                                   update=":content" 
+                                                   action="#{servicioEstampadoController.editarGuiaEstadoRegistrado(guia.numeroGuia)}">
+                                        <i class="fa fa-edit"></i>
+                                        <f:setPropertyActionListener
+                                            value="./view/pages/despacho/servicio-estampado.xhtml" 
+                                            target="#{navigatorController.content}"/>
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <script>
+        $('#alertar').click(function () {
+            $('#alertar').prop('checked', false);
+            alert('El pesado para esta OB, se encuentra incompleta, \ndebe completar los pesados para poder proseguir.');
+        });
+        limpiarCSSTablaPrimeFaces();
+    </script>
+</ui:composition>

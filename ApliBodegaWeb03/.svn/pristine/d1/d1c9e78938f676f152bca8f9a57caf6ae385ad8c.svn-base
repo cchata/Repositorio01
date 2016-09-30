@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- #NAVIGATION -->
+    <!-- Left panel : Navigation area -->
+    <!-- Note: This width of the aside area can be adjusted through LESS variables -->
+    <aside id="left-panel">
+
+        <!-- User info -->
+        <div class="login-info">
+            <span> <!-- User image size is adjusted inside CSS, it should stay as is --> 
+
+                <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+                    <p:graphicImage value="#{loginController.urlImagen}"  alt="me" class="online" /> 
+                    <!--<img src="#{loginController.urlImagen}" alt="me" class="online" />--> 
+                    <span>
+                        #{loginController.nombreUsuario}
+                    </span>
+                    <i class="fa fa-angle-down"></i>
+                </a> 
+
+            </span>
+        </div>
+        <!-- end user info -->
+
+        <!-- NAVIGATION : This navigation is also responsive
+
+        To make this navigation dynamic please make sure to link the node
+        (the reference to the nav > ul) after page load. Or the navigation
+        will not initialize.
+        -->
+
+        <nav>
+            <!-- 
+            NOTE: Notice the gaps after each icon usage <i></i>..
+            Please note that these links work a bit different than
+            traditional href="" links. See documentation for details.
+            -->
+
+            <ul>
+                <li class="">
+                    <a href="javascript:void(0);" onclick="homex();" ><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent"> Inicio</span></a>
+                </li>
+                <li class="">
+                    <a href="javascript:void(0);" onclick="maestroProveedores();"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent"> Maestro Proveedores</span></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent"> Despacho</span></a>
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);" onclick="pesadoRollos();"><i class="glyphicon glyphicon-plane"></i> Pesado de Rollos</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="listadoGuias();"><i class="glyphicon glyphicon-plane"></i> Listado de Guías</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="servicioEstampado();"><i class="glyphicon glyphicon-plane"></i> Servicio de Estampado</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="validarDespacho();"><i class="glyphicon glyphicon-plane"></i> Validar Despacho</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="despachoGuia();"><i class="glyphicon glyphicon-plane"></i> Despacho Guía</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent"> Recepción</span></a>
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);" onclick="recepcionPrimera();"><i class="glyphicon glyphicon-plane"></i> Recepción de Estampado</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="recepcionSegunda();"><i class="glyphicon glyphicon-plane"></i> Confirmar Recepción de Estampado</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent"> Atendimiento de Transferencia</span></a>
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);" onclick="atDemo();"><i class="glyphicon glyphicon-asterisk"></i>Pesado de Rollos e impresión de etiquetas</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="atendTransferencia();"><i class="glyphicon glyphicon-camera"></i>Atendimiento de Transferencia</a>
+                        </li>
+                        
+                         <li>
+                            <a href="javascript:void(0);" onclick="verificaciondespacho();"><i class="glyphicon glyphicon-dashboard"></i>Verificacion confirmacion de despacho</a>
+                        </li>
+                         <li>
+                            <a href="javascript:void(0);" onclick="despachoIncompletas();"><i class="glyphicon glyphicon-camera"></i>Despacho de Ud. Incompletas</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="despachoSaldos();"><i class="glyphicon glyphicon-globe"></i>Despacho Saldos y Desperdicios</a>
+                        </li>
+                        <li>
+                           <a href="javascript:void(0);" onclick="recepcionConfirmacion();"><i class="glyphicon glyphicon-camera"></i>Recepccion Confirmacion</a>
+                        </li>
+                        </ul>
+                   </li>
+                   <li>
+                      <a href="#"><i class="fa fa-lg fa-fw fa-arrow-circle-left"></i> <span class="menu-item-parent"> Configuración</span></a>
+                    <ul>
+                          <li>
+                              <a href="javascript:void(0);" onclick="configuracion();">CONFIGURACIÓN</a>
+                          </li>
+
+                    </ul>
+                </li>
+
+            
+             </ul>
+        </nav>
+        <span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>
+
+    </aside>
+    <!-- END NAVIGATION -->
+    <h:form id="menuComplete">
+        <p:remoteCommand name="configuracion" update=":content" action="#{configuracionGeneralController.inicializarConfiguracion()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/configuracion/general.xhtml" />
+        </p:remoteCommand>
+
+        <p:remoteCommand name="atDemo" update=":content">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/atendimiento_transferencia/pesado_rollos_etiqueta/pesado-rollos-etiquetas.xhtml" />
+        </p:remoteCommand>
+        
+        <p:remoteCommand name="atendTransferencia" update=":content">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/atendimiento_transferencia/atendimiento_transferencia/atendimiento_transferencia.xhtml" />
+        </p:remoteCommand>
+        
+       <p:remoteCommand name="verificaciondespacho" update=":content">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/atendimiento_transferencia/verificacion_confi_despacho/verificacion_despacho.xhtml"/>
+        </p:remoteCommand>
+        
+    
+       <p:remoteCommand name="despachoIncompletas" update=":content">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/atendimiento_transferencia/despacho_unidades_imcompletas/despacho_unidades_imcompletas.xhtml"/>
+        </p:remoteCommand>
+
+               <p:remoteCommand name="despachoSaldos" update=":content">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/atendimiento_transferencia/despacho_saldos_desperdicios/despacho_saldos_desperdicios.xhtml"/>
+        </p:remoteCommand>
+        
+          <p:remoteCommand name="recepcionConfirmacion" update=":content">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/atendimiento_transferencia/recepcion_confirmacion/recepcion_confirmacion.xhtml"/>
+        </p:remoteCommand>
+        
+        
+        
+        <p:remoteCommand name="homex" update=":content" >
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/home.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="pesadoRollos" update=":content" action="#{pesadoRolloController.inicializarDatos()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/despacho/pesado-rollos.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="servicioEstampado" update=":content" action="#{servicioEstampadoController.inicializarVista()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/despacho/servicio-estampado.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="validarDespacho" update=":content" action="#{validarDespachoController.inicializarVista()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/despacho/validar-despacho.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="despachoGuia" update=":content" action="#{guiaDespachoController.inicializarVistaPorMenu()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/despacho/despacho-guia.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="recepcionPrimera" update=":content" action="#{recepcionServicioEstapado.iniciarRecepcionServicioEstampado()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/recepcion/recepcion-servicio-estampado.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="recepcionSegunda" update=":content" action="#{confirmarRecepcionPesado.inicializarConfirmarRecepcionMenu()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/recepcion/confirmar-recepcion-pesado.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="maestroProveedores" update=":content" action="#{proveedorController.inicializarInstanciaProveedor()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/proveedor/maestro-proveedor.xhtml"/>
+        </p:remoteCommand>
+        <p:remoteCommand name="listadoGuias" update=":content" action="#{guiaController.inicializarTablaGuias()}">
+            <f:setPropertyActionListener
+                target="#{navigatorController.content}"
+                value="./view/pages/despacho/lista-guias.xhtml"/>
+        </p:remoteCommand>
+    </h:form>
+    
+     <script>
+        $('nav ul *').on('click', 'li', function () {
+            $('nav li.active').removeClass('active');
+            $(this).addClass('active');
+        });
+    </script>
+</ui:composition>

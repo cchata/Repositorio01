@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+    
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Maestro de Proveedores</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <!--<div class="widget-body-toolbar">-->
+                        <!--                            <div >
+                                                        <label >Estado Guia: <strong>"Despachado"</strong>, en esta pantalla la guía estará listo para ser despachado,
+                                                        los mensajes de alerta se activarán cuando se digite la guía.</label>
+                                                    </div>-->
+
+                        <!--</div>-->
+
+                        <p:messages id="messageProveedor" showDetail="true" closable="true"/>
+
+                        <form class="form-horizontal" jsf:id="saveFormProveedor">
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Tipo: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu class="form-control" required="true" value="#{proveedorController.proveedor.tipoProveedor}">
+                                                    <f:selectItem itemValue="T" itemLabel="Transpostista" />
+                                                    <f:selectItem itemValue="E" itemLabel="Estampador" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                RUC: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.ruc}"
+                                                       jsf:required="true" jsf:label="RUC" onkeypress="return valSoloDigitos(event)"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="form-control">-->
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Razón Social:
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.razonSocial}"
+                                                       jsf:required="true" jsf:label="Razón Social"/>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <!-- -->
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Dirección
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.direccion}"
+                                                       jsf:required="true" jsf:label="Dirección"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Distrito
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                       jsf:required="true" jsf:label="Distrito"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- -->
+                                <!--</div>-->
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Brevete: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Placa: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroPlaca}"
+                                                       jsf:required="true" jsf:label="Placa"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <footer>
+                                <!--<a class="btn btn-success">GUARDAR</a>-->
+                                <p:commandLink class="btn btn-success" update=":messageProveedor" oncomplete="limpiarCSSTablaPrimeFaces();"
+                                               action="#{proveedorController.guardarActualizarProveedor()}">
+                                    GUARDAR
+                                </p:commandLink>
+                                <a class="btn btn-primary" onclick="maestroProveedores();">NUEVO</a>
+                            </footer>
+                        </form>
+                        <hr/>
+                        <form jsf:id="formTableProv">
+                            <div class="table-responsive">
+                                <p:dataTable value="#{proveedorController.listaProveedores}" var="prove"
+                                             rows="10" paginator="true"  >
+
+                                    <p:column headerText="Tipo" sortBy="#{prove.tipoProveedor}">
+                                        #{prove.tipoProveedor eq 'T'? 'Transportista':'Estampador'}
+                                    </p:column>
+                                    <p:column headerText="RUC" sortBy="#{prove.ruc}">
+                                        #{prove.ruc}
+                                    </p:column>
+                                    <p:column headerText="Razón Social" sortBy="#{prove.razonSocial}">
+                                        #{prove.razonSocial}
+                                    </p:column>
+                                    <p:column headerText="Dirección" sortBy="#{prove.direccion}">
+                                        #{prove.direccion}
+                                    </p:column>
+                                    <p:column headerText="Distrito" sortBy="#{prove.distrito}">
+                                        #{prove.distrito}
+                                    </p:column>
+                                    <p:column headerText="Brevete" sortBy="#{prove.numeroBrevete}">
+                                        #{prove.numeroBrevete}
+                                    </p:column>
+                                    <p:column headerText="Placa" sortBy="#{prove.numeroPlaca}">
+                                        #{prove.numeroPlaca}
+                                    </p:column>
+                                    <p:column headerText="Actualización" sortBy="#{prove.fechaActualizacion}">
+                                        #{prove.fechaActualizacion}
+                                    </p:column>
+
+                                    <p:column width="30">
+                                        <f:facet name="header"><i class="fa fa-edit"></i></f:facet>
+                                        <p:commandLink class="btn btn-success btn-xs" update=":saveFormProveedor">
+                                            <i class="fa fa-edit"></i>
+                                            <f:setPropertyActionListener
+                                                target="#{proveedorController.proveedor}"
+                                                value="#{prove}"/>
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <script>
+        limpiarCSSTablaPrimeFaces();
+    </script>
+</ui:composition>

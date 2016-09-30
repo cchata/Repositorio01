@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>SERVICIO DE ESTAMPADO </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <div class="widget-body-toolbar">
+                            <div >
+                                <label >Estado Guia: <strong>"Emitido"</strong>, en esta pantalla se generará la guía con el resumen general de las ob's seleccionadas.</label>
+                                <p:messages id="mensajesTota" showDetail="true" closable="true"/>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" jsf:id="formularioServEstm">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Operario: </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu class="form-control" id="numeRRErBal" required="true" label="Operario"
+                                                                     value="#{servicioEstampadoController.guiaDespacho.operario}">
+                                                        <f:selectItem itemLabel="Seleccione un OPERARIO" />
+                                                        <f:selectItems value="#{servicioEstampadoController.listaOperacios}" var="ope"
+                                                                       itemValue="#{ope.codigo}" itemLabel="#{ope.nombre}" />
+
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> GUÍA: </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" jsf:id="guix" disabled="disabled" class="form-control" 
+                                                           jsf:value="#{servicioEstampadoController.guiaDespacho.numeroGuia}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> FECHA: </span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd-MM-yyyy HH:mm"  mindate="#{servicioEstampadoController.fechaEstampado}"
+                                                                value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}"/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<hr/>-->
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Proveedor </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu class="form-control" id="numerBal" required="true" label="RUC"
+                                                                     value="#{servicioEstampadoController.guiaDespacho.numeroRuc}">
+                                                        <f:selectItem itemLabel="Seleccione un Proveedor" />
+                                                        <f:selectItems value="#{servicioEstampadoController.listaProveedores}" var="prov"
+                                                                       itemValue="#{prov.ruc}" itemLabel="#{prov.ruc} - #{prov.razonSocial}" />
+                                                        <p:ajax process="@this" update="destino"
+                                                                listener="#{servicioEstampadoController.buscarDestino()}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">DESTINO: </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" jsf:id="destino" class="form-control" 
+                                                           jsf:value="#{servicioEstampadoController.destino}"
+                                                           disabled="disabled"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p:commandLink class="disaaa btn btn-success" style="width: 100%;" 
+                                                   onstart="$('.disaaa').addClass('disabled')" 
+                                                   oncomplete="$('.disaaa').removeClass('disabled')"
+                                                   action="#{servicioEstampadoController.guardarGuiaServicioEstamapado()}"
+                                                   update=":mensajesTota"> Confirmar </p:commandLink>
+
+                                </div>
+                            </div>
+
+                            <hr/>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr >
+                                        <th style="text-align: center;" colspan="10">RESUMEN DE PESADO DE ROLLOS</th>
+                                    </tr>
+                                    <tr>
+                                        <th width="7%"># Ob.</th>
+                                        <th>Articulo</th>
+                                        <th>Color</th>
+                                        <th>Dibujo</th>
+                                        <th>Descripción</th>
+                                        <th>Conbinación</th>
+                                        <th># Rolos</th>
+                                        <th>Metros</th>
+                                        <th>Kgr</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{servicioEstampadoController.listaObsPorEstampar}" var="obs">
+                                        <tr class="#{obs.indicador eq 0?'success':'danger'}">
+                                            <td>#{obs.numeroOb}</td>
+                                            <td>#{obs.codigoArticulo}</td>
+                                            <td>#{obs.descripcionColor}</td>
+                                            <td>
+                                                <h:inputText style="width: 100%;" value="#{obs.dibujo}"/>
+                                            </td>
+                                            <td>
+                                                <h:inputText style="width: 100%;" value="#{obs.descripcion}"/>
+                                            </td>
+                                            <td>
+                                                <h:inputText style="width: 100%;" value="#{obs.combinacion}"/>
+                                            </td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>#{obs.cantidadMetros}</td>
+                                            <td>#{obs.kilos}</td>
+                                            <td>
+                                                <h:selectBooleanCheckbox value="#{obs.aceptado}"
+                                                                         class="#{obs.indicador eq 0?'':'alertar'}#{obs.obSeleccionada eq 1?'seleccionado':''}"/>
+                                            </td>
+                                        </tr >
+                                    </ui:repeat>
+
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <script>
+        $('.alertar').click(function () {
+            $('.alertar').prop('checked', false);
+            alert('El pesado para esta OB, se encuentra incompleta, \ndebe completar los pesados para poder proseguir.');
+        });
+        $('.seleccionado').each(function (i, obj) {
+            $('.seleccionado').prop('checked', true);
+        });
+
+    </script>
+</ui:composition>

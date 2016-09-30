@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="utf-8"/>
+        <title> ECOINNOVA </title>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <link rel="stylesheet" type="text/css" media="screen" href="resources/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="resources/css/font-awesome.min.css"/>
+
+        <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
+        <link rel="stylesheet" type="text/css" media="screen" href="resources/css/smartadmin-production.min.css"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="resources/css/smartadmin-skins.min.css"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="resources/css/demo.min.css"/>
+
+    </h:head>
+
+    <h:body class="animated fadeInDown" onload="deshabilitaRetroceso();"> 
+        <f:view transient="true">
+         <p:growl    id="growl" showDetail="true"  life="2000"  sticky="false"/>
+        
+        <div id="main" role="main">
+
+            <!-- MAIN CONTENT -->
+            <div id="content" class="container">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+                    <div class="well no-padding">
+                       <form jsf:id="login-form" class="smart-form client-form">
+                        
+                        
+                            <header>Login</header>
+
+                            <fieldset>
+                                <section>
+                                    <label class="label">Usuario</label>
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input type="text" name="text" jsf:id="us"
+                                               jsf:label="Usuario" onkeypress="changeInput(event, 'login-form:ps')"
+                                               jsf:value="#{loginController.usuarioBean.login}" jsf:required="true"
+                                               jsf:requiredMessage="Usuario: Se necesita un valor."/>
+                                        <b class="tooltip tooltip-top-right">
+                                             <i class="fa fa-user txt-color-teal"></i>
+                                             Por favor ingrese Usuario
+                                        </b>
+                                    </label>
+                                </section>
+
+                                <section>
+                                    <label class="label">Contraseña</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-lock"></i>
+                                        <input type="password" name="password" 
+                                               jsf:requiredMessage="Contraseña: Se necesita un valor."
+                                               jsf:label="Password"  jsf:id="ps" onkeypress="clickButton(event, 'login-form:ingre')"
+                                               jsf:value="#{loginController.usuarioBean.clave}" jsf:required="true"/>
+                                        <b class="tooltip tooltip-top-right">
+                                            <i class="fa fa-lock txt-color-teal"></i>
+                                              Por favor ingrese Contraseña
+                                        </b> 
+                                    </label>
+                                </section>
+
+                                <section>
+                                    <label class="select">
+<!--                                    <h:selectOneMenu value="#{loginController.idTipoPersona}"  required="true" >
+                                        <f:selectItems value="#{loginController.listaTipoPersona}" var="tipoPerson"
+                                                       itemValue="#{tipoPerson.id}" itemLabel="#{tipoPerson.nombre}"
+                                                       itemDescription="#{tipoPerson.descripcion}" />
+                                    </h:selectOneMenu>-->
+                                    </label>
+                                </section>
+                            </fieldset>
+                            
+                            <footer>
+                                <p:commandLink id="ingre" class="btn btn-primary"  update=":growl" value="Ingresar" action="#{loginController.logIn()}" oncomplete="manejarLogin(xhr, status, args)" ajax="true"/>
+                            </footer>
+                        </form>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        
+        </f:view>
+        
+    <script src="resources/js/fitcoders/util.cjavaperu.js" />
+    </h:body>
+    <script type="text/javascript" >
+	function manejarLogin(xhr, status, args) {
+// 		if (!args.validationFailed &amp;&amp; args.estaLogeado) {
+// 			setTimeout(function() { window.location = args.view; }, 5000);
+// 		}
+		
+		if (args.estaLogeado) {
+			setTimeout(function() { window.location = args.view; }, 2250);
+		}
+		
+	}
+</script>
+</html>

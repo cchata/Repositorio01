@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Configuración</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <p:messages id="tabconfiguracionSaldos" showDetail="true" closable="true"/>
+
+                        <form class="form-horizontal" jsf:id="saveFormSaldos">
+                            <fieldset>
+
+
+                                <div class="col-sm-12">
+
+                                    <div class="form-group">
+
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">
+                                                    Tipo de Pieza: 
+                                                </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu id="codigoOperario" 
+                                                                     class="form-control" 
+                                                                     value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                        <f:selectItem itemLabel="Acabado" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                       itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">
+                                                    Sección: 
+                                                </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu id="codigoSeccion" 
+                                                                     class="form-control" 
+                                                                     value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                        <f:selectItem itemLabel="2003400" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                       itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">
+                                                    Depósito : 
+                                                </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu id="codigoDeposito" 
+                                                                     class="form-control" 
+                                                                     value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                        <f:selectItem itemLabel="8" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                       itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12">
+
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Destino : 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu id="codigoDestino" 
+                                                                 class="form-control" 
+                                                                 value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                    <f:selectItem itemLabel="0" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                   itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Cliente Pega : 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu id="codigoPega" 
+                                                                 class="form-control" 
+                                                                 value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                    <f:selectItem itemLabel="9999" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                   itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Cliente Destino : 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu id="clienteDestino" 
+                                                                 class="form-control" 
+                                                                 value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                    <f:selectItem itemLabel="9999" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                   itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+                           
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                            <div class="col-md-8">
+                                                <div class="input-group input-group-sm">
+
+                                                    <h:panelGrid columns="2" style="margin-bottom:8px"  cellpadding="4">
+                                                        <p:outputLabel for="mascara" value="Mascar Articulo :" />
+                                                        <p:selectOneRadio  id="mascara" value="#{radioView.console}">
+                                                            <f:selectItem itemLabel="Código Industrial" itemValue="Código Industrial" />
+                                                            <f:selectItem itemLabel="Código Comercial" itemValue="Código Comercial" />
+
+                                                        </p:selectOneRadio>
+                                                    </h:panelGrid>
+                                                </div>
+                                            </div>
+                                      
+                                    </div>
+                                </div>     
+                                 <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div  class="col-md-12">
+                                                <div class="input-group input-group-sm">
+
+                                                    <h:panelGrid columns="6" style="margin-bottom:8px"  cellpadding="6">
+                                                        <p:outputLabel for="tipooperacion" value="Tipo Operación :" />
+                                                        <p:selectOneRadio  id="tipooperacion" value="#{radioView.console}">
+                                                            <f:selectItem itemLabel="venta" itemValue="venta" />
+                                                            <f:selectItem itemLabel="transferencia" itemValue="transferencia" />
+                                                            <f:selectItem itemLabel="Devolucion" itemValue="Devolucion" />
+                                                            <f:selectItem itemLabel="sobra" itemValue="sobra" />
+                                                            <f:selectItem itemLabel="corte" itemValue="corte" />
+                                                            <f:selectItem itemLabel="seamGerencia" itemValue="seamGerencia" />
+                                                        </p:selectOneRadio>
+                                                    </h:panelGrid>
+                                                </div>
+                                            </div>
+                                        </div>
+                                   </div>
+                                <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div  class="col-md-6">
+                                                <div class="input-group input-group-sm">
+
+                                                    <h:panelGrid columns="6" style="margin-bottom:8px"  cellpadding="6">
+                                                        <p:outputLabel for="acondicionamiento" value="Acondicionamiento :" />
+                                                        <p:selectOneRadio  id="acondicionamiento" value="#{radioView.console}">
+                                                            <f:selectItem itemLabel="unico" itemValue="único" />
+                                                            <f:selectItem itemLabel="fardo" itemValue="fardo" />
+                             
+                                                        </p:selectOneRadio>
+                                                    </h:panelGrid>
+                                                </div>
+                                            </div>
+                                        </div>
+                                   </div>
+                                <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div  class="col-md-6">
+                                                <div class="input-group input-group-sm">
+
+                                                   <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                                    <h:outputText value="Verificar Embalajes: " />
+                                                    <p:selectBooleanCheckbox  />
+
+                                                    <h:outputText value="Usa Control por calidad: " />
+                                                    <p:selectBooleanCheckbox >
+                                                        
+                                                    </p:selectBooleanCheckbox>
+                                                    <h:outputText value="Romaneo por tipo de Producto: " />
+                                                    <p:selectBooleanCheckbox >
+                                                        
+                                                    </p:selectBooleanCheckbox>
+                                                </h:panelGrid>
+                                                </div>
+                                            </div>
+                                        </div>
+                                   </div>
+                                 <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <p:commandLink class="btn btn-primary" 
+                                                           action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                                           oncomplete="if(args.validationFailed){alert('FALTAN LLENAR DATOS');}">
+                                                Aceptar Configuración
+                                            </p:commandLink>
+                                        </div>
+                                    </div>
+                                    
+                            </fieldset>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <script>
+        limpiarCSSTablaPrimeFaces();
+    </script>
+</ui:composition>
+

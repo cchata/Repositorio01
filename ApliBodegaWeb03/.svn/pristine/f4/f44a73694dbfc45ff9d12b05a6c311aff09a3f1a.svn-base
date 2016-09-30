@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Atendimiento de Transferencia</h2>
+                </header>
+                <!-- widget div-->
+
+                <!-- widget content -->
+                <div class="widget-body">
+                    <p:messages id="messageAtendiendo_Tranfe" showDetail="true" closable="true"/>
+                    <form class="form-horizontal" jsf:id="saveFormAtendimiento">
+
+                        <div  class="col-sm-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">
+                                            Total por Atender :
+                                        </span>
+                                        <div class="addon-sm">
+                                            <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                   jsf:required="true" jsf:label="totalatender"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+
+                            <div class="form-group">
+                                <fieldset>
+                                    <p:tabView dynamic="true" cache="true">
+                                        <p:tab title="Parametro">
+                                            <ui:include src="./tab_parametro.xhtml"/>
+                                        </p:tab>
+                                        <p:tab title="Unidades de Despacho">
+                                            <ui:include src="./tab_unidades_despacho.xhtml"/>
+                                        </p:tab>
+                                        <p:tab title="Guías">
+                                            <ui:include src="./tab_guias.xhtml"/>
+                                        </p:tab>
+                                    </p:tabView>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <footer>
+                            <p:commandLink class="btn btn-primary" 
+                                           action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                           oncomplete="if(args.validationFailed){alert('FALTAN LLENAR DATOS');}">
+                                IMPRIMIR
+                            </p:commandLink>
+                            <!--<a class="btn btn-primary" > - - GUARDAR - - </a>-->
+                            <p:commandLink class="btn btn-primary" 
+                                           process="@this" action="#{recepcionServicioEstapado.imprimirEtiquetas()}"> 
+                                EFECTIVAR
+                            </p:commandLink>
+                            <p:commandLink class="btn btn-primary" 
+                                           action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                           oncomplete="if(args.validationFailed){alert('FALTAN LLENAR DATOS');}">
+                                CARGAR
+                            </p:commandLink>
+                            <!--<a class="btn btn-primary" > - - GUARDAR - - </a>-->
+                            <p:commandLink class="btn btn-primary" 
+                                           process="@this" action="#{recepcionServicioEstapado.imprimirEtiquetas()}"> 
+                                PARAMETROS
+                            </p:commandLink>
+                        </footer>  
+                    </form>
+                </div>
+
+            </div>
+
+        </article>
+    </div>
+
+
+    <script>
+        limpiarCSSTablaPrimeFaces();
+    </script>
+</ui:composition>

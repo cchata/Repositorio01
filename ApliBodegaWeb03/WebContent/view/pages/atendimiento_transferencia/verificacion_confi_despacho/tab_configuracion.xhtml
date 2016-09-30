@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Configuración</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <p:messages id="tabconfiguracion" showDetail="true" closable="true"/>
+
+                        <form class="form-horizontal" jsf:id="saveFormConfiguracion">
+                            <fieldset>
+
+
+                                <div class="col-sm-12">
+
+                                    <div class="form-group">
+
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">
+                                                    Guia :
+                                                </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                           jsf:required="true" jsf:label="guia"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">                            
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Fecha de Guía: </span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd-MM-yyyy"  mindate="#{servicioEstampadoController.fechaEstampado}"
+                                                                value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}"/>
+                                                    <!--                                                    <input type="text"  class="form-control" 
+                                                                                                               jsf:value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}">
+                                                                                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                                                                                        </input>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12">
+
+                                    <div class="form-group">
+
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">
+                                                    Cliente :
+                                                </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                           jsf:required="true" jsf:label="cliente"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">
+                                                    Rollo/Fardo :
+                                                </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                           jsf:required="true" jsf:label="rollo"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Tipo de Pieza: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu id="codigoOperario" 
+                                                                 class="form-control" 
+                                                                 value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                    <f:selectItem itemLabel="Acabado" noSelectionOption="true"/>
+                                                    <f:selectItem itemLabel="Crudo" noSelectionOption="true"/>
+                                                    <f:selectItem itemLabel="Hilo" noSelectionOption="true"/>
+                                                    <f:selectItem itemLabel="Confección" noSelectionOption="true"/>
+            
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Sección: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu id="codigoSeccion" 
+                                                                 class="form-control" 
+                                                                 value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                    <f:selectItem itemLabel="2003400" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                   itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Código Destimo : 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu id="codigoDestino1" 
+                                                                 class="form-control" 
+                                                                 value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                    <f:selectItem itemLabel="8" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                   itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Cliente Pieza/ Abast.Fardo: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="CPieza"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+
+                                            <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+                                                <p:outputLabel for="console" value="Acondicionamiento:" />
+                                                <p:selectOneRadio id="console" value="#{radioView.console}">
+                                                    <f:selectItem itemLabel="unico" itemValue="unico" />
+                                                    <f:selectItem itemLabel="fardo" itemValue="fardo" />
+
+                                                </p:selectOneRadio>
+                                            </h:panelGrid>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <div class="col-md-10">
+                                        <div class="input-group input-group-sm">
+
+                                            <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+                                                <p:outputLabel for="mascara" value="Mascar Articulo :" />
+                                                <p:selectOneRadio id="mascara" value="#{radioView.console}">
+                                                    <f:selectItem itemLabel="Código Industrial" itemValue="Código Industrial" />
+                                                    <f:selectItem itemLabel="Código Comercial" itemValue="Código Comercial" />
+
+                                                </p:selectOneRadio>
+                                            </h:panelGrid>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <p:commandLink class="btn btn-primary" 
+                                                       action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                                       oncomplete="if(args.validationFailed){alert('FALTAN LLENAR DATOS');}">
+                                            Aceptar Configuración
+                                        </p:commandLink>
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <script>
+        limpiarCSSTablaPrimeFaces();
+    </script>
+</ui:composition>
+

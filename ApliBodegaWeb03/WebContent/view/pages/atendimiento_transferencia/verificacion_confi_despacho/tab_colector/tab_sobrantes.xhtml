@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <form jsf:id="formTabsobrantesC">
+        <div class="table-responsive">
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <div class="input-group input-group-sm">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+
+                                        <th>hay stok</th>
+                                        <th>Reducido</th>
+                                        <th>UD</th>
+                                        <th>OB</th>
+                                        <th>Descripcion</th>
+                                        <th>Kg.</th>
+                                        <th>Stock Kg.</th>
+                                        <th>Fase</th>
+                                        <th>Atendido</th>
+                                        <th>Ent.Pedido</th>
+                                        <th>Fardo</th>
+                                        <th> %Stock</th>
+                                        <th> </th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{servicioEstampadoController.listaObsPorEstampar}" var="obs">
+                                        <tr class="#{obs.indicador eq 0?'success':'danger'}">
+                                            <td>#{obs.numeroOb}</td>
+                                            <td>#{obs.codigoArticulo}</td>
+                                            <td>#{obs.descripcionColor}</td>
+                                            <td>#{obs.descripcionColor}</td>
+                                            <td>#{obs.descripcionColor}</td>
+                                            <td>#{obs.descripcionColor}</td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>
+                                                <h:selectBooleanCheckbox value="#{obs.aceptado}"/>
+                                            </td>
+
+                                        </tr>
+                                    </ui:repeat>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+
+
+</ui:composition>

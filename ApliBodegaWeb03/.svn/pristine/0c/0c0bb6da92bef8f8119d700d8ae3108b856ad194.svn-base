@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="well">
+                <h1>
+                    <small class="text-danger slideInRight fast animated">
+                        <strong>RECEPCIÓN DE SERVICIO DE ESTAMPADO</strong>
+                    </small>
+                </h1>
+                <h4>Estado: "Recepcionado"</h4>
+                <hr style="margin: 0%;padding: 0%;"/>
+                <form class="smart-form" jsf:id="formPrincipalId">
+                    <fieldset>
+                        <div  class="row">
+                            <section class="col col-2">
+                                <label class="label">Código Impr. </label>
+                                <label class="input" >
+                                    <input type="text" class="input" placeholder="IMPRESORA"
+                                           jsf:value="#{recepcionServicioEstapado.codigoImpresora}"
+                                           jsf:required="true" jsf:label="CODIGO IMPRESORA"/>
+                                </label>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"> Operario: </label>
+                                <label class="select">
+                                    <h:selectOneMenu class="select" value="#{recepcionServicioEstapado.operario}"
+                                                     required="true" label="Operario">
+                                        <f:selectItem itemLabel="Seleccione Operario" noSelectionOption="true" />
+                                        <f:selectItems value="#{recepcionServicioEstapado.listaOperarios}" var="oper"
+                                                       itemLabel="#{oper.nombre}" itemValue="#{oper.codigo}" />
+                                        <p:ajax event="change" 
+                                                listener="#{recepcionServicioEstapado.habilitarLaBusquedaDeRegistros()}"/>
+                                    </h:selectOneMenu>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"> Ruc Proveedor </label>
+                                <label class="select">
+                                    <h:selectOneMenu class="select" value="#{recepcionServicioEstapado.ruc}"
+                                                     required="true" label="Proveedor" >
+                                        <f:selectItem itemLabel="Seleccione Proveedor" noSelectionOption="true" />
+                                        <f:selectItems value="#{recepcionServicioEstapado.listaProveedores}" var="prov"
+                                                       itemLabel="#{prov.ruc} - #{prov.razonSocial}" itemValue="#{prov.ruc}" />
+                                        <p:ajax event="change" 
+                                                listener="#{recepcionServicioEstapado.habilitarLaBusquedaDeRegistros()}"/>
+                                    </h:selectOneMenu>
+                                    <i></i>
+                                    <!--<input class="input-xs" value="213546843125"/>-->
+                                </label>
+                            </section>
+                            <section class="col col-3" >
+                                <!--<div>-->
+                                <label class="label"># Guía Proveedor Sunat:</label>
+                                <!--<label class="input">-->
+                                <!--                                        <div class="row">-->
+                                <div class="col col-6 input">
+                                    <input type="text" jsf:required="true" jsf:label="GUÍA SERIE"
+                                           jsf:value="#{recepcionServicioEstapado.guiaSerie}"
+                                           class="input" placeholder="Serie">
+                                        <p:ajax event="blur" 
+                                                listener="#{recepcionServicioEstapado.habilitarLaBusquedaDeRegistros()}"/>
+                                    </input>
+                                </div>
+                                <div class="col col-6 input">
+                                    <input type="text"  jsf:label="GUÍA NÜMERO"
+                                           jsf:required="true"
+                                           jsf:value="#{recepcionServicioEstapado.guiaNumero}"
+                                           class="input" placeholder="Número">
+                                        <p:ajax event="blur" 
+                                                listener="#{recepcionServicioEstapado.habilitarLaBusquedaDeRegistros()}"/>
+                                    </input>
+                                </div>
+                                <!--</div>-->
+                                <!--</label>-->
+                                <!--</div>-->
+                            </section>
+                            <section class="col col-1">
+                                <p:commandLink class="btn btn-success" 
+                                               update="@form"
+                                               action="#{recepcionServicioEstapado.buscarGuiaRegistrada()}"
+                                               oncomplete="if(args.validationFailed){alert('FALTAN LLENAR DATOS');}else {show('#crearModal');}">
+                                    <i class="fa fa-plus"></i>
+                                </p:commandLink>
+                                <!--<a class="btn btn-success" onclick="show('#crearModal')"><i class="fa fa-plus"></i></a>-->
+                            </section>
+                        </div>
+                        <section>
+                                <div align="center">
+                                    <h4>ESTADO: <strong>#{recepcionServicioEstapado.estadoGeneral}</strong></h4>
+                                </div>
+                            </section>
+                    </fieldset>
+                    <footer>
+                        <p:commandLink class="btn btn-primary" 
+                                       disabled="#{!recepcionServicioEstapado.editarDetalle}"
+                                       action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                       oncomplete="if(args.validationFailed){alert('FALTAN LLENAR DATOS');}">
+                            - - GUARDAR - - 
+                        </p:commandLink>
+                        <!--<a class="btn btn-primary" > - - GUARDAR - - </a>-->
+                        <p:commandLink class="btn btn-success" 
+                                       disabled="#{!recepcionServicioEstapado.editarDetalle}"
+                                       oncomplete="if(args.validationFailed){alert('FALTAN LLENAR DATOS');}"
+                                       process="@this" action="#{recepcionServicioEstapado.imprimirEtiquetas()}"> 
+                            - - IMPRIMIR ETIQUETAS - - 
+                        </p:commandLink>
+                        <p:commandLink class="btn btn-danger" update=":content"
+                                       action="#{recepcionServicioEstapado.iniciarRecepcionServicioEstampado()}">
+                            -- LIMPIAR TODO --
+                        </p:commandLink>
+                    </footer>
+                </form>
+                <hr/>
+
+                <div class="table-responsive" jsf:id="tableIdObsDe">
+                    <table class="table table-hover">
+                        <thead >
+                            <tr>
+                                <th>#</th>
+                                <th>OB</th>
+                                <th>Tela.</th>
+                                <th>Color.</th>
+                                <th>Dibujo.</th>
+                                <th>#Rollos / Bultos</th>
+                                <th>Kg.</th>
+                                <th>Metros.</th>
+                                <th>ESTADO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{recepcionServicioEstapado.listaObsRecepcionada}" var="obss" varStatus="status">
+                                <tr class="#{obss.estado eq 'R'?'danger':obss.estado eq 'A'?'success':''}">
+                                    <td>#{status.index + 1}</td>
+                                    <td>#{obss.ob}</td>
+                                    <td>#{obss.tela}</td>
+                                    <td>#{obss.color}</td>
+                                    <td>#{obss.dibujo}</td>
+                                    <td>#{obss.rollo}</td>
+                                    <td>#{obss.kilos}</td>
+                                    <td>#{obss.metros}</td>
+                                    <td>#{obss.estado eq 'P'?'Por Pesar':obss.estado eq 'A'?'Aprobado':'Rechazado'}</td>
+                                    <td>
+                                        <p:commandLink class="btn btn-danger btn-xs" update=":tableIdObsDe" 
+                                                       rendered="#{(recepcionServicioEstapado.editarDetalle) and (obss.estado eq 'P')}"
+                                                       action="#{recepcionServicioEstapado.removerObDetalle(status.index)}">
+                                            <i class="fa fa-trash-o"></i>
+                                        </p:commandLink>
+                                    </td>
+                                </tr> 
+                            </ui:repeat>                
+                        </tbody>
+                        <!--                        <tfoot>
+                                                    <tr >
+                                                        <td colspan="5" style="text-align: right;"> TOTAL </td>
+                                                        <td>480,00</td>
+                                                    </tr>
+                                                </tfoot>-->
+                    </table>
+                </div>
+
+                <!--                <form class="smart-form">
+                                    <footer>
+                                        <a class="btn btn-primary" > - - GUARDAR - - </a>
+                                        <a class="btn btn-success" > - - IMPRIMIR ETIQUETAS - - </a>
+                                    </footer>
+                                </form>-->
+            </div>
+
+        </div>
+    </div>
+
+    <div id="crearModal" class="modal fade in" 
+         aria-hidden="true" aria-labelledby="crearModalLabel" 
+         role="modal" tabindex="-1">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" aria-hidden="true" data-dismiss="modal" type="button"> × </button>
+                    <h3 class="modal-title"> Nuevo OB</h3>
+                </div>
+
+                <div class="modal-body" >
+                    <form jsf:id="formDiagId" class="smart-form">
+                        <p:messages showDetail="true" closable="true"/>
+                        <p:remoteCommand name="buscarOBjs" update="@form"
+                                         action="#{recepcionServicioEstapado.buscarOb()}" />
+                        <fieldset>
+                            <div>
+                                <label class="label"># OB: </label>
+                                <label class="input state-success">
+                                    <input type="text" jsf:id="obidCa" onkeypress="if (event.keyCode == 13) {
+                                                if (value.length == 0) {
+                                                    alert('INGRESAR UN VALOR');
+                                                } else {
+                                                    buscarOBjs();
+                                                }
+                                                return false;
+                                            }
+                                            ;
+                                            return valSoloDigitos(event);" 
+                                           jsf:value="#{recepcionServicioEstapado.obRecepcionada.ob}" class="input-xs"></input>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="label"> Tela: </label>
+                                <label class="input disabled">
+                                    <input type="text" class="input-xs" jsf:value="#{recepcionServicioEstapado.obRecepcionada.tela}" disabled="true" placeholder="auto"></input>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="label"> Color: </label>
+                                <label class="input disabled">
+                                    <input type="text" class="input-xs" jsf:value="#{recepcionServicioEstapado.obRecepcionada.color}" disabled="true" placeholder="auto"></input>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="label"> Dibujo: </label>
+                                <label class="input disabled">
+                                    <input type="text" class="input-xs" jsf:value="#{recepcionServicioEstapado.obRecepcionada.dibujo}" disabled="true" placeholder="auto"></input>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="label"> #Rollos / Bultos </label>
+                                <label class="input state-success">
+                                    <input type="text" 
+                                           jsf:value="#{recepcionServicioEstapado.obRecepcionada.rollo}" class="input-xs"></input>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="label"> Kg. </label>
+                                <label class="input state-success">
+                                    <input type="text" 
+                                           jsf:value="#{recepcionServicioEstapado.obRecepcionada.kilos}" class="input-xs"></input>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="label"> Metros. </label>
+                                <label class="input state-success">
+                                    <input type="text" 
+                                           jsf:value="#{recepcionServicioEstapado.obRecepcionada.metros}" class="input-xs"></input>
+                                </label>
+                            </div>
+                            <footer>
+                                <p:commandLink class="btn btn-success" update="@form,:tableIdObsDe" oncomplete="hide('#crearModal');"
+                                               action="#{recepcionServicioEstapado.cargarObDetalle()}"> 
+                                    Guardar 
+                                </p:commandLink>
+                            </footer>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</ui:composition>

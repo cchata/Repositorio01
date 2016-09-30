@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:poll interval="1" listener="#{pesadoRolloController.cargarPesoBalanza()}" 
+                update=":formPesadoRollo:pesoKg" widgetVar="poll" autoStart="false" oncomplete="if(!estado){document.getElementById('formPesadoRollo:pesoKg').value='';}"/>
+    </h:form>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Pesado de Rollos </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <div class="widget-body-toolbar">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <form class="form-horizontal" jsf:id="formPesadoRollo">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> OB: </span>
+                                                <div class="icon-addon addon-sm">
+                                                    <input type="text" class="form-control" placeholder="Ingrese # OB" 
+                                                           id="numeroOB" onkeyup="return buscarOB(event);" title="PRESIONE ENTER">
+                                                    </input>
+                                                    <label class="glyphicon glyphicon-search"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> OPERARIO: </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu id="codigoOperario" 
+                                                                     class="form-control" 
+                                                                     value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}">
+                                                        <f:selectItem itemLabel="Seleccione un Operario" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                       itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                        <p:ajax />
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> # BALANZA: </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu class="form-control" id="numerBal"
+                                                                     value="#{pesadoRolloController.despachoPesadoRollo.numeroBalanza}"
+                                                                     onchange="cambiarBalanza(this.value);">
+                                                        <f:selectItem itemValue="0" itemLabel="Sin Balanza" />
+                                                        <f:selectItems value="#{pesadoRolloController.listaBalanzas}" var="balanza"
+                                                                       itemValue="#{balanza.numeroBalanza}" itemLabel="#{balanza.numeroBalanza}" />
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<hr/>-->
+                            <div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> SECUENCIA: </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" jsf:id="secuencia" class="form-control" title="PRESIONE TAB"
+                                                           jsf:value="#{pesadoRolloController.codigoLeido}"
+                                                           jsf:disabled="#{!pesadoRolloController.habilitarSecuenciaRollo}"
+                                                           onkeyup="return runScript(event);"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> PESO Kg. </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" class="form-control" jsf:id="pesoKg"
+                                                           title="PRESIONE TAB" jsf:required="true" jsf:label="KILOS"
+                                                           jsf:value="#{pesadoRolloController.despachoPesadoRollo.kilos}">
+                                                        <!--<p:ajax event="blur"/>-->
+                                                    </input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p:commandLink class="btn btn-success" oncomplete="if(!args.validationFailed){runScriptKiloBtn();}else {alert('FALTA LLENAR CAMPOS...');}">
+                                        ACTUALIZAR
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </form>
+                        <hr/>
+                        <div class="table-responsive" jsf:id="formtableObSecu"> 
+                            <p:dataTable value="#{pesadoRolloController.listaDespachoPesadoRollos}"  var="pesaRoll"
+                                         rows="10" paginator="true"  
+                                         rowStyleClass="#{pesaRoll.kilos eq null ? 'danger' : 'success'}">
+                                <p:column headerText="Sec." sortBy="#{pesaRoll.secuenciaRollo}">
+                                    #{pesaRoll.secuenciaRollo}
+                                </p:column>
+                                <p:column headerText="Metros">
+                                    #{pesaRoll.metros}
+                                </p:column>
+                                <p:column headerText="Kilos">
+                                    #{pesaRoll.kilos}
+                                </p:column>
+                                <p:column headerText="Fecha Pesado">
+                                    #{pesaRoll.fechaPesado}
+                                </p:column>
+                                <p:column headerText="Operario">
+                                    #{pesaRoll.codigoOperario}
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <hr/>
+
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <form jsf:id="formBuscar" >
+        <h:inputHidden id="numerOb" value="#{pesadoRolloController.despachoPesadoRollo.numeroOB}"/>
+        <h:inputHidden id="kiloss" value="#{pesadoRolloController.despachoPesadoRollo.kilos}" />
+        <h:inputHidden id="codigoOperarioRC" value="#{pesadoRolloController.despachoPesadoRollo.codigoOperario}"/>
+        <p:remoteCommand name="buscarRollosdeOB"  oncomplete="limpiarCSSTablaPrimeFaces();" 
+                         action="#{pesadoRolloController.buscarSecuenciasOB()}"/>
+
+        <h:inputHidden id="codLeido" value="#{pesadoRolloController.codigoLeido}"/>
+        <p:remoteCommand name="actualizarRollo" oncomplete="limpiarCSSTablaPrimeFaces();"
+                         action="#{pesadoRolloController.actualizarSecuenciaOB()}">
+        </p:remoteCommand>
+    </form>
+
+    <form jsf:id="soloBalanzaForm">
+        <h:inputHidden id="balanzaInput" value="#{pesadoRolloController.despachoPesadoRollo.numeroBalanza}" />
+        <p:remoteCommand name="actualizarBalanza" >
+        </p:remoteCommand>
+    </form>
+
+    <script>
+
+        var estado = false;
+        /**
+         * EVENTO QUE ACTUALIZA LA BALANZA
+         * @param {type} val
+         * @returns {undefined}
+         */
+        function cambiarBalanza(val) {
+            document.getElementById("soloBalanzaForm:balanzaInput").value = val;
+            actualizarBalanza();
+            if (val == 0) {
+                estado = false;
+                PF('poll').stop();
+                console.log(document.getElementById("formPesadoRollo:pesoKg").value);
+                document.getElementById("formPesadoRollo:pesoKg").value = '';
+            } else if (!PF('poll').active) {
+                PF('poll').start();
+                estado = true;
+            }
+        }
+
+
+        function runScript(e) {
+            document.getElementById("formBuscar:codLeido").value = document.getElementById("formPesadoRollo:secuencia").value;
+            document.getElementById("formBuscar:codigoOperarioRC").value = document.getElementById("formPesadoRollo:codigoOperario").value;
+            console.log(document.getElementById("formBuscar:codigoOperarioRC").value);
+            console.log(document.getElementById("formBuscar:codLeido").value);
+            if (e.keyCode == 13) {
+
+                document.getElementById("formPesadoRollo:pesoKg").focus();
+//                actualizarRollo();
+//                document.getElementById("formPesadoRollo:secuencia").value = "";
+
+                return false;
+            } else if (e.keyCode == 9) {
+                document.getElementById("formPesadoRollo:pesoKg").focus();
+                return false;
+            }
+        }
+        function runScriptKiloBtn() {
+            document.getElementById("formBuscar:kiloss").value = document.getElementById("formPesadoRollo:pesoKg").value;
+            
+            document.getElementById("formBuscar:codLeido").value = document.getElementById("formPesadoRollo:secuencia").value;
+            document.getElementById("formBuscar:codigoOperarioRC").value = document.getElementById("formPesadoRollo:codigoOperario").value;
+            var status = confirm("DESEA GUARDAR?");
+            if (status) {
+                document.getElementById("formPesadoRollo:secuencia").focus();
+                actualizarRollo();
+//                document.getElementById("formPesadoRollo:secuencia").value = "";
+//                document.getElementById("formPesadoRollo:pesoKg").value = "";
+            }
+
+        }
+        function runScriptKilo(e) {
+            document.getElementById("formBuscar:kiloss").value = document.getElementById("formPesadoRollo:pesoKg").value;
+            if (e.keyCode == 9) {
+                var status = confirm("DESEA GUARDAR?");
+                if (status) {
+                    document.getElementById("formPesadoRollo:secuencia").focus();
+                    actualizarRollo();
+//                    document.getElementById("formPesadoRollo:secuencia").value = "";
+//                    document.getElementById("formPesadoRollo:pesoKg").value = "";
+                }
+
+            }
+            return false;
+        }
+
+        function buscarOB(e) {
+            document.getElementById("formBuscar:numerOb").value = document.getElementById("numeroOB").value;
+            console.log(document.getElementById("formBuscar:numerOb").value);
+            if (e.keyCode == 13) {
+                document.getElementById("formPesadoRollo:secuencia").focus();
+                buscarRollosdeOB();
+            }
+            return false;
+        }
+
+
+
+        $(document).ready(function () {
+            document.getElementById("soloBalanzaForm:balanzaInput").value = 0;
+            cambiarBalanza(0);
+            limpiarCSSTablaPrimeFaces();
+        });
+
+        document.getElementById("formPesadoRollo:numerBal").value = "0";
+        document.getElementById("formPesadoRollo:pesoKg").value = "";
+    </script>
+</ui:composition>

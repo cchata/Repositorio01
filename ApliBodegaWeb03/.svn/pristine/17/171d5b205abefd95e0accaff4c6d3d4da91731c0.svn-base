@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Despacho Guía</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <div class="widget-body-toolbar">
+                            <div >
+                                <label >Estado Guia: <strong>"Despachado"</strong>, en esta pantalla la guía estará listo para ser despachado,
+                                    los mensajes de alerta se activarán cuando se digite la guía.</label>
+                            </div>
+                        </div>
+                                              
+                        <form class="form-horizontal" jsf:id="formHeaderId">
+                            <p:remoteCommand name="buscarGuiaCabe" action="#{guiaDespachoController.buscarGuiaCompleta()}"/>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Operario </span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu class="form-control" pa:disabled="disabled" id="numerBal"
+                                                                     value="#{guiaDespachoController.guiaDespacho.operario}">
+                                                        <f:selectItem itemLabel="Seleccione un Operario" />
+                                                        <f:selectItems value="#{guiaDespachoController.listaOperarios}" var="op"
+                                                                       itemValue="#{op.codigo}" itemLabel="#{op.nombre}" />
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> GUÍA: </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" jsf:id="guix" jsf:required="true"
+                                                           onkeypress="if (event.keyCode == 13) {
+                                                                       buscarGuiaCabe();
+                                                                       return false;
+                                                                   }" 
+                                                           jsf:value="#{guiaDespachoController.guiaDespacho.numeroGuia}"
+                                                           class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">F. Registro</span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd/MM/yyyy HH:mm"  mindate="#{guiaDespachoController.hoy}"
+                                                                disabled="true"
+                                                                value="#{guiaDespachoController.guiaDespacho.fechaRegistro}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Proveedor</span>
+                                                <div class="addon-sm">
+                                                    <h:selectOneMenu class="form-control"  
+                                                                     pa:disabled="disabled"
+                                                                     value="#{guiaDespachoController.guiaDespacho.numeroRuc}">
+                                                        <f:selectItem itemLabel="Seleccione un Proveedor" />
+                                                        <f:selectItems value="#{guiaDespachoController.listaProveedores}" var="prov"
+                                                                       itemValue="#{prov.ruc}" itemLabel="#{prov.ruc}-#{prov.razonSocial}" />
+                                                    </h:selectOneMenu>
+                                                    <i></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">DESTINO: </span>
+                                                <div class="addon-sm">
+                                                    <input type="text" jsf:id="destino" disabled="disabled" class="form-control" 
+                                                           jsf:value="#{guiaDespachoController.destino}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">F. Despacho</span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd/MM/yyyy HH:mm" mindate="#{guiaDespachoController.hoy}"
+                                                                value="#{guiaDespachoController.guiaDespacho.fechaDespacho}" >
+                                                        <p:ajax event="blur"/>
+                                                    </p:calendar>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <hr/>
+
+                        <form jsf:id="foirmasfdId">
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label>Guía Remisión sunat</label>
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">Serie</span>
+                                                    <div class="addon-sm">
+                                                        <input class="form-control" jsf:required="true" jsf:requiredMessage="Se requiere el número de serie"
+                                                               jsf:value="#{guiaDespachoController.guiaSerie}"
+                                                               type="text" placeholder="SERIE"/>
+                                                    </div>
+                                                </div>                                        
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">Número</span>
+                                                    <div class="addon-sm">
+                                                        <input class="form-control" jsf:required="true" jsf:requiredMessage="Se requiere el número de guía"
+                                                               jsf:value="#{guiaDespachoController.guiaCorrelativo}"
+                                                               type="text" placeholder="NÚMERO"/>
+                                                    </div>
+                                                </div>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-sm-6">
+                                        <div class="form-group">
+                                            <label>Guía Remisión sunat</label>
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">Datos Transportista</span>
+                                                    <div class="addon-sm">
+                                                        <h:selectOneMenu class="form-control" converter="converter" required="true"
+                                                                         requiredMessage="Se requiere seleccionar un transportista" label="Transportista"
+                                                                         value="#{guiaDespachoController.proveedorSeleccionado}">
+                                                            <f:selectItem itemLabel="Seleccione un RUC" />
+                                                            <f:selectItems value="#{guiaDespachoController.listaTransportistas}" var="trans" 
+                                                                           itemLabel="#{trans.ruc} - #{trans.razonSocial}" itemValue="#{trans}"/>
+                                                            <p:ajax event="change" update="placaid, breveteId" />
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>                                        
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col col-sm-6">
+                                                    <div class="input-group input-group-sm">
+                                                        <span class="input-group-addon">Placa </span>
+                                                        <div class="addon-sm">
+                                                            <input class="form-control" jsf:id="placaid"
+                                                                   jsf:required="true" jsf:requiredMessage="Se requiere que ingrese una placa"
+                                                                   jsf:value="#{guiaDespachoController.proveedorSeleccionado.numeroPlaca}"
+                                                                   type="text" placeholder="PLACA" />
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class="col col-sm-6">
+                                                    <div class="input-group input-group-sm">
+                                                        <span class="input-group-addon">Brevete</span>
+                                                        <div class="addon-sm">
+                                                            <input class="form-control" jsf:id="breveteId"
+                                                                   jsf:required="true" jsf:requiredMessage="Se requiere que ingrese un brevete"
+                                                                   jsf:value="#{guiaDespachoController.proveedorSeleccionado.numeroBrevete}"
+                                                                   type="text" placeholder="BREVETE"/>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-sm-2">
+                                        <p:commandLink class="btn btn-success btn-sm btn-block" style="margin: 5px;"
+                                                       oncomplete="if(args.validationFailed){alert('FALTA VALIDAR CAMPOS VACIOS...');}"
+                                                       action="#{guiaDespachoController.guardarDespachoGuia()}">
+                                            GUARDAR
+                                        </p:commandLink>
+                                        <p:commandLink class="btn btn-primary btn-sm btn-block" style="margin: 5px;" 
+                                                       action="#{guiaDespachoController.imprimirReporte()}" ajax="false"
+                                                       oncomplete="if(args.validationFailed){alert('FALTA VALIDAR CAMPOS VACIOS...');}" >
+                                            IMPRIMIR
+                                        </p:commandLink>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+
+
+                        <hr/>
+                        <div class="table-responsive" jsf:id="tablaresumendi">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr >
+                                        <th style="text-align: center;" colspan="10">RESUMEN DE PESADO DE ROLLOS</th>
+                                    </tr>
+                                    <tr>
+                                        <th width="7%"># Ob.</th>
+                                        <th>Articulo</th>
+                                        <th>Color</th>
+                                        <th>Dibujo</th>
+                                        <th>Descripción</th>
+                                        <th>Conbinación</th>
+                                        <th># Rolos</th>
+                                        <th>Metros</th>
+                                        <th>Kgr</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{guiaDespachoController.listaOBsDeGuia}" var="obs">
+                                        <tr class="#{obs.indicador eq 0?'success':'danger'}">
+                                            <td>#{obs.numeroOb}</td>
+                                            <td>#{obs.codigoArticulo}</td>
+                                            <td>#{obs.descripcionColor}</td>
+                                            <td>
+                                                #{obs.dibujo}
+                                            </td>
+                                            <td>
+                                                #{obs.descripcion}
+                                            </td>
+                                            <td>
+                                                #{obs.combinacion}
+                                            </td>
+                                            <td>#{obs.cantidadRollos}</td>
+                                            <td>#{obs.cantidadMetros}</td>
+                                            <td>#{obs.kilos}</td>
+                                        </tr >
+                                    </ui:repeat>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+
+</ui:composition>

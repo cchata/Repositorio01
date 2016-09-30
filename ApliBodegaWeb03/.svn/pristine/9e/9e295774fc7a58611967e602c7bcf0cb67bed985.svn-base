@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Colector</h2>
+                </header>
+                <!-- widget div-->
+
+                <!-- widget content -->
+                <div class="widget-body">           
+                    <form class="form-horizontal" jsf:id="FormColector"> 
+                        
+                        <div class="form-group">
+
+                             <div class="col-sm-12">
+      
+                             <div class="form-group">
+         
+                                 <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                        Guia :
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                       jsf:required="true" jsf:label="guia"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Fecha de Guía: </span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd-MM-yyyy"  mindate="#{servicioEstampadoController.fechaEstampado}"
+                                                                value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}"/>
+<!--                                                    <input type="text"  class="form-control" 
+                                                           jsf:value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                                    </input>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                  </div>
+         
+      </div>
+                           <div class="col-sm-12">
+      
+                             <div class="form-group">
+         
+                                 <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                           Cliente :
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                       jsf:required="true" jsf:label="cliente"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 
+                                  <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                          Rollo/Fardo :
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                       jsf:required="true" jsf:label="rollo"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+         
+                        </div>
+
+                        <fieldset>
+
+                            <p:tabView dynamic="true" cache="true">
+                                <p:tab title="Leidas">
+                                    <ui:include src="./tab_colector/tab_leidas.xhtml"/>
+                                </p:tab>
+                                <p:tab title="Sobrantes">
+                                    <ui:include src="./tab_colector/tab_sobrantes.xhtml"/>
+                                </p:tab>
+                                <p:tab title="Faltantes">
+                                    <ui:include src="./tab_colector/tab_faltantes.xhtml"/>
+                                </p:tab>
+
+                            </p:tabView>
+
+
+                        </fieldset>
+                <footer>
+                        <p:commandLink class="btn btn-primary" 
+                                       action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                      >
+                            CONFIRMAR
+                        </p:commandLink>
+                       
+                        <p:commandLink class="btn btn-primary" 
+                                       process="@this" action="#{recepcionServicioEstapado.imprimirEtiquetas()}"> 
+                            VOLVER
+                        </p:commandLink>
+                       
+                    </footer> 
+                        </div>
+                               
+                           
+                    </form>                  
+                </div>
+            </div>
+        </article>
+
+    </div>
+                                          
+        <script>
+        limpiarCSSTablaPrimeFaces();
+    </script>
+
+</ui:composition>

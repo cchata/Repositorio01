@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Pesado de Rollos e etiqueta</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <p:messages id="messageProveedor" showDetail="true" closable="true"/>
+
+                        <form class="form-horizontal" jsf:id="saveFormProveedor">
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon"> OPERARIO: </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu id="codigoOperario" 
+                                                                 class="form-control" 
+                                     >
+                                                   
+                                                    
+                                                    <f:selectItem itemLabel="Seleccione un Operario" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{pesadoRolloController.listaOperarios}" var="oper"
+                                                                   itemValue="#{oper.codigo}" itemLabel="#{oper.codigo}-#{oper.nombre}" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                       jsf:required="true" jsf:label="Distrito"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon"> # BALANZA: </span>
+                                            <div class="addon-sm">
+                                                <h:selectOneMenu class="form-control" id="numerBal"
+                                                                 value="#{pesadoRolloController.despachoPesadoRollo.numeroBalanza}"
+                                                                 onchange="cambiarBalanza(this.value);">
+                                                    <f:selectItem itemValue="0" itemLabel="Sin Balanza" />
+                                                    <f:selectItems value="#{pesadoRolloController.listaBalanzas}" var="balanza"
+                                                                   itemValue="#{balanza.numeroBalanza}" itemLabel="#{balanza.numeroBalanza}" />
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Etiqueta Auxiliar: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Reducido: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Descripcion: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon"> OB: </span>
+                                                    <div class="icon-addon addon-sm">
+                                                        <input type="text" class="form-control" placeholder="Ingrese # OB" 
+                                                               id="numeroOB" onkeyup="return buscarOB(event);">
+                                                        </input>
+                                                        <label class="glyphicon glyphicon-search"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Total Rollos: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Faltan Pesar: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Producto: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Revisor: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Metros: 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Peso Bruto (Kg): 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Peso Tara (Kg): 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Tubo de carton : 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                                Peso Neto (Kg): 
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.numeroBrevete}"
+                                                       jsf:required="true" jsf:label="Brevete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                       <p:commandLink class="btn btn-primary" 
+                                       action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                       >
+                            Grabar
+                        </p:commandLink>
+                            </fieldset>
+
+
+                        </form>
+                        <hr/>
+                        <form jsf:id="formTableProv">
+                            <div class="table-responsive">
+                                <p:dataTable value="#{proveedorController.listaProveedores}" var="prove"
+                                             rows="10" paginator="true"  >
+
+                                    <p:column headerText="Rollo" sortBy="#{prove.tipoProveedor}">
+                                        #{prove.tipoProveedor}
+                                    </p:column>
+                                    <p:column headerText="Peso(Kg.)" sortBy="#{prove.ruc}">
+                                        #{prove.ruc}
+                                    </p:column>
+                                    <p:column headerText="Operario" sortBy="#{prove.razonSocial}">
+                                        #{prove.razonSocial}
+                                    </p:column>
+                                    <p:column headerText="Nombre" sortBy="#{prove.direccion}">
+                                        #{prove.direccion}
+                                    </p:column>
+                                    <p:column headerText="Fecha" sortBy="#{prove.distrito}">
+                                        #{prove.distrito}
+                                    </p:column>
+                                    <p:column headerText="Estado" sortBy="#{prove.numeroBrevete}">
+                                        #{prove.numeroBrevete}
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            
+                            <div align="center">
+                                 <p:column>
+                                        <f:facet  name="header"><i class="fa fa-edit"></i></f:facet>
+                                        <p:commandLink class="btn btn-success btn-xs" update=":saveFormProveedor">
+                                       
+                                        </p:commandLink>
+                                    </p:column>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <script>
+        limpiarCSSTablaPrimeFaces();
+        
+        
+        function buscarOB(e) {
+            document.getElementById("formBuscar:numerOb").value = document.getElementById("numeroOB").value;
+            console.log(document.getElementById("formBuscar:numerOb").value);
+            if (e.keyCode == 13) {
+                document.getElementById("formPesadoRollo:secuencia").focus();
+                buscarRollosdeOB();
+            }
+            return false;
+        }
+        
+        
+        
+    </script>
+</ui:composition>
+

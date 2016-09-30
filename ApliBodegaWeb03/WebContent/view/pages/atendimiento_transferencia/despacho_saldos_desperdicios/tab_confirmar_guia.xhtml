@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Confirmar Guía</h2>
+                </header>
+                <div class="widget-body">
+                    <p:messages id="tabconfiguracionDespachoSaldos" showDetail="true" closable="true"/>
+
+                    <form class="form-horizontal" id="despachosaldosdep"> 
+
+                        <div class="col-sm-12">
+
+                            <div class="form-group">
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> Fecha de Guía: </span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd-MM-yyyy"  mindate="#{servicioEstampadoController.fechaEstampado}"
+                                                                value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}"/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">
+                                            Cliente Pieza :
+                                        </span>
+                                        <div class="addon-sm">
+                                            <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                   jsf:required="true" jsf:label="clientePieza"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">
+                                            Cliente Destino :
+                                        </span>
+                                        <div class="addon-sm">
+                                            <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                   jsf:required="true" jsf:label="clienteDestino"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr >
+                                                        <th style="text-align: center;" colspan="10">RESUMEN DE GUIAS</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th width="7%">Número.</th>
+                                                        <th>Sec</th>
+                                                        <th>Calidad</th>
+                                                        <th>Fardo</th>
+                                                        <th>Peso</th>
+                                                        <th>Articulo</th>
+                                                        <th>Reducido</th>
+                                                        <th>Box</th>
+                                                        <th>Descripcion</th>
+                                                           
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ui:repeat value="#{servicioEstampadoController.listaObsPorEstampar}" var="obs">
+                                                        <tr class="#{obs.indicador eq 0?'success':'danger'}">
+                                                            <td>#{obs.numeroOb}</td>
+                                                            <td>#{obs.codigoArticulo}</td>
+                                                            <td>#{obs.descripcionColor}</td>
+                                                            <td>#{obs.descripcionColor}</td>
+                                                           <td>#{obs.descripcionColor}</td>
+                                                            <td>#{obs.descripcionColor}</td>
+                                                            <td>#{obs.cantidadRollos}</td>
+                                                            <td>#{obs.cantidadRollos}</td>
+                                                               <td>#{obs.cantidadRollos}</td>
+                                                           
+                                                        
+                                                        </tr >
+                                                    </ui:repeat>
+
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>
+                                            <p:commandLink class="btn btn-primary" 
+                                                      action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                                      >
+                                                IMPRIMIR
+                                            </p:commandLink>
+                                        
+                                           <p:commandLink class="btn btn-primary" 
+                                                      action="#{recepcionServicioEstapado.guardarDatosGenerales()}"
+                                                      >
+                                                CONFIRMAR
+                                            </p:commandLink>
+                                         
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
+
+                    </form> 
+                </div>    
+            </div>
+        </article>
+    </div>
+
+    <script>
+        limpiarCSSTablaPrimeFaces();
+    </script>
+
+
+</ui:composition>

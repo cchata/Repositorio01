@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+   <style>
+        .form-group {
+            margin-bottom: 2px;
+        }
+    </style>
+    
+<div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" >
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Guías</h2>
+                </header>
+                <!-- widget div-->
+              
+                    <!-- widget content -->
+    <form> 
+        
+        
+             <div class="form-group">
+                  <div class="col-md-12">
+                      
+                        <p:outputLabel for="basic" value="Parametros:" />
+                        <p:selectManyCheckbox id="basic"  >
+                            <f:selectItem itemLabel="0- a emitir" itemValue="Emitir"  />     
+                            <f:selectItem itemLabel="1- emitido para separar" itemValue="Emitido para Separar"/> 
+                             <f:selectItem itemLabel="2- emitido para esperar" itemValue="Emitido para esperar" />
+                              <f:selectItem itemLabel="3- confirmado" itemValue="confirmado" />
+                              <f:selectItem itemLabel="4- romaneo facturado" itemValue="r facturado" />
+                               <f:selectItem itemLabel="5- cancelado" itemValue="ncelado" />
+                                <f:selectItem itemLabel="6- expedido" itemValue="expedido" />
+                                 <f:selectItem itemLabel="7- excluido" itemValue="excluido" />     
+                        </p:selectManyCheckbox>
+                       
+                        
+           </div>
+                                                
+            </div>
+     <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> DE: </span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd-MM-yyyy"  
+                                                                value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}"/>
+                                        
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+         
+                                   <div class="form-group">
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon"> HASTA: </span>
+                                                <div class="addon-sm">
+                                                    <p:calendar locale="es" pattern="dd-MM-yyyy"  
+                                                                value="#{servicioEstampadoController.guiaDespacho.fechaRegistro}"/>
+                                        
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                             <div class="form-group">
+         
+                                 <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                            Remitos :
+                                            </span>
+                                            <div class="addon-sm">
+                                                <input type="text" class="form-control" jsf:value="#{proveedorController.proveedor.distrito}"
+                                                       jsf:required="true" jsf:label="Distrito"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+         
+      </div>
+        
+         <div class="col-sm-12">
+           <div class="form-group">
+                 <div class="col-md-8">
+                      <div class="input-group input-group-sm">
+                             <div class="table-responsive">
+                                     <p:dataTable value="#{proveedorController.listaProveedores}" var="prove"
+                                                rows="10" paginator="true"  >
+
+                                       <p:column headerText="Guia" sortBy="#{prove.tipoProveedor}">
+                                           #{prove.tipoProveedor}
+                                       </p:column>
+                                       <p:column headerText="Número de Piezas" sortBy="#{prove.ruc}">
+                                           #{prove.ruc}
+                                       </p:column>
+                                       <p:column headerText="Metros" sortBy="#{prove.razonSocial}">
+                                           #{prove.razonSocial}
+                                       </p:column>
+                                       <p:column headerText="Peso Neto" sortBy="#{prove.direccion}">
+                                           #{prove.direccion}
+                                       </p:column>
+                                       <p:column headerText="Peso Bruto" sortBy="#{prove.distrito}">
+                                           #{prove.distrito}
+                                       </p:column>
+                                       <p:column headerText="Cliente" sortBy="#{prove.numeroBrevete}">
+                                           #{prove.numeroBrevete}
+                                       </p:column>
+                                       <p:column headerText="Status" sortBy="#{prove.numeroBrevete}">
+                                           #{prove.numeroBrevete}
+                                       </p:column> 
+                                         
+                              
+                                   </p:dataTable>
+                                          </div>
+                                   </div>
+                             </div>
+                    </div>
+             </div>
+            </form>                  
+        </div>
+        </article>
+    </div>
+   
+    
+    <script>
+        limpiarCSSTablaPrimeFaces();
+    </script>
+</ui:composition>
