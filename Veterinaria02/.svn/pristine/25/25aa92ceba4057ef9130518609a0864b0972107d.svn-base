@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	
+
+    <body>
+
+        <ui:composition template="./../templates/template.xhtml">
+
+            <ui:define name="content">
+                <div id="tooplate_main">
+                    <div class="contenedorUsuario">
+                        <h:form id="frmUsuario" rendered="#{loginFormBean.verificarSesion()}">
+                            <p:growl id="mensajeGeneral" showDetail="false" sticky="false"/> 
+                            <p:panel style="width:600px; height:370px; margin:0 auto; text-align:center; font-size:19px;"  header="Actualización de Datos de Usuario" footer="Programación Visual 2016">
+                                <h:panelGrid style="width:500px; margin:10px auto;" columns="2" cellpadding="1" styleClass ="datosGrid1">
+                                    
+                                    <p:outputLabel for="txtNombre" value="Nombre de Usuario: "/>
+                                    <p:inputText id="txtNombre" readonly="true"  value="#{usuarioFormBean.usuarioBean.usuario.nombreUsuario}"/>
+
+                                    <p:outputLabel for="txtCorreoElectronico" value="Correo Electronico: "/>
+                                    <p:inputText id="txtCorreoElectronico" required="true"  maxlength="40" size="40" value="#{usuarioFormBean.usuarioBean.usuario.correoElectronico}">
+                                        <f:validator validatorId="emailValidator"/>
+                                    </p:inputText>
+
+									<p:outputLabel for="txtApellido" value="Apellido: "/>
+									
+									<p:inputText id="txtApellido" maxlength="20" size="20" required="true" value="#{usuarioFormBean.usuarioBean.usuario.persona.apellido}"/>
+
+                                    <p:outputLabel for="txtNombres" value="Nombres: "/>
+                                    <p:inputText id="txtNombres" maxlength="20" size="20" required="true" value="#{usuarioFormBean.usuarioBean.usuario.persona.nombres}"/>
+
+                                    <p:outputLabel for="txtFechaNacimiento" value="Fecha de Nacimiento: "/>
+                                    <p:calendar id="txtFechaNacimiento" pattern="dd-MM-yyyy" mask="true" required="true" size="10" maxlength="10" locale="es" value="#{usuarioFormBean.usuarioBean.usuario.persona.fechaNacimiento}"/>
+
+                                    <p:outputLabel for="txtDni" value="DNI: "/>
+                                    <p:inputText id="txtDni"  value="#{usuarioFormBean.usuarioBean.usuario.persona.dni}"/>
+                                    
+                                    
+                                  
+                                    <h:panelGroup/>
+                                    <p:commandButton id="btnGrabar" value="Actualizar Datos" update="frmUsuario" actionListener="#{usuarioFormBean.actualizarDatos()}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

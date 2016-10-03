@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+<!--         <meta http-equiv="Refresh" content="61"/> -->
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputScript library="js" name="calendar_es.js"/>
+        <h:outputStylesheet name="./css/usuarios.css"/>
+        <h:outputStylesheet name="./css/login.css"/>
+        <h:outputStylesheet name="./css/generico.css"/>
+        <title>SISTEMA DE VETERINARIA</title>
+    </h:head>
+
+    <h:body onload="deshabilitaRetroceso();">
+
+        <div id="contenedor">
+            <div id="top">
+                <ui:insert name="top">
+                
+                    <div id="tooplate_header">
+                        <div id="titulo">
+                            <center><h1>CLINICA VETERINARIA POOPY</h1></center>
+                        </div>
+                    </div>
+                    
+                    <p:idleMonitor onactive="sessionTimeOutDialog.show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog header="Sesión caducada" widgetVar="sessionTimeOutDialog" modal="true" fixedCenter="true" closable="false" width="300" height="130" visible="false" style="width:400px; height:800px; margin:10px auto; text-align:left; font-size:15px;">
+							<h:outputText value="La sesión ha cadudaco, por favor, pulse sobre el siguiente botón  pada volver	 a acceder a la aplicacion" />
+							<br/>
+							<br/>
+							<div align="center">
+								 <p:commandButton id="confirmBackToLogin" value="Iniciar sesión" action="/index?faces-redirect=true" style="margin:0 auto;"/>
+      						</div>
+							
+					</p:dialog>
+
+                    <div id="tooplate_middle">
+                        <h:form rendered="#{loginFormBean.verificarSesion()}">
+                            <p:menubar style="width:870px; margin:0px auto; height:37px; text-align:center; font-size:15px; font-weight:bold; ">
+                                <p:submenu label="Historias Clínicas"/>
+                                
+                                <p:submenu label="Tablas">
+                                    <p:menuitem value="Propietarios" outcome="/propietarios/propietarios"/>
+                                </p:submenu>
+                                
+                                <p:menuitem value="Datos Personales" outcome="/usuarios/datosUsuario"/>
+                                <p:menuitem value="Volver" outcome="/menu"/>
+                                
+                                <f:facet name="options">
+                                    <p:outputLabel   value="Bienvenido   #{loginFormBean.nombreUsuarioValidado} &nbsp;&nbsp;&nbsp;&nbsp;"/>
+                                    <p:commandButton value="Cerrar Sesión"  action="#{loginFormBean.cerrarSesion()}"/>
+                                </f:facet>
+                            </p:menubar>
+                        </h:form>
+                        
+                        <p:panel rendered="#{loginFormBean.verificarSesion() eq false}">
+                            <h:form>
+                                <p:outputLabel value="Sesión no Iniciada &nbsp;&nbsp;&nbsp;&nbsp;"/>
+                                <p:commandButton value="Iniciar Sesión" action="/index?faces-redirect=true"/>
+                            </h:form>
+                        </p:panel>
+                    </div>
+
+                </ui:insert>
+            </div>
+
+
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">
+                    Contenido
+                </ui:insert>
+            </div>
+
+
+
+
+
+            <div id="bottom">
+                <ui:insert name="bottom">
+                    <hr/>
+                    <center>Desarrollado por Cátedra Programación Visual - Universidad Nacional de Jujuy - Carrera Analista Programador Universitario</center>
+                </ui:insert>
+            </div>
+
+        </div>
+
+    <script src="../resources/js/fitcoders/util.cjavaperu.js" />
+    </h:body>
+
+</html>

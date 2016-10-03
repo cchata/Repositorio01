@@ -1,0 +1,61 @@
+.conteiner{
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    margin-bottom: 15%;
+}
+
+.datosGrid1 tr,.datosGrid1 td {
+	font-family: Times New Roman, Times, serif;
+	font-size: 14px;
+	text-align: left;
+	border-size: 0px;
+	cellpadding: 0px;
+	border: none;
+	width: 0%;
+	
+}
+
+.tabla table{
+	border-collapse: collapse;
+	border:2px solid #DBDBDB;
+	font-size: 11px;
+	font-family: Times New Roman, Times, serif;
+	font-weight: bold;
+	text-align: center;
+/* 	width: 100%; */
+/* 	padding: 12px 12px 12px 12px; */
+	
+}
+
+.datosP tr,.datosP td {
+	font-family: Times New Roman, Times, serif;
+	font-size: 11px;
+	text-align: left;
+	border-size: 0px;
+	cellpadding: 0px;
+	border: none;
+	width: 0%;
+	
+}
+
+
+
+/* .tabla table td,.tabla table th { */
+/* 	padding: 2px 8px; */
+/* } */
+
+/* .tabla table thead th { */
+/* 	font-size: 12px; */
+/* 	font-weight: bold; */
+/* 	border: 1px solid #DBDBDB */
+/* } */
+
+/* .tabla table tbody td { */
+/* 	font-size: 12px; */
+/* 	font-weight: normal; */
+/* 	border: 1px solid #DBDBDB; */
+	
+/* } */
+

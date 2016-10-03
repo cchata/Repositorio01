@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<h:head>
+	<title>SISTEMA DE VETERINARIA</title>
+<!-- 	<h:outputScript library="js" name="calendar_es.js" /> -->
+<!-- 	<h:outputStylesheet name="./css/usuarios.css" /> -->
+<!-- 	<h:outputStylesheet name="./css/login.css" /> -->
+</h:head>
+
+<h:body>
+	<div class="contenedor">
+		<h:form id="frmUsuario">
+			<p:growl id="mensajeGeneral" showDetail="false" sticky="false" />
+			<p:panel header="Actualización de Datos de Usuario" footer="APU 2008 - Programación Visual 2015">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="txtNombre" value="Nombre de Usuario: " />
+					<p:inputText id="txtNombre" readonly="true" value="#{usuarioFormBean.usuarioBean.usuario.nombreUsuario}" />
+
+					<p:outputLabel for="txtCorreoElectronico" value="Correo Electronico: " />
+					<p:inputText id="txtCorreoElectronico" required="true" maxlength="40" size="40" value="#{usuarioFormBean.usuarioBean.usuario.correoElectronico}">
+						<f:validator validatorId="emailValidator" />
+					</p:inputText>
+
+					<p:outputLabel for="txtApellido" value="Apellido: " />
+					<p:inputText id="txtApellido" maxlength="20" size="20" required="true" value="#{usuarioFormBean.usuarioBean.usuario.persona.apellido}" />
+
+					<p:outputLabel for="txtNombres" value="Nombres: " />
+					<p:inputText id="txtNombres" maxlength="20" size="20" required="true" value="#{usuarioFormBean.usuarioBean.usuario.persona.nombres}" />
+
+					<p:outputLabel for="txtFechaNacimiento" value="Fecha de Nacimiento: " />
+					<p:calendar id="txtFechaNacimiento" pattern="dd-MM-yyyy" mask="true" required="true" size="10" maxlength="10" locale="es" value="#{usuarioFormBean.usuarioBean.usuario.persona.fechaNacimiento}" />
+
+					<h:panelGroup />
+					<p:commandButton id="btnGrabar" value="Actualizar Datos" update="frmUsuario" actionListener="#{usuarioFormBean.actualizarDatos()}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</div>
+</h:body>
+</html>
+

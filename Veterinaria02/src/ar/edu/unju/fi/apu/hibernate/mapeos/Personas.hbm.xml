@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/05/2015 13:35:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="ar.edu.unju.fi.apu.modelo.dominio.Persona" table="personas" catalog="veterinaria" optimistic-lock="version">
+        <id name="dni" type="string">
+            <column name="dni" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="apellido" type="string">
+            <column name="apellido" length="20" not-null="true" />
+        </property>
+        <property name="nombres" type="string">
+            <column name="nombres" length="20" not-null="true" />
+        </property>
+        <property name="fechaNacimiento" type="date">
+            <column name="fecha_nacimiento" length="10" not-null="true" />
+        </property>
+        <property name="estado" type="boolean">
+            <column name="estado" not-null="true" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

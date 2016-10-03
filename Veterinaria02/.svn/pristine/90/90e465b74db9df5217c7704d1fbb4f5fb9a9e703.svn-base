@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/05/2015 14:55:05 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <joined-subclass name="ar.edu.unju.fi.apu.modelo.dominio.Propietario" table="propietarios"  catalog="veterinaria" extends="ar.edu.unju.fi.apu.modelo.dominio.Persona">
+        <key column="dni"/>
+        <property name="direccion" type="string">
+            <column name="direccion" length="60" not-null="true" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="20" not-null="true" />
+        </property>
+    </joined-subclass>
+</hibernate-mapping>
