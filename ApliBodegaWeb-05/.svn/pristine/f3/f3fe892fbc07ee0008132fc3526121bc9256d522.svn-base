@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<body>
+	 <ui:composition template="./template.xhtml">
+	 <ui:define name="content">
+	      <c:if test='#{loginController.verificarSesion()}'>
+	            <p:growl    id="growls"   showDetail="true" showSummary="false" sticky="false" />
+		        <p:messages id="messages" showDetail="true" closable="true" />
+                <h:form     id="formDataTable">
+                
+                	<p:fieldset id="idFsVentas" legend="Ventas">
+                	
+	                	<p:panelGrid id="idPanelG1" columns="2" >
+		                	<p:panelGrid id="idPanelG2" columns="1" >
+		                		<p:fieldset id="idFsDatosVentas" legend="Datos Venta">
+		                			<p:panelGrid id="idPanelG3" columns="3" >
+		                			 	<p:outputLabel value="Codigo bol." for="txtCodigoBolVenta"/>
+		                			 	<p:inputText id="txtCodigoBolVenta" readonly="true" size="14"/>
+		                			 	
+		                			 	<p:panelGrid id="idPanelG31" columns="2">
+			                			 	<p:outputLabel value="Fecha" for="txtFecha"/>
+			                			 	<p:calendar id="txtFecha" required="true" showOn="button" size="20"/>
+		                			 	</p:panelGrid>
+		                			 	
+		                			 	
+		                			 	
+		                			 	<p:outputLabel value="Cliente" for="txtCodigoCliente"/>
+		                			 	<p:inputText id="txtCodigoCliente" readonly="true" size="14"/>
+		                			 	
+		                			 	<p:panelGrid id="idPanelG32" columns="3">
+			                			 		<p:inputText id="txtNombreCliente" readonly="true" size="32"/>
+												<p:commandButton id="iconOnlySearchCliente"    icon="icon-search-cliente"   title="Buscar cliente" style="width:50px;height:50px;" />
+				   							    <p:commandButton id="iconOnlyNewCliente"    icon="icon-new-cliente"   title="Nueva cliente" style="width:50px;height:50px;" />
+										</p:panelGrid>
+		                			</p:panelGrid>
+		                		</p:fieldset>
+		                		<p:fieldset id="idFsListadoProductos" legend="Listado de productos">
+		                			<p:dataTable  styleClass="tablaF" id="idProductos" var="obj"  paginator="true" rows="10"  paginatorPosition="bottom"
+							                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+							                                 emptyMessage="No hay registros."  selectionMode="single" >
+		                                 <f:facet name="header">  Listado de Productos </f:facet> 
+                   
+				                        <p:column headerText="Codigo" style="width:8%">  
+				                            <h:outputText value="P00001"/>  
+				                        </p:column>  
+				
+				                        <p:column headerText="Nombre" style="width:20%">  
+				                            <h:outputText  value="Leche"/>  
+				                        </p:column>  
+				
+				                        <p:column headerText="Stock" style="width:20%">  
+				                            <h:outputText  value="2.50"/>  
+				                        </p:column>  
+				                        
+				                        <p:column headerText="Precio" style="width:20%">  
+				                            <h:outputText  value="3"/>  
+				                        </p:column> 
+				                        
+							         </p:dataTable>  
+		                		</p:fieldset>	
+		                	
+			                	<p:panelGrid id="idPanelG5" columns="2" >
+			                		
+				                	<p:fieldset id="idFsDatosProductos" legend="Datos de producto">
+				                		<p:panelGrid id="idPanelG6" columns="2" >
+				                			<p:outputLabel value="Codigo" for="txtCodigoProducto" />
+			                				<p:inputText id="txtCodigoProducto" readonly="true" size="14"></p:inputText>
+			                				
+			                				<p:outputLabel value="" for="txtNombreProducto" />
+			                				<p:inputText id="txtNombreProducto" readonly="true" size="30"></p:inputText>
+				                			
+				                			<p:outputLabel value="Stock" for="txtStock" />
+			                				<p:inputText id="txtStock" readonly="true" size="12"></p:inputText>
+			                				
+			                				<p:outputLabel value="Precio" for="txtPrecio" />
+			                				<p:inputText id="txtPrecio" readonly="true" size="12"></p:inputText>
+				                			
+				                			<p:outputLabel value="Cantidad" for="txtCantidad" />
+			                				<p:inputText id="txtCantidad" readonly="true" size="12"></p:inputText>
+			                				
+			                				<p:commandButton value="Agregar" icon="icon-new" alt="Agregar producto"/>
+			                				<p:commandButton value="Limpiar" icon="icon-delete" alt="Limpiar producto"/>
+				                			
+				                		</p:panelGrid>
+			                		</p:fieldset>	
+			                		
+			                		<p:panelGrid id="idPanelG7" columns="1" >
+			                			<p:commandButton value="Quitar" icon="icon-delete" alt="Quitar producto"/>
+			                			<p:panelGrid id="idPanelG8" columns="1" >
+			                				<p:dataTable  styleClass="tablaF" id="idProductosComprar" var="obj"  paginator="true" rows="10"  paginatorPosition="bottom"
+							                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+							                                 emptyMessage="No hay registros."  selectionMode="single" >
+							                                 <f:facet name="header">  Listado de Producto a comprar </f:facet> 
+                        
+									                        <p:column headerText="Codigo" style="width:8%">  
+									                            <h:outputText value="P00001"/>  
+									                        </p:column>  
+									
+									                        <p:column headerText="Descripcion" style="width:20%">  
+									                            <h:outputText  value="Leche"/>  
+									                        </p:column>  
+									
+									                        <p:column headerText="Precio" style="width:20%">  
+									                            <h:outputText  value="2.50"/>  
+									                        </p:column>  
+									                        
+									                        <p:column headerText="Cantidad" style="width:20%">  
+									                            <h:outputText  value="3"/>  
+									                        </p:column> 
+									                        
+									                        <p:column headerText="Importe" style="width:20%">  
+									                            <h:outputText  value="7.50"/>  
+									                        </p:column>
+							                </p:dataTable>  
+			                			</p:panelGrid>
+			                			<p:panelGrid id="idPanelG9" columns="2" >
+			                				<p:outputLabel value="Total a pagar" for="txtTotalPagar" />
+			                				<p:inputText id="txtTotalPagar" readonly="true" size="15"></p:inputText>
+			                			</p:panelGrid>
+			                			
+			                		</p:panelGrid>	
+			                		
+			                	</p:panelGrid>
+		                	</p:panelGrid>
+							
+							<p:panelGrid id="idPanelG10" columns="1" style="margin:0 auto;" >
+							   <p:commandButton id="iconOnlyNew"    icon="icon-new-boleta"   title="Nueva boleta" style="width:50px;height:50px;" />
+							   <p:commandButton id="iconOnlySave"   icon="icon-save-boleta" title="Guardar" style="width:50px;height:50px;" />
+							   <p:commandButton id="iconOnlyCancel"  icon="icon-cancel-boleta" title="Cancelar" style="width:50px;height:50px;" />
+							   <p:commandButton id="iconOnlySalir"  icon="icon-salir-boleta" title="Salir" style="width:50px;height:50px;"  action="#{boletaController.salirGestionVenta()}"/>
+		                	</p:panelGrid>
+	                	</p:panelGrid>
+                	</p:fieldset>
+                </h:form>
+			
+				                
+          </c:if>                
+     </ui:define>
+     </ui:composition>
+  </body>
+</html>

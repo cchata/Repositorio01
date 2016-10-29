@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<body>
+	 <ui:composition template="./template.xhtml">
+	 <ui:define name="content">
+	      <c:if test='#{loginController.verificarSesion()}'>
+	      
+	            <p:growl id="growls" showDetail="true" showSummary="false" sticky="false" />
+		        <p:messages id="messages" showDetail="true" closable="true" />
+                <h:form id="formDataTable"  >  
+                    <p:dataTable  styleClass="tablaF" id="idCliente" var="obj" value="#{clienteController.listaCliente}" paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 emptyMessage="No hay registros."  selectionMode="single" selection="#{clienteController.clienteBeanSelect}" rowKey="#{obj.codigoCli}"  rendered="#{clienteController.cargarListaCliente()}">  
+                        <f:facet name="header">  Listado de clientes </f:facet> 
+                        
+                        <p:ajax event="rowSelect" listener="#{clienteController.onRowSelectCliente}" oncomplete="PF('dlgUpdate').show()"/>
+                        
+                        <p:column headerText="Codigo" style="width:8%">  
+                            <h:outputText value="#{obj.codigoCli}" />  
+                        </p:column>  
+
+                        <p:column headerText="RUC" style="width:20%" filterBy="#{obj.rucDniCli}">  
+                            <h:outputText value="#{obj.rucDniCli}" />  
+                        </p:column>  
+
+                        <p:column headerText="Razon social" style="width:*%"   filterBy="#{obj.razonSocialCli}}">  
+                            <h:outputText value="#{obj.razonSocialCli}" />  
+                        </p:column>  
+
+                        <p:column style="width:6%">  
+								<p:commandButton id="btnDelete" styleClass="btnDelete" actionListener="#{clienteController.addSelectedDelete(obj)}" update=":formDelete" oncomplete="PF('dlgDelete').show()" icon="icon-delete" title="Eliminar"/>  
+                        </p:column>  
+                    </p:dataTable>  
+                </h:form>
+<!--                 <br/> -->
+				<h:form>
+                    <div style="height:30px; margin-bottom:5px; margin-left:5px;margin-top:5px;margin-right:5px;">
+                    	<p:commandButton id="btnCreate" value="Nuevo cliente"  actionListener="#{clienteController.generarCodigoCliente()}"  icon="icon-new"   oncomplete="PF('dlgCreate').show()" style="float:left;">
+                    	    <p:ajax update=":formCreate" resetValues="true" />
+                    	</p:commandButton>
+                    	<p:commandButton id="btnUpdate" value="Actualizar"     actionListener="#{clienteController.recargarListaCliente()}"    icon="icon-check" style="float: right;"/>
+                    </div>  	
+                </h:form>
+                                
+                <h:form id="formCreate">
+                    <p:dialog id="idDialogCreate"  widgetVar="dlgCreate" closable="false"  resizable="false" modal="true"   header="Crear cliente"  showEffect="fade" hideEffect="explode" >  
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <p:outputLabel value="Codigo: " for="txtCodigo"/>  
+                            <p:inputText id="txtCodigo" value="#{clienteController.clienteBean.codigoCli}" readonly="true"/>  
+                        
+                            <p:outputLabel value="RUC: " for="txtRUC"/>  
+                            <p:inputText id="txtRUC" value="#{clienteController.clienteBean.rucDniCli}" required="true"/>  
+
+                            <p:outputLabel value="Razon social:" for="txtRazonS"/>  
+                            <p:inputText id="txtRazonS" value="#{clienteController.clienteBean.razonSocialCli}" required="true"/>
+                              
+                            <p:outputLabel value="Direccion:" for="txtDireccion"/>  
+                            <p:inputText id="txtDireccion" value="#{clienteController.clienteBean.direccionCli}" required="true"/>
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":formDataTable,:growls"  actionListener="#{clienteController.createCliente()}" icon="icon-save" title="Guardar" value="Guardar"/>
+                                <p:commandButton id="btnCreateCancelar"  oncomplete="PF('dlgCreate').hide();" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                	<p:ajax update=":formCreate" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formUpdate">
+                    <p:dialog id="idDialogCreate" widgetVar="dlgUpdate" header="Modificar Usuario" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" closable="false">  
+                              
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <p:outputLabel value="Codigo: " for="txtCodigo"/>  
+                            <p:inputText id="txtCodigo" value="#{clienteController.clienteBeanSelect.codigoCli}" readonly="true"/>  
+                        
+                            <p:outputLabel value="RUC: " for="txtRUC"/>  
+                            <p:inputText id="txtRUC" value="#{clienteController.clienteBeanSelect.rucDniCli}" required="true"/>  
+
+                            <p:outputLabel value="Razon social:" for="txtRazonS"/>  
+                            <p:inputText id="txtRazonS" value="#{clienteController.clienteBeanSelect.razonSocialCli}" required="true"/>
+                              
+                            <p:outputLabel value="Direccion:" for="txtDireccion"/>  
+                            <p:inputText id="txtDireccion" value="#{clienteController.clienteBeanSelect.direccionCli}" required="true"/>
+                            
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnUpdateAceptar"   update=":formDataTable,:growls"  actionListener="#{clienteController.updateCliente()}" icon="icon-save" title="Guardar" value="Guardar"/> 
+                                <p:commandButton id="btnUpdateCancelar"  oncomplete="PF('dlgUpdate').hide()" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                	<p:ajax update=":formUpdate" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                        
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formDelete">
+                    <p:confirmDialog id="IdConfirmDialog" widgetVar="dlgDelete" message="¿Esta seguro de eliminar el registro?"  showEffect="fade" hideEffect="explode" header="Eliminar Cliente" severity="alert" >  
+                        <p:commandButton id="confirm" value="Aceptar" update=":formDataTable"  actionListener="#{clienteController.deleteCliente()}" icon="icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('dlgDelete').hide()" type="button" icon="icon-cancel"/>   
+                    </p:confirmDialog> 
+                </h:form>
+          </c:if>                
+     </ui:define>
+     </ui:composition>
+  </body>
+</html>

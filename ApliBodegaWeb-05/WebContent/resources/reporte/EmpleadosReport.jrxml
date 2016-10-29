@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EmpleadosReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="88043739-140a-4c36-a6c9-cca4228360b1">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="dniEmp" class="java.lang.String"/>
+	<field name="nombreEmp" class="java.lang.String"/>
+	<field name="apellidosEmp" class="java.lang.String"/>
+	<field name="sexoEmp" class="java.lang.String"/>
+	<field name="fechaNacimientoEmp" class="java.util.Date"/>
+	<field name="telefonoEmp" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6b56719c-c708-4adf-897c-e98115c859e3" x="158" y="34" width="255" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Reporte de Empleados]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="11" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e0bfc7d7-52ad-440e-ae00-195e62eabcad" x="0" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[dniEmp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d6a48e41-5d3c-4599-b7f0-e6c50cfbe948" x="92" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[nombreEmp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cd57f0e4-4ab2-447a-938e-c5eff52d292f" x="184" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[apellidosEmp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="23b3b6c6-6df5-4ea8-83dc-30f538f8be6e" x="276" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[sexoEmp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a241e66f-9042-4c45-9750-c3641884e762" x="368" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[fechaNacimientoEmp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b2cb09f1-2042-476e-b672-aa5b4344f730" x="460" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[telefonoEmp]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement uuid="4a149d2c-bc54-4610-a4ce-6f2b7553be23" x="0" y="2" width="92" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dniEmp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="624c0708-42b2-49eb-ac2f-8c798bd512e1" x="92" y="2" width="92" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreEmp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="856e2452-ebc0-4672-8e65-1d71161b4e03" x="184" y="2" width="92" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellidosEmp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c2453036-5813-49f1-9af9-7c9a0f51a913" x="276" y="2" width="92" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexoEmp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5038894d-c9c3-4bb6-9527-a31cdc9b099c" x="368" y="2" width="92" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaNacimientoEmp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1719358b-5aa0-47e0-a246-ad9b8e17dbd9" x="460" y="2" width="92" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefonoEmp}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="759c7a4a-892c-4da8-b6a8-e8d83b447ce0" x="0" y="0" width="552" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

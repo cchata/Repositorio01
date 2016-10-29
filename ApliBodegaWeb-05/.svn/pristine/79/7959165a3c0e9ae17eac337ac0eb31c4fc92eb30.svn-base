@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ecoinnovareport1" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="99016be4-3315-4d7d-bd80-1bdfd7206234">
+	<property name="ireport.zoom" value="1.3636363636363638"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="172" splitType="Stretch">
+			<image>
+				<reportElement uuid="e1a18a39-2787-4ffc-aa37-c334f14c8ff2" x="0" y="0" width="130" height="145"/>
+				<imageExpression><![CDATA["C:\\Users\\Carlos\\Documents\\Snagit\\22-10-2016 23-30-37.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="2b50a625-9721-4f37-b799-614560afb1a0" x="574" y="0" width="178" height="53"/>
+				<imageExpression><![CDATA["C:\\Users\\Carlos\\Documents\\Snagit\\22-10-2016 23-31-10.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="4a7f5833-382a-43b5-98dd-fe06a06621bf" x="283" y="53" width="215" height="33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="16580357-a9e9-4af4-a46e-fea0a7179575" x="272" y="103" width="238" height="20"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ECO INNOVA otorga el presente a:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bf914709-3a00-41b2-9419-feb8111cf079" x="199" y="123" width="355" height="34"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Petroleos del Peru - PETROPERU S.A.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="29" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="4" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="127" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="86d80859-40fe-47c2-bb20-0301aaeaa5b8" x="85" y="12" width="665" height="40"/>
+				<textElement/>
+				<text><![CDATA[Por la adquisición de un Módulo Ecológico para la segregación de residuos reciclables en la fuente. Es importante señalar
+que este producto está hecho de Polialuminio, material elaborado a partir de los envases de Tetra Pak post consumo, que
+luego de ser separados del cartón (75%) y del aluminio y polietileno (25%), son triturados y prensados a altas temperaturas.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f5fd9526-d727-411c-97f2-cfe086ad701a" x="85" y="62" width="665" height="40"/>
+				<textElement/>
+				<text><![CDATA[Así mismo informamos que, para la fabricación de este Módulo se recolectaron y reciclaron 6,532 envases de Tetra Pak
+post consumo de 1 litro, contribuyendo así al cuidado de nuestro ambiente.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="def95024-b786-4fa2-afbd-e560556f51c5" x="85" y="102" width="665" height="23"/>
+				<textElement/>
+				<text><![CDATA[Deseamos extenderle nuestro agradecimiento por sumarse a la cadena del reciclaje. 	]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="202" splitType="Stretch">
+			<image>
+				<reportElement uuid="7856527c-3748-4d49-b6a6-4f46e87dae81" x="0" y="87" width="1048" height="113"/>
+				<imageExpression><![CDATA["C:\\Users\\Carlos\\Documents\\Snagit\\23-10-2016 0-00-26.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="032c0ca9-1946-4688-bfe5-70a31a3fb346" x="60" y="11" width="127" height="116"/>
+				<imageExpression><![CDATA["C:\\Users\\Carlos\\Documents\\Snagit\\22-10-2016 23-31-53.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

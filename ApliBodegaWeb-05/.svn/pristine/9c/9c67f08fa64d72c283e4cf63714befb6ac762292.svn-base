@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<body>
+	<ui:composition template="./template.xhtml">
+		<ui:define name="content">
+			<c:if test='#{loginController.verificarSesion()}'>
+
+				<p:growl id="growls" showDetail="true" showSummary="false" sticky="false" />
+				<p:messages id="messages" showDetail="true" closable="true" />
+
+				<p:panel header="Reporte Test">
+					<h:form id="frm-home">
+						<h:panelGrid columns="2">
+							<h:outputText value="Filtro 1" />
+							<p:inputText value="#{reportBean.number}" />
+							
+							<p:commandButton value="Generar Reporte" update="@form" actionListener="#{reportBean.generateReport}" />
+							<p:commandButton value="Descargar" rendered="#{reportBean.media ne null}" ajax="false" actionListener="#{reportBean.downloadFile}" />
+						</h:panelGrid>
+
+						<div class="column-center">
+							<p:media cache="false" rendered="#{reportBean.media ne null}" width="900" height="600" value="#{reportBean.media}" player="pdf" />
+						</div>
+					</h:form>
+				</p:panel>
+
+
+
+
+			</c:if>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

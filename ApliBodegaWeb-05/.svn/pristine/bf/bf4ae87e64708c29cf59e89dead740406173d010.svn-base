@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<body>
+
+	 <ui:composition template="./template.xhtml">
+	 <ui:define name="content">
+	      <c:if test='#{loginController.verificarSesion()}'>
+	 <script type="text/javascript" >
+			function setFocusTo(){
+				if(document.getElementById('formDataTable:txtCantidad').value=='0' || document.getElementById('formDataTable:txtCantidad').value==''){
+					document.getElementById('formDataTable:txtCantidad').value='';
+					document.getElementById('formDataTable:txtCantidad').focus();	
+				}
+				
+			}
+    </script>
+	            <p:growl    id="growls"   showDetail="true" showSummary="false" sticky="false" autoUpdate="false"/>
+		        <p:messages id="messages" showDetail="true" closable="true" />
+		        
+		        
+                <h:form     id="formDataTable" >
+               
+                	<p:fieldset id="idFsVentas" legend="Ventas">
+                	
+	                	<p:panelGrid id="idPanelG1" columns="2" >
+		                	<p:panelGrid id="idPanelG2" columns="1" >
+		                		<p:fieldset id="idFsDatosVentas" legend="Datos Venta">
+		                			<p:panelGrid id="idPanelG3" columns="3" >
+
+		                			 	<p:outputLabel value="Codigo bol." for="txtCodigoBolVenta"  />
+		                			 	<p:inputText id="txtCodigoBolVenta" readonly="true" size="14" value="#{boletaController.boletaBean.codigoBol}" disabled="#{boletaController.inputCodigoBoleta}"/>
+		                			 	
+		                			 	<p:panelGrid id="idPanelG31" columns="2">
+			                			 	<p:outputLabel value="Fecha" for="txtFecha"/>
+			                			 	<p:calendar id="txtFecha" required="true" value="#{boletaController.boletaBean.fechaBol}" showOn="button" size="20" disabled="#{boletaController.inputFechaBoleta}"/>
+		                			 	</p:panelGrid>
+		                			 	
+		                			 	<p:outputLabel value="Cliente" for="txtCodigoCliente"/>
+		                			 	<p:inputText id="txtCodigoCliente" readonly="true" size="14" value="#{boletaController.boletaBean.tbCliente.codigoCli}" disabled="#{boletaController.inputCodigoCliente}"/>
+		                			 	<p:panelGrid id="idPanelG32" columns="3">
+			                			 		<p:inputText id="txtNombreCliente" readonly="true" size="32" value="#{boletaController.boletaBean.tbCliente.razonSocialCli}" disabled="#{boletaController.inputNombreCliente}"/>
+												<p:commandButton id="idBtnBuscarCliente"    icon="icon-search-cliente"  disabled="#{boletaController.btnBuscarCliente}" oncomplete="PF('dialogBuscarCliente').show()" title="Buscar cliente" style="width:50px;height:50px;" />
+				   							    <p:commandButton id="idBtnNuevoCliente" update=":formCreateCliente:txtCodigo"   icon="icon-new-cliente" disabled="#{boletaController.btnNuevoCliente}"  oncomplete="PF('dlgCreate').show()" actionListener="#{clienteController.generarCodigoCliente()}"  title="Nueva cliente" style="width:50px;height:50px;" >
+				   							    	<p:ajax update=":formCreateCliente" resetValues="true" />
+				   							    </p:commandButton>
+										</p:panelGrid>
+										
+		                			</p:panelGrid>
+		                		</p:fieldset>
+		                		
+		                		
+
+		                		
+		                		
+		                		<p:fieldset id="idFsListadoProductos" legend="Listado de productos">
+		                			<p:dataTable  styleClass="tablaF" id="idProductos" var="obj"  paginator="true" rows="6"  paginatorPosition="bottom"  value="#{boletaController.productoBeanList}"
+		                							  selectionMode="single"  selection="#{productoController.productoBeanSelect}"  rowKey="#{obj.codigoPro}"
+							                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+							                                 emptyMessage="No hay registros."  >
+		                                 <f:facet name="header">  Listado de Productos </f:facet> 
+                   
+                   						<p:ajax event="rowSelect" listener="#{boletaController.onRowSelectProducto}" oncomplete="setFocusTo()" />
+                   
+				                        <p:column headerText="Codigo" style="width:8%">  
+				                            <h:outputText value="#{obj.codigoPro}"/>  
+				                        </p:column>  
+				
+				                        <p:column headerText="Nombre" style="width:20%" filterBy="#{obj.nombrePro}">  
+				                            <h:outputText  value="#{obj.nombrePro}"/>  
+				                        </p:column>  
+				
+				                        <p:column headerText="Stock" style="width:20%">  
+				                            <h:outputText  value="#{obj.stockMaxPro}"/>  
+				                        </p:column>  
+				                        
+				                        <p:column headerText="Precio" style="width:20%">  
+				                            <h:outputText  value="#{obj.precioVentaPro}"/>  
+				                        </p:column> 
+				                        
+							         </p:dataTable>  
+							         
+					                    <div id="idFormRefrescarListaP" style="height:30px; margin-bottom:5px; margin-left:5px;margin-top:5px;margin-right:5px;">
+					                    	 <p:commandButton id="idBtnRefrescarListaP" value="Refrescar" disabled="#{boletaController.btnRefrescarListaP}" actionListener="#{boletaController.recargarListaProducto()}" icon="icon-check" style="float: right;"/>
+					                    </div>  	
+		                		</p:fieldset>	
+		                	
+			                	<p:panelGrid id="idPanelG5" columns="2" >
+			                		
+				                	<p:fieldset id="idFsDatosProductos" legend="Datos de producto">
+				                		<p:panelGrid id="idPanelG6" columns="2">
+				                			<p:outputLabel value="Codigo" for="txtCodigoProducto" />
+			                				<p:inputText id="txtCodigoProducto" readonly="true" value="#{boletaController.detalleBoletaBean.tbProducto.codigoPro}" size="14" disabled="#{boletaController.inputCodigoProducto}"></p:inputText>
+			                				<p:outputLabel value="" for="txtNombreProducto" />
+			                				<p:inputText id="txtNombreProducto" readonly="true" value="#{boletaController.detalleBoletaBean.tbProducto.nombrePro}"  size="30" disabled="#{boletaController.inputNombreProducto}"></p:inputText>
+				                			
+				                			<p:outputLabel value="Stock" for="txtStock" />
+			                				<p:inputText id="txtStock" readonly="true" value="#{boletaController.detalleBoletaBean.tbProducto.stockMaxPro}"  size="12" disabled="#{boletaController.inputStockProducto}"></p:inputText>
+			                				
+			                				<p:outputLabel value="Precio" for="txtPrecio" />
+			                				<p:inputText id="txtPrecio" readonly="true" value="#{boletaController.detalleBoletaBean.tbProducto.precioVentaPro}"  size="12" disabled="#{boletaController.inputPrecioVentaProducto}"></p:inputText>
+				                			<p:outputLabel value="Cantidad" for="txtCantidad" />
+			                				<p:inputText id="txtCantidad"  size="12"  value="#{boletaController.detalleBoletaBean.cantidadBol}" disabled="#{boletaController.inputCantidadProducto}"></p:inputText>
+			                				
+			                				<p:commandButton id="idBtnAgregarProducto" oncomplete="setFocusTo(this)" value="Agregar" icon="icon-new"    title ="Agregar producto" disabled="#{boletaController.btnAgregarProducto}" actionListener="#{boletaController.buscarRepiteProducto()}"/>
+			                				<p:commandButton id="idBtnLimpiarProducto" value="Limpiar" icon="icon-delete" title="Limpiar producto"  disabled="#{boletaController.btnLimpiarProducto}" actionListener="#{boletaController.limpiarDatosProductos()}"/>
+				                			
+				                		</p:panelGrid>
+			                		</p:fieldset>	
+			                		
+			                		<p:panelGrid id="idPanelG7" columns="1" >
+			                			<p:commandButton id="idBtnQuitar" value="Quitar" actionListener="#{boletaController.btnQuitarProducto()}" icon="icon-delete" alt="Quitar producto" disabled="#{boletaController.btnQuitarProducto}"/>
+			                			<p:panelGrid id="idPanelG8" columns="1" >
+			                				<p:dataTable  styleClass="tablaF" id="idProductosComprar" var="obj" value="#{boletaController.detalleBoletaBeanList}" paginator="true" rows="10"  paginatorPosition="bottom"
+							                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+							                                 emptyMessage="No hay registros."  selectionMode="single" selection="#{boletaController.detalleBoletaQuitarBean}"  rowKey="#{obj.tbProducto.codigoPro}">
+							                                <f:facet name="header">  Listado de Producto a comprar </f:facet> 
+                        									
+                        									<p:ajax event="rowSelect" listener="#{boletaController.onRowSelectProductoQuitar}"/>
+                        
+									                        <p:column headerText="Cod. boleta" style="width:8%">  
+									                            <h:outputText value="#{obj.tbBoleta.codigoBol}"/>  
+									                        </p:column>
+									                          
+									 						<p:column headerText="Cod. produc." style="width:8%">  
+									                            <h:outputText value="#{obj.tbProducto.codigoPro}"/>  
+									                        </p:column>
+									                        
+									                        <p:column headerText="Descripcion" style="width:20%">  
+									                            <h:outputText  value="#{obj.tbProducto.nombrePro}"/>  
+									                        </p:column>  
+									
+									                        <p:column headerText="Precio" style="width:4%">  
+									                            <h:outputText  value="#{obj.tbProducto.precioVentaPro}"/>  
+									                        </p:column>  
+									                        
+									                        <p:column headerText="Cantidad" style="width:6%">  
+									                            <h:outputText  value="#{obj.cantidadBol}"/>  
+									                        </p:column> 
+									                        
+									                        <p:column headerText="Importe" style="width:6%">  
+									                            <h:outputText  value="#{obj.importe}"/>  
+									                        </p:column>
+							                </p:dataTable>  
+			                			</p:panelGrid>
+			                			<p:panelGrid id="idPanelG9" columns="2" >
+			                				<p:outputLabel value="Total a pagar" for="txtTotalPagar" />
+			                				<p:inputText id="txtTotalPagar" readonly="true" size="15" disabled="#{boletaController.inputTotalApagar}" value="#{boletaController.totalApagar}"></p:inputText>
+			                			</p:panelGrid>
+			                			
+			                		</p:panelGrid>	
+			                		
+			                	</p:panelGrid>
+		                	</p:panelGrid>
+							
+							<p:panelGrid id="idPanelG10" columns="1" style="margin:0 auto;" >
+							   <p:commandButton id="idBtnNuevaBoleta"    icon="icon-new-boleta"   title="Nueva boleta" style="width:50px;height:50px;" disabled="#{boletaController.btnNuevaBoleta}" actionListener="#{boletaController.generarCodigoBoleta()}">
+							   		<p:ajax update=":formDataTable" resetValues="true" />
+							   </p:commandButton>
+							   <p:commandButton id="idBtnGuardarBoleta"   icon="icon-save-boleta" title="Guardar" actionListener="#{boletaController.guardarBoleta()}" oncomplete="PF('dlgcImprimirBoleta').show()" style="width:50px;height:50px;" disabled="#{boletaController.btnGuardar}" />
+							   <p:commandButton id="idBtnCancelarBoleta"  update=":growls"  icon="icon-cancel-boleta" title="Cancelar" style="width:50px;height:50px;" disabled="#{boletaController.btnCancelar}" actionListener="#{boletaController.cancelarBoleta()}">
+							   		<p:ajax update=":formDataTable" resetValues="true" />
+							   </p:commandButton>
+							   <p:commandButton id="idBtnSalir" update=":growls" icon="icon-salir-boleta" title="Salir" style="width:50px;height:50px;" disabled="#{boletaController.btnSalir}" action="#{boletaController.salirGestionVenta()}"/>
+		                	</p:panelGrid>
+	                	</p:panelGrid>
+	                	
+                	</p:fieldset>
+                </h:form>
+
+  				<h:form id="formBuscarCliente">
+                    <p:dialog styleClass="dlgTabla" header="Buscar cliente" closable="true" closeOnEscape="true" widgetVar="dialogBuscarCliente" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" width="50%">
+	                      <p:dataTable  styleClass="tablaDlg"  var="obj" id="tbCliente" value="#{clienteController.listaCliente}" paginator="true" rows="10"  paginatorPosition="bottom"                                 
+	                                 emptyMessage="No hay registros."   selectionMode="single"  selection="#{clienteController.clienteBeanSelect}" 
+	                                 rendered="#{clienteController.cargarListaCliente()}" rowKey="#{obj.codigoCli}">  
+		                        <f:facet name="header">  Listado de cliente </f:facet>
+		                         
+		                        <p:ajax event="rowSelect" listener="#{boletaController.onRowSelectCliente}" oncomplete="PF('dialogBuscarCliente').hide()"/>
+		                        
+		                        <p:column headerText="Codigo" style="width:15px">  
+		                            <h:outputText value="#{obj.codigoCli}" />  
+		                        </p:column>  
+		                        
+		 						<p:column headerText="RUC" style="width:55px"   filterBy="#{obj.rucDniCli}">  
+		                            <h:outputText value="#{obj.rucDniCli}" />  
+		                        </p:column>
+		                          
+		                        <p:column headerText="Razon social" style="width:35px" filterBy="#{obj.razonSocialCli}">  
+		                            <h:outputText value="#{obj.razonSocialCli}" />  
+		                        </p:column>  
+		                        
+		                        <p:column headerText="Razon social" style="width:35px" filterBy="#{obj.direccionCli}">  
+		                            <h:outputText value="#{obj.direccionCli}" />  
+		                        </p:column>
+			
+			                       
+	                    </p:dataTable>  
+                    </p:dialog>  
+                </h:form>			
+			 
+			 <h:form id="formConfirmDialogProd">
+                    <p:confirmDialog id="idConfirmDialog" widgetVar="dlgConfirProd" message="Este producto ya existe en la lista. Si acepta se aumnetará la cantidad."  showEffect="fade" hideEffect="explode" header="Adicionar Producto existente" severity="alert" >  
+                        <p:commandButton id="confirm" value="Aceptar" update=":formDataTable"  actionListener="#{boletaController.agregarProducto()}" icon="icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('dlgConfirProd').hide()" type="button" icon="icon-cancel"/>   
+                    </p:confirmDialog> 
+             </h:form>	
+             
+             <h:form id="formCreateCliente">
+                    <p:dialog id="idDialogCreate"  widgetVar="dlgCreate" closable="false"  resizable="false" modal="true"   header="Crear cliente"  showEffect="fade" hideEffect="explode" >  
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <p:outputLabel value="Codigo: " for="txtCodigo"/>  
+                            <p:inputText id="txtCodigo" value="#{clienteController.clienteBean.codigoCli}" readonly="true"/>  
+                        
+                            <p:outputLabel value="RUC: " for="txtRUC"/>  
+                            <p:inputText id="txtRUC" value="#{clienteController.clienteBean.rucDniCli}" required="true"/>  
+
+                            <p:outputLabel value="Razon social:" for="txtRazonS"/>  
+                            <p:inputText id="txtRazonS" value="#{clienteController.clienteBean.razonSocialCli}" required="true"/>
+                              
+                            <p:outputLabel value="Direccion:" for="txtDireccion"/>  
+                            <p:inputText id="txtDireccion" value="#{clienteController.clienteBean.direccionCli}" required="true"/>
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":formDataTable,:growls, :formBuscarCliente:tbCliente"  actionListener="#{clienteController.createCliente()}" oncomplete="PF('dlgCreate').hide();" icon="icon-save" title="Guardar" value="Guardar"/>
+                                <p:commandButton id="btnCreateCancelar"  oncomplete="PF('dlgCreate').hide();" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                	<p:ajax update=":formCreateCliente" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>		
+
+			  <h:form id="formConfirmDialogImprimirBol">
+                    <p:confirmDialog id="idDlgCImprimirBol" widgetVar="dlgcImprimirBoleta" message="Se guardó satisfactoriamente, ¿Desea imprimir la boleta?"  showEffect="fade" hideEffect="explode" header="Adicionar Producto existente" severity="alert" >
+                    	<p:commandButton  value="Imprmir Pdf" oncomplete="PF('dlgcImprimirBoleta').hide()" actionListener="#{boletaController.imprimirBoleta()}" ajax="false"  icon="icon-check"/>  
+                        <p:commandButton  value="NO"          update=":formDataTable" onclick="PF('dlgcImprimirBoleta').hide()" actionListener="#{boletaController.cancelarImprmirBoleta()}" icon="icon-cancel" />  
+                    </p:confirmDialog> 
+             </h:form>	
+             
+             
+             <p:dialog styleClass="dlgReport" header="Boleta pdf" closable="true" closeOnEscape="true" widgetVar="dlgReporteViewBoleta" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" width="45%" height="90%">
+
+<!-- 					<p:panel header="Reporte Test"> -->
+<!-- 						<h:form id="formReportView"> -->
+							<div class="column-center">
+								<p:media cache="false"  value="#{boletaController.media}" id="idMedia" rendered="#{boletaController.media != null}" width="800" height="900" player="pdf"/>
+							</div>
+<!-- 					   </h:form> -->
+<!-- 				   </p:panel> -->
+				
+                              
+             </p:dialog>
+             
+             
+             
+             
+             
+          </c:if>                
+     </ui:define>
+     </ui:composition>
+    
+  </body>
+</html>

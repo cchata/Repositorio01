@@ -1,0 +1,25 @@
+package com.ecoinnova.pe.services.interfaces;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.ecoinnova.pe.model.TbBoletaEntity;
+import com.ecoinnova.pe.model.TbCategoriaEntity;
+import com.ecoinnova.pe.services.util.GenericService;
+
+public interface TbBoletaServices extends GenericService<TbBoletaEntity, Serializable> {
+
+	public void insertBoleta(TbBoletaEntity transientInstance) throws Exception;
+
+	public void deleteBoleta(TbBoletaEntity persistentInstance) throws Exception;
+		
+	public void updateBoleta(TbBoletaEntity detachedInstance) throws Exception;
+		
+	public TbBoletaEntity findByIdBoleta(java.lang.String id) throws Exception;
+		
+	public List<TbBoletaEntity> findAllBoleta() throws Exception;
+		
+	public String generarCodigoBoleta() throws Exception;
+	
+	public String actulizarStockProducto(String codProducto, int cantidadVendida) throws Exception;
+}

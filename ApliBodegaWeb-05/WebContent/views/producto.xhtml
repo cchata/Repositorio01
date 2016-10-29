@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<body>
+	 <ui:composition template="./template.xhtml">
+	 <ui:define name="content">
+	      <c:if test='#{loginController.verificarSesion()}'>
+	            <p:growl id="growls" showDetail="true" showSummary="false" sticky="false" />
+		        <p:messages id="messages" showDetail="true" closable="true" />
+                <h:form id="formDataTable">  
+                    <p:dataTable  styleClass="tablaF" id="idProducto" var="obj" value="#{productoController.productoList}" paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 emptyMessage="No hay registros."  selectionMode="single" selection="#{productoController.productoBeanSelect}" rowKey="#{obj.codigoPro}" 
+                                 rendered="#{productoController.cargarListaProducto()}">  
+                        <f:facet name="header">  Listado de Producto </f:facet> 
+                        
+                        <p:ajax event="rowSelect" listener="#{productoController.onRowSelectProducto}" oncomplete="PF('dlgUpdate').show()"/>
+                        
+                        <p:column headerText="Codigo" style="width:8%">  
+                            <h:outputText value="#{obj.codigoPro}" />  
+                        </p:column>  
+
+                        <p:column headerText="Nombre" style="width:20%" filterBy="#{obj.nombrePro}" >  
+                            <h:outputText value="#{obj.nombrePro}" />  
+                        </p:column>  
+
+                        <p:column headerText="Stock" style="width:20%"   filterBy="#{obj.stockMaxPro}">  
+                            <h:outputText value="#{obj.stockMaxPro}" />  
+                        </p:column>  
+                        
+                        <p:column headerText="Precio de venta" style="width:20%"   filterBy="#{obj.precioVentaPro}">  
+                            <h:outputText value="#{obj.precioVentaPro}" />  
+                        </p:column> 
+
+                        <p:column style="width:6%">  
+								<p:commandButton id="btnDelete" styleClass="btnDelete" actionListener="#{productoController.addSelectedDelete(obj)}" update=":formDelete" oncomplete="PF('dlgDelete').show()" icon="icon-delete" title="Eliminar"/>  
+                        </p:column>  
+                    </p:dataTable>  
+                </h:form>
+<!--                 <br/> -->
+				<h:form>
+                    <div style="height:30px; margin-bottom:5px; margin-left:5px;margin-top:5px;margin-right:5px;">
+                    	<p:commandButton id="btnCreate" value="Nuevo Producto"  actionListener="#{productoController.generarCodigoProducto()}"  icon="icon-new"   oncomplete="PF('dlgCreate').show()" style="float:left;">
+                    	    <p:ajax update=":formCreate" resetValues="true" />
+                    	</p:commandButton>
+                    	<p:commandButton id="btnUpdate" value="Actualizar"     actionListener="#{productoController.recargarListaProducto()}"    icon="icon-check" style="float: right;"/>
+                    </div>  	
+                </h:form>
+                                
+                <h:form id="formCreate">
+                    <p:dialog id="idDialogCreate"  widgetVar="dlgCreate" closable="false"  resizable="false" modal="true"   header="Crear Producto"  showEffect="fade" hideEffect="explode" >  
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                        	<h:panelGrid id="display1" columns="2" cellpadding="0" style="margin:0;">
+								<p:outputLabel value="Codigo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="txtCodigo"/>  
+                            	<p:inputText id="txtCodigo" value="#{productoController.productoBean.codigoPro}" size="14" readonly="true"/>
+							</h:panelGrid>
+							
+	                        <h:panelGrid id="display2" columns="2" cellpadding="0" style="margin:0;">
+	                 			<p:outputLabel value="Nombre: " for="txtNombre"/>  
+                            	<p:inputText id="txtNombre" value="#{productoController.productoBean.nombrePro}" size="34" required="true"/>       
+	                        </h:panelGrid>
+							
+                              
+
+							<h:panelGrid id="display3" columns="2" cellpadding="0" style="margin:0;">
+	                            <p:outputLabel value="Stock Max.: " for="txtStockMax"/>
+	                            <p:inputText id="txtStockMax" value="#{productoController.productoBean.stockMaxPro}" size="6" required="true" />
+	                            
+	                            <p:outputLabel value="Precio compra: " for="txtPrecioComp"/>  
+	                            <p:inputText id="txtPrecioComp" value="#{productoController.productoBean.precioCompraPro}" size="6" required="true"/>
+							</h:panelGrid>
+							
+							<h:panelGrid id="display4" columns="2" cellpadding="0" style="margin:0;">
+								<p:outputLabel value="Stock Min.: " for="txtStockMin"/>  
+	                            <p:inputText id="txtStockMin" value="#{productoController.productoBean.stockMinPro}" size="6" required="true"/>
+	                            
+	                            <p:outputLabel value="Precio venta: " for="txtPrecioVent"/>  
+	                            <p:inputText id="txtPrecioVent" value="#{productoController.productoBean.precioVentaPro}" size="6" required="true"/>
+							</h:panelGrid>
+
+							
+							
+							<h:panelGrid id="display5" columns="2" cellpadding="0" style="margin:0;">
+								<p:outputLabel value="Proveedor: " for="txtCodProveedor"/>
+	                            <p:inputText id="txtCodProveedor" style="font-size:13px;" value="#{productoController.productoBean.tbProveedor.codigoProv}" size="14" required="true" readonly="true"/>
+	                            
+	                            <p:outputLabel value="Categoria: " for="txtCodCategoria"/>
+	                            <p:inputText id="txtCodCategoria" style="font-size:13px;" value="#{productoController.productoBean.tbCategoria.codigoCat}" size="14" required="true" readonly="true"/>
+	                            
+	                            <p:outputLabel value="Marca:" for="txtCodMarca"/>
+	                            <p:inputText id="txtCodMarca" style="font-size:13px;" value="#{productoController.productoBean.tbMarca.codigoMar}" size="14" required="true" readonly="true"/>
+	                            
+	                            <p:outputLabel value="Unidad Medida:" for="txtCodUnidadM"/>
+	                            <p:inputText id="txtCodUnidadM" style="font-size:13px;" value="#{productoController.productoBean.tbUnidadMedida.codigoUni}" size="14" required="true" readonly="true"/>
+							</h:panelGrid>
+							
+							
+							<h:panelGrid id="display6" columns="2" cellpadding="0" style="margin:0;">
+								<p:commandButton id="btnBuscarProveedor"  title="Buscar" value="Proveedor" oncomplete="PF('dialogProveedorBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreProveedor"/> -->
+								<p:inputText  id="txtNombreProveedor" value="#{productoController.productoBean.tbProveedor.razonSocialProv}" size="15" readonly="true"/>
+								
+						        <p:commandButton id="btnBuscarCategoria"  title="Buscar" value="Categoria" oncomplete="PF('dialogCategoriaBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreCategoria"/> -->
+								<p:inputText  id="txtNombreCategoria" value="#{productoController.productoBean.tbCategoria.nombreCat}" size="15" readonly="true"/>
+								
+								<p:commandButton id="btnBuscarMarca"  title="Buscar" value="Marca" oncomplete="PF('dialogMarcaBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreMarca"/> -->
+								<p:inputText  id="txtNombreMarca" value="#{productoController.productoBean.tbMarca.nombreMar}" size="15" readonly="true"/>
+								
+								<p:commandButton id="btnBuscarUnidadMedida"  title="Buscar" value="UnidadMedida" oncomplete="PF('dialogUnidadMedidaBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreMedida"/> -->
+								<p:inputText  id="txtNombreMedida" value="#{productoController.productoBean.tbUnidadMedida.nombreUni}" size="15" readonly="true"/>	
+							</h:panelGrid>
+							
+                            <p:outputLabel value="Observacion:" for="txtObs"/>  
+                            <p:inputTextarea id="txtObs" rows="8" cols="45" value="#{productoController.productoBean.observacionPro}" /> 
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":formDataTable,:growls"  actionListener="#{productoController.createProducto()}" icon="icon-save" title="Guardar" value="Guardar"/>
+                                <p:commandButton id="btnCreateCancelar"  oncomplete="PF('dlgCreate').hide();" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                	<p:ajax update=":formCreate" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formUpdate">
+                    <p:dialog id="idDialogCreate" widgetVar="dlgUpdate" header="Modificar Producto" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" closable="false">  
+                              
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+	                        
+                           <h:panelGrid id="display1" columns="2" cellpadding="0" style="margin:0;">
+								<p:outputLabel value="Codigo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="txtCodigo"/>  
+                            	<p:inputText id="txtCodigo" value="#{productoController.productoBeanSelect.codigoPro}" size="14" readonly="true"/>
+							</h:panelGrid>
+							
+	                        <h:panelGrid id="display2" columns="2" cellpadding="0" style="margin:0;">
+	                 			<p:outputLabel value="Nombre: " for="txtNombre"/>  
+                            	<p:inputText id="txtNombre" value="#{productoController.productoBeanSelect.nombrePro}" size="34" required="true"/>       
+	                        </h:panelGrid>
+							
+                              
+
+							<h:panelGrid id="display3" columns="2" cellpadding="0" style="margin:0;">
+	                            <p:outputLabel value="Stock Max.: " for="txtStockMax"/>
+	                            <p:inputText id="txtStockMax" value="#{productoController.productoBeanSelect.stockMaxPro}" size="6" required="true" />
+	                            
+	                            <p:outputLabel value="Precio compra: " for="txtPrecioComp"/>  
+	                            <p:inputText id="txtPrecioComp" value="#{productoController.productoBeanSelect.precioCompraPro}" size="6" required="true"/>
+							</h:panelGrid>
+							
+							<h:panelGrid id="display4" columns="2" cellpadding="0" style="margin:0;">
+								<p:outputLabel value="Stock Min.: " for="txtStockMin"/>  
+	                            <p:inputText id="txtStockMin" value="#{productoController.productoBeanSelect.stockMinPro}" size="6" required="true"/>
+	                            
+	                            <p:outputLabel value="Precio venta: " for="txtPrecioVent"/>  
+	                            <p:inputText id="txtPrecioVent" value="#{productoController.productoBeanSelect.precioVentaPro}" size="6" required="true"/>
+							</h:panelGrid>
+
+							
+							
+							<h:panelGrid id="display5" columns="2" cellpadding="0" style="margin:0;">
+								<p:outputLabel value="Proveedor: " for="txtCodProveedor"/>
+	                            <p:inputText id="txtCodProveedor" style="font-size:13px;" value="#{productoController.productoBeanSelect.tbProveedor.codigoProv}" size="14" required="true" readonly="true"/>
+	                            
+	                            <p:outputLabel value="Categoria: " for="txtCodCategoria"/>
+	                            <p:inputText id="txtCodCategoria" style="font-size:13px;" value="#{productoController.productoBeanSelect.tbCategoria.codigoCat}" size="14" required="true" readonly="true"/>
+	                            
+	                            <p:outputLabel value="Marca:" for="txtCodMarca"/>
+	                            <p:inputText id="txtCodMarca" style="font-size:13px;" value="#{productoController.productoBeanSelect.tbMarca.codigoMar}" size="14" required="true" readonly="true"/>
+	                            
+	                            <p:outputLabel value="Unidad Medida:" for="txtCodUnidadM"/>
+	                            <p:inputText id="txtCodUnidadM" style="font-size:13px;" value="#{productoController.productoBeanSelect.tbUnidadMedida.codigoUni}" size="14" required="true" readonly="true"/>
+							</h:panelGrid>
+							
+							
+							<h:panelGrid id="display6" columns="2" cellpadding="0" style="margin:0;">
+								<p:commandButton id="btnBuscarProveedor"  title="Buscar" value="Proveedor" oncomplete="PF('dialogProveedorBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreProveedor"/> -->
+								<p:inputText  id="txtNombreProveedor" value="#{productoController.productoBeanSelect.tbProveedor.razonSocialProv}" size="15" readonly="true"/>
+								
+						        <p:commandButton id="btnBuscarCategoria"  title="Buscar" value="Categoria" oncomplete="PF('dialogCategoriaBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreCategoria"/> -->
+								<p:inputText  id="txtNombreCategoria" value="#{productoController.productoBeanSelect.tbCategoria.nombreCat}" size="15" readonly="true"/>
+								
+								<p:commandButton id="btnBuscarMarca"  title="Buscar" value="Marca" oncomplete="PF('dialogMarcaBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreMarca"/> -->
+								<p:inputText  id="txtNombreMarca" value="#{productoController.productoBeanSelect.tbMarca.nombreMar}" size="15" readonly="true"/>
+								
+								<p:commandButton id="btnBuscarUnidadMedida"  title="Buscar" value="UnidadMedida" oncomplete="PF('dialogUnidadMedidaBuscar').show()" />
+<!-- 								<p:outputLabel value="" for="txtNombreMedida"/> -->
+								<p:inputText  id="txtNombreMedida" value="#{productoController.productoBeanSelect.tbUnidadMedida.nombreUni}" size="15" readonly="true"/>	
+							</h:panelGrid>
+							
+                            <p:outputLabel value="Observacion:" for="txtObs"/>  
+                            <p:inputTextarea id="txtObs" rows="8" cols="45" value="#{productoController.productoBeanSelect.observacionPro}" /> 
+                            
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnUpdateAceptar"   update=":formDataTable,:growls"  actionListener="#{productoController.updateProducto()}" icon="icon-save" title="Guardar" value="Guardar"/> 
+                                <p:commandButton id="btnUpdateCancelar"  oncomplete="PF('dlgUpdate').hide()" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                	<p:ajax update=":formUpdate" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                        
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formDelete">
+                    <p:confirmDialog id="IdConfirmDialog" widgetVar="dlgDelete" message="¿Esta seguro de eliminar el registro?"  showEffect="fade" hideEffect="explode" header="Eliminar Producto" severity="alert" >  
+                        <p:commandButton id="confirm" value="Aceptar" update=":formDataTable"  actionListener="#{productoController.deleteProducto()}" icon="icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('dlgDelete').hide()" type="button" icon="icon-cancel"/>   
+                    </p:confirmDialog> 
+                </h:form>
+                
+                
+                
+                <h:form id="formBuscarProveedor">
+                    <p:dialog styleClass="dlgTabla" header="Buscar proveedor" closable="true" closeOnEscape="true" widgetVar="dialogProveedorBuscar" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" width="50%">
+	                      <p:dataTable  styleClass="tablaDlg"  var="obj" id="tbProveedor" value="#{proveedorController.proveedorList}" paginator="true" rows="10"  paginatorPosition="bottom"                                 
+	                                 emptyMessage="No hay registros."   selectionMode="single"  selection="#{proveedorController.proveedorBeanSelect}" 
+	                                 rendered="#{proveedorController.cargarListaProveedor()}" rowKey="#{obj.codigoProv}">  
+		                        <f:facet name="header">  Listado de Proveedor </f:facet>
+		                         
+		                        <p:ajax event="rowSelect" listener="#{productoController.onRowSelectProveedor}" oncomplete="PF('dialogProveedorBuscar').hide()"/>
+		                        
+		                        <p:column headerText="Codigo" style="width:15px">  
+		                            <h:outputText value="#{obj.codigoProv}" />  
+		                        </p:column>  
+		                        
+		 						<p:column headerText="RUC" style="width:55px"   filterBy="#{obj.rucProv}">  
+		                            <h:outputText value="#{obj.rucProv}" />  
+		                        </p:column>
+		                          
+		                        <p:column headerText="Razon social" style="width:35px" filterBy="#{obj.razonSocialProv}">  
+		                            <h:outputText value="#{obj.razonSocialProv}" />  
+		                        </p:column>  
+			
+			                       
+	                    </p:dataTable>  
+                    </p:dialog>  
+                </h:form>
+                
+                
+                
+                <h:form id="formBuscarCategoria">
+                    <p:dialog styleClass="dlgTabla" header="Buscar Categoria" closable="true" closeOnEscape="true" widgetVar="dialogCategoriaBuscar" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" width="50%">
+                                
+		                      <p:dataTable  styleClass="tablaDlg"  var="obj" id="tbCategoria" value="#{categoriaController.categoriaList}" paginator="true" rows="10"  paginatorPosition="bottom"                                 
+		                                 emptyMessage="No hay registros."   selectionMode="single"  selection="#{categoriaController.categoriaBeanSelect}" rowKey="#{obj.codigoCat}" rendered="#{categoriaController.cargarListaCategoria()}">  
+				                        <f:facet name="header">  Listado de Categoria </f:facet>
+				                         
+				                        <p:ajax event="rowSelect" listener="#{productoController.onRowSelectCategoria}" oncomplete="PF('dialogCategoriaBuscar').hide()"/>
+				                        
+				                        <p:column headerText="Codigo" style="width:15px">  
+				                            <h:outputText value="#{obj.codigoCat}" />  
+				                        </p:column>  
+				                        
+				 						<p:column headerText="Nombre" style="width:55px"   filterBy="#{obj.nombreCat}">  
+				                            <h:outputText value="#{obj.nombreCat}" />  
+				                        </p:column>
+				                          
+		                    </p:dataTable>  
+                    </p:dialog>  
+                </h:form>
+                
+                
+                  <h:form id="formBuscarMarca">
+                    <p:dialog styleClass="dlgTabla" header="Buscar Marca" closable="true" closeOnEscape="true" widgetVar="dialogMarcaBuscar" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" width="50%">
+                                
+		                      <p:dataTable  styleClass="tablaDlg"  var="obj" id="tbMarca" value="#{marcaController.marcaList}" paginator="true" rows="10"  paginatorPosition="bottom"                                 
+		                                 emptyMessage="No hay registros."   selectionMode="single"  selection="#{marcaController.marcaBeanSelect}" rowKey="#{obj.codigoMar}" rendered="#{marcaController.cargarListaMarca()}">  
+				                        <f:facet name="header">  Listado de Marca </f:facet>
+				                         
+				                        <p:ajax event="rowSelect" listener="#{productoController.onRowSelectMarca}" oncomplete="PF('dialogMarcaBuscar').hide()"/>
+				                        
+				                        <p:column headerText="Codigo" style="width:15px">  
+				                            <h:outputText value="#{obj.codigoMar}" />  
+				                        </p:column>  
+				                        
+				 						<p:column headerText="Nombre" style="width:55px"   filterBy="#{obj.nombreMar}">  
+				                            <h:outputText value="#{obj.nombreMar}" />  
+				                        </p:column>
+		                    </p:dataTable>  
+                    </p:dialog>  
+                </h:form>
+                
+                
+                   <h:form id="formBuscarUnidadMedida">
+                    <p:dialog styleClass="dlgTabla" header="Buscar Unidad Medida" closable="true" closeOnEscape="true" widgetVar="dialogUnidadMedidaBuscar" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" width="50%">
+                                
+		                      <p:dataTable  styleClass="tablaDlg"  var="obj" id="tbMedida" value="#{unidadMedidaController.unidadMedidaList}" paginator="true" rows="10"  paginatorPosition="bottom"                                 
+		                                 emptyMessage="No hay registros."   selectionMode="single"  selection="#{unidadMedidaController.unidadMedidaBeanSelect}" rowKey="#{obj.codigoUni}" rendered="#{unidadMedidaController.cargarListaUnidadMedida()}">  
+				                        <f:facet name="header">  Listado de Unidad Medida </f:facet>
+				                         
+				                        <p:ajax event="rowSelect" listener="#{productoController.onRowSelectUnidadMedida}" oncomplete="PF('dialogUnidadMedidaBuscar').hide()"/>
+				                        
+				                        <p:column headerText="Codigo" style="width:15px">  
+				                            <h:outputText value="#{obj.codigoUni}" />  
+				                        </p:column>  
+				                        
+				 						<p:column headerText="Nombre" style="width:55px"   filterBy="#{obj.nombreUni}">  
+				                            <h:outputText value="#{obj.nombreUni}" />  
+				                        </p:column>
+		                    </p:dataTable>  
+                    </p:dialog>  
+                </h:form>
+                
+                
+                
+                
+                
+          </c:if>                
+     </ui:define>
+     </ui:composition>
+  </body>
+</html>

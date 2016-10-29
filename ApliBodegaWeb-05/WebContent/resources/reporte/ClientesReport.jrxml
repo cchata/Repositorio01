@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ClientesReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="74e5a4e5-6d88-4e9b-a11f-cefdde44f2d3">
+	<property name="ireport.zoom" value="1.6500000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="rucDniCli" class="java.lang.String"/>
+	<field name="razonSocialCli" class="java.lang.String"/>
+	<field name="direccionCli" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="45ab6418-36c7-4053-91fe-d36b4f083c4a" x="158" y="39" width="252" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Reporte de Clientes]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5081d2f1-518a-4453-99c2-26b2e44f45dd" x="0" y="0" width="185" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[rucDniCli]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d4ee8d37-0532-4998-b9f2-2c568578423d" x="185" y="0" width="185" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[razonSocialCli]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b547c921-5087-420b-9c40-3ba6b846eb80" x="370" y="0" width="185" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[direccionCli]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement uuid="cf8498fe-3b9a-4dae-b35b-0e2260c637fc" x="0" y="1" width="185" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rucDniCli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="022671b2-465d-4667-9093-b25072a9b5ec" x="185" y="1" width="185" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{razonSocialCli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8d8970bc-8a37-474a-bec6-50319b8a54b6" x="370" y="1" width="185" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccionCli}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="f0eaaebb-93c6-41c7-acb8-3056fb4ee8ae" x="0" y="0" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

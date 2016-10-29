@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+<body>
+
+  <ui:composition template=".././template.xhtml">
+  <ui:define name="content">
+      <c:if test='#{loginController.verificarSesion()}'>
+      
+                <p:growl    id="growls"   showDetail="true" showSummary="false" sticky="false" />
+				<p:messages id="messages" showDetail="true" closable="true" />
+				
+                <h:form id="formDataTable">  
+                    <p:dataTable  styleClass="tablaF" id="cars" var="empl" value="#{empleadoController.listaEmpleado}" paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 emptyMessage="No hay registros."  selectionMode="single"   selection="#{empleadoController.empleadoBean}" 
+                                 rowKey="#{empl.codigoEmp}"
+                                 rendered="#{empleadoController.cargarListaEmpleado()}" >  
+                        <f:facet name="header">  Listado de empleado </f:facet> 
+                        
+                        <p:column headerText="Codigo" style="width:8%">  
+                            <h:outputText value="#{empl.codigoEmp}" />  
+                        </p:column>  
+
+                        <p:column headerText="DNI" style="width:8%" filterBy="#{empl.dniEmp}">  
+                            <h:outputText value="#{empl.dniEmp}" />  
+                        </p:column>  
+
+                        <p:column headerText="Nombres" style="width:40%"   filterBy="#{empl.nombreEmp}" filterMatchMode="contains">  
+                            <h:outputText value="#{empl.nombreEmp}" />  
+                        </p:column>  
+                        
+                        <p:column headerText="Apellidos" style="width:40%"   filterBy="#{empl.apellidosEmp}" filterMatchMode="contains">  
+                            <h:outputText value="#{empl.apellidosEmp}" />  
+                        </p:column>  
+                    </p:dataTable>  
+                </h:form>
+               
+		  </c:if>
+	  </ui:define>
+	  </ui:composition>
+    
+
+   </body>
+</html>

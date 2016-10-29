@@ -1,0 +1,240 @@
+package com.ecoinnova.pe.controller;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+
+import com.ecoinnova.pe.model.TbProveedorEntity;
+import com.ecoinnova.pe.services.interfaces.TbProveedorServices;
+import com.ecoinnova.pe.util.MyUtil;
+
+@SessionScoped
+@ManagedBean
+public class ProveedorController implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+    @ManagedProperty("#{tbProveedorServices}")
+    TbProveedorServices   tbProveedorServices;
+	
+	private TbProveedorEntity       proveedorBean;
+	private TbProveedorEntity       proveedorBeanSelect;
+	private List<TbProveedorEntity> proveedorList;
+
+	public ProveedorController(){
+		MyUtil.systemOutPrintln("Llamando constructor ProveedorController()");
+		proveedorBean = new TbProveedorEntity();
+	}	
+	
+	
+
+	public boolean cargarListaProveedor() throws Exception{
+		
+		String msg;
+    	try {
+    		MyUtil.systemOutPrintln("Llamando cargarListaProveedor()");
+    	
+    		proveedorList = tbProveedorServices.findAllProveedor();
+    		
+    		msg = "¡Lista Proveedor completa!";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Proveedor", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("formDataTable");
+            
+		} catch (Exception e) {
+			msg = ""+e.getMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en  listar Proveedor", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().update("growls");
+		}
+    	return true;
+	}
+	
+	
+	public void onRowSelectProveedor(SelectEvent event ){
+		MyUtil.systemOutPrintln("Llamando onRowSelectProveedor()");
+    	proveedorBeanSelect = (TbProveedorEntity) event.getObject();
+    	//Para que no se quede pegado cod, nombre del empleado
+    	
+    	RequestContext.getCurrentInstance().update("formUpdate:txtCodigo");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtRUC");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtRazonS");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtDireccion");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtTelefono");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtEmail");
+    	
+	}
+	
+	public void updateProveedor(){
+		try {
+    		tbProveedorServices.updateProveedor(proveedorBeanSelect);
+    		String msg = "Se actualizo satisfactoriamente.";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Proveedor", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+    		RequestContext.getCurrentInstance().update("formDataTable");
+    		RequestContext.getCurrentInstance().update("growls");
+    		RequestContext.getCurrentInstance().execute("PF('dlgUpdate').hide()");
+    		
+		} catch (Exception e) {
+			String msg = "";
+			msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+			msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Update", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().execute("PF('dlgUpdate').hide()");
+		}finally{
+			resetProveedor();
+		}
+	}
+	
+	public void resetProveedor(){
+    	MyUtil.systemOutPrintln("Llamando resetProveedor()");
+		proveedorBean = new TbProveedorEntity();
+		proveedorBeanSelect = null;
+	}
+	
+    public void addSelectedDelete(TbProveedorEntity obj){
+    	proveedorBeanSelect = obj;
+    }
+    
+	public void deleteProveedor(){
+	    	try {
+	    		tbProveedorServices.deleteProveedor(proveedorBeanSelect);
+	    		String msg = "Se eliminó satisfactoriamente.";
+	    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Proveedor", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	    		RequestContext.getCurrentInstance().update("formDataTable");
+	    		RequestContext.getCurrentInstance().update("growls");
+	    		RequestContext.getCurrentInstance().execute("PF('dlgDelete').hide()");
+			} catch (Exception e) {
+				String msg = "";
+				msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+				msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+	            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Delete", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("messages");
+	            RequestContext.getCurrentInstance().execute("PF('dlgDelete').hide()");
+			}finally{
+				resetProveedor();
+			}
+	    }
+	
+	 public void generarCodigoProveedor(){
+	    	MyUtil.systemOutPrintln("Llamando generarCodigoProveedor()");
+	    	resetProveedor();
+	    	try {
+	    		proveedorBean.setCodigoProv(tbProveedorServices.generarCodigoProveedor());
+	    		RequestContext.getCurrentInstance().update("formCreate:txtCodigo");
+	        	RequestContext.getCurrentInstance().update("formCreate:txtRUC");
+	        	RequestContext.getCurrentInstance().update("formCreate:txtRazonS");
+	        	RequestContext.getCurrentInstance().update("formCreate:txtDireccion");
+	        	RequestContext.getCurrentInstance().update("formCreate:txtTelefono");
+	        	RequestContext.getCurrentInstance().update("formCreate:txtEmail");
+			} catch (Exception e) {
+				MyUtil.systemOutPrintln(e.getMessage()+"");
+				MyUtil.systemOutPrintln(e.getCause()+"");
+			}
+	    }
+	    
+	    public boolean recargarListaProveedor(){
+	    	String msg;
+	    	try {
+	    		MyUtil.systemOutPrintln("Llamando recargarListaProveedor()");
+	    		proveedorList = tbProveedorServices.findAllProveedor();
+	    		msg = "¡Recarga completa!";
+	    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Proveedor", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("formDataTable");
+	            RequestContext.getCurrentInstance().update("growls");
+	            
+			} catch (Exception e) {
+				msg = ""+e.getMessage();
+	            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en  listar Proveedor", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("messages");
+	            RequestContext.getCurrentInstance().update("growls");
+			}
+	    	return true;
+	    }
+	    
+	    public void createProveedor(){
+	    	
+	    	try {
+	    			tbProveedorServices.insertProveedor(proveedorBean);
+	    			String msg = "Se creó correctamente el registro.";
+	        	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Proveedor", msg);
+	                FacesContext.getCurrentInstance().addMessage(null, message);
+	        		RequestContext.getCurrentInstance().update("formDataTable");
+	        		RequestContext.getCurrentInstance().update("growls");
+	        		RequestContext.getCurrentInstance().execute("PF('dlgCreate').hide()");
+	    		
+			} catch (Exception e) {
+				String msg = "";
+				msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+				msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+	            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insert", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("messages");
+	            RequestContext.getCurrentInstance().execute("PF('dlgCreate').hide()");
+			}finally{
+				resetProveedor();
+			}
+	    }
+
+
+
+		public TbProveedorEntity getProveedorBean() {
+			return proveedorBean;
+		}
+
+
+
+		public void setProveedorBean(TbProveedorEntity proveedorBean) {
+			this.proveedorBean = proveedorBean;
+		}
+
+
+
+		public TbProveedorEntity getProveedorBeanSelect() {
+			return proveedorBeanSelect;
+		}
+
+
+
+		public void setProveedorBeanSelect(TbProveedorEntity proveedorBeanSelect) {
+			this.proveedorBeanSelect = proveedorBeanSelect;
+		}
+
+
+
+		public List<TbProveedorEntity> getProveedorList() {
+			return proveedorList;
+		}
+
+
+
+		public void setProveedorList(List<TbProveedorEntity> proveedorList) {
+			this.proveedorList = proveedorList;
+		}
+
+
+
+		public void setTbProveedorServices(TbProveedorServices tbProveedorServices) {
+			this.tbProveedorServices = tbProveedorServices;
+		}
+	
+
+	    
+	
+	
+}

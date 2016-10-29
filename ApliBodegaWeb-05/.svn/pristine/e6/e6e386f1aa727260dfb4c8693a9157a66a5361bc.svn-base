@@ -1,0 +1,21 @@
+package com.ecoinnova.pe.dao.interfaces;
+
+import java.io.Serializable;
+import java.util.List;
+import com.ecoinnova.pe.dao.util.GenericEntityDao;
+import com.ecoinnova.pe.model.CargoEntity;
+
+public interface TbCargoDao extends GenericEntityDao<CargoEntity, Serializable> {
+
+
+	public boolean insertCargo(CargoEntity transientInstance) throws Exception;
+
+	public boolean deleteCargo(CargoEntity persistentInstance) throws Exception;
+		
+	public boolean updateCargo(CargoEntity detachedInstance) throws Exception;
+		
+	public CargoEntity findByIdCargo(java.lang.String id) throws Exception;
+		
+	public List<CargoEntity> findAllCargo() throws Exception;
+		
+}

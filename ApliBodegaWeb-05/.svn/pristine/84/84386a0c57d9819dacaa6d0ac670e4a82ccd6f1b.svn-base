@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<body>
+	 <ui:composition template="./template.xhtml">
+	 <ui:define name="content">
+            <c:if test='#{loginController.verificarSesion()}'>
+                        
+                <p:growl    id="growls"   showDetail="true" showSummary="false" sticky="false" />
+				<p:messages id="messages" showDetail="true" closable="true" />
+				
+                <h:form id="formDataTable">  
+                    <p:dataTable styleClass="tablaF" id="dataTable1" var="obj" value="#{usuarioController.listaUsuario}" paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 emptyMessage="No hay registros."  selectionMode="single" selection="#{usuarioController.usuarioBeanSelect}" rowKey="#{obj.codigoUsu}" rendered="#{usuarioController.cargarListaUsuario()}" >  
+                        <f:facet name="header">  Listado Usuario </f:facet> 
+                        
+                        <p:ajax event="rowSelect" listener="#{usuarioController.onRowSelectUsuario}" oncomplete="PF('dlgUsuaioUpdate').show()"/>
+                        
+                        <p:column headerText="Codigo usuario" style="width:7%">  
+                            <h:outputText value="#{obj.codigoUsu}" />  
+                        </p:column>  
+
+						<p:column headerText="Nombre y Apellidos" style="width:48%">  
+                            <h:outputText value="#{obj.tbEmpleado.nombreEmp}  &nbsp;  #{obj.tbEmpleado.apellidosEmp}" />  
+                        </p:column>  
+                        
+
+                        <p:column headerText="Login" style="width:20%" filterBy="#{obj.loginUsu}">  
+                            <h:outputText value="#{obj.loginUsu}" />  
+                        </p:column>  
+                        
+                        
+                        <p:column headerText="Password" style="width:20%">  
+                            <h:outputText value="#{obj.passUsu}" />  
+                        </p:column>  
+
+                        <p:column style="width:5%">  
+<!--                             <p:commandButton id="btnUpdate" styleClass="btnUpdate" actionListener="#{empleadoController.addSelectedEmpleado(empl)}"  update=":formUpdate" oncomplete="PF('dialogEmpleadoUpdate').show()" icon="icon-edit" title="Modificar"/>   -->
+                            <p:commandButton id="btnDelete" styleClass="btnDelete" actionListener="#{usuarioController.addSelectedDelete(obj)}" update=":formDelete" oncomplete="PF('dlgDelete').show()" icon="icon-delete" title="Eliminar"/>  
+                        </p:column>  
+                    </p:dataTable>  
+                </h:form>
+                
+                <h:form>
+                    <div style="height:30px; margin-bottom:5px; margin-left:5px;margin-top:5px;margin-right:5px;">
+                    	<p:commandButton id="btnCreate" value="Nuevo usuario"  actionListener="#{usuarioController.generarCodigoUsuario()}"  icon="icon-new"   oncomplete="PF('dlgUsuaioCreate').show()" style="float:left;">
+                    	    <p:ajax update=":formCreate" resetValues="true" />
+                    	</p:commandButton>
+                    	<p:commandButton id="btnUpdate" value="Actualizar"     actionListener="#{usuarioController.recargarListaUsuario()}"    icon="icon-check" style="float: right;"/>
+                    </div>  	
+                </h:form>
+                
+                <h:form id="formCreate">
+                     <p:dialog header="Crear usuario" widgetVar="dlgUsuaioCreate" closable="false" resizable="false" id="dlgUsuarioCreate"  
+                              showEffect="fade" hideEffect="explode" modal="true">  
+                         <h:panelGrid id="display" columns="2" cellpadding="6" style="margin:0 auto;">
+                         
+                             <h:panelGrid columns="2">
+							    <p:outputLabel value="Codigo:" for="txtCodUsuario"/>
+						        <p:inputText id="txtCodUsuario" value="#{usuarioController.usuarioBean.codigoUsu}" readonly="true" size="12"/>
+						        <p:outputLabel value="Login: " for="txtLogin"/>
+						        <p:inputText id="txtLogin" value="#{usuarioController.usuarioBean.loginUsu}" size="12" required="true" />
+							 </h:panelGrid>
+							
+							 <h:panelGrid columns="2">  
+						        <p:column><p:outputLabel value="Password: " for="txtPassword"/></p:column>
+						        <p:column><p:password  id="txtPassword"   value="#{usuarioController.usuarioBean.passUsu}" size="12" required="true"/></p:column>
+						        <p:column><p:outputLabel value="Empleado: " for="txtCodigoEmpl"/></p:column>
+						        <p:column><p:inputText id="txtCodigoEmpl" value="#{usuarioController.usuarioBean.tbEmpleado.codigoEmp}" readonly="true" size="12"/></p:column>
+						     </h:panelGrid>
+						     
+					         <p:fieldset   legend="Permisos" style="margin-left:10px;margin-right:0;">
+					            <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+						        	<p:outputLabel value="Administracion:" for="txtAdmin" />
+      								<p:selectBooleanCheckbox id="txtAdmin" value="#{usuarioController.usuarioBean.administracionUsu}" />
+									<p:outputLabel value="Consultas:" for="txtConsultas" />
+      								<p:selectBooleanCheckbox id="txtConsultas" value="#{usuarioController.usuarioBean.consultasUsu}" />
+      								<p:outputLabel value="Ventas:" for="txtVentas" />
+      								<p:selectBooleanCheckbox id="txtVentas" value="#{usuarioController.usuarioBean.ventasUsu}" />
+      								<p:outputLabel value="Reportes:" for="txtReportes" />
+      								<p:selectBooleanCheckbox id="txtReportes" value="#{usuarioController.usuarioBean.reportesUsu}" />
+     							</h:panelGrid>        									
+					         </p:fieldset>
+					         
+						     <h:panelGrid columns="2">
+							     <p:inputText id="txtNombreEmpl" value="#{usuarioController.usuarioBean.tbEmpleado.nombreEmp}" readonly="true" size="15"/>
+								 <p:commandButton id="btnBuscarEmpleado"  title="Buscar" value="Buscar" oncomplete="PF('dlgTablaEmplBuscar').show()"/>
+						     </h:panelGrid>   
+						     	
+                             <f:facet name="footer">
+                            	 <p:separator/>
+                                 <p:commandButton id="btnCreateAceptar"   update=":formDataTable,:growls" actionListener="#{usuarioController.crearUsuario}" icon="icon-save" title="Guardar" value="Guardar"/> 
+                                 <p:commandButton id="btnCreateCancelar"  update=":formDataTable" oncomplete="PF('dlgUsuaioCreate').hide()" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                             		<p:ajax update=":formCreate" resetValues="true" />
+                                 </p:commandButton> 
+                             </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formUpdate">
+                    <p:dialog header="Modificar usuario" widgetVar="dlgUsuaioUpdate" closable="false" resizable="false" id="dlgUsuarioUpdate"  
+                              showEffect="fade" hideEffect="explode" modal="true">  
+                         <h:panelGrid id="display" columns="2" cellpadding="6" style="margin:0 auto;">
+                         
+                             <h:panelGrid columns="2">
+							    <p:outputLabel value="Codigo:" for="txtCodigo"/>
+						        <p:inputText id="txtCodigo" value="#{usuarioController.usuarioBeanSelect.codigoUsu}" readonly="true" size="12"/>
+						        <p:outputLabel value="Login: " for="txtLogin"/>
+						        <p:inputText id="txtLogin" value="#{usuarioController.usuarioBeanSelect.loginUsu}" size="12" required="true"/>
+							 </h:panelGrid>
+							
+							 <h:panelGrid columns="2">  
+						        <p:column><p:outputLabel value="Password: " for="txtPassword"/></p:column>
+						        <p:column><p:inputText id="txtPassword" value="#{usuarioController.usuarioBeanSelect.passUsu}" size="12" required="true"/></p:column>
+						        <p:column><p:outputLabel value="Empleado: " for="txtCodigoEmpl"/></p:column>
+						        <p:column><p:inputText id="txtCodigoEmpl" value="#{usuarioController.usuarioBeanSelect.tbEmpleado.codigoEmp}" readonly="true" size="12"/></p:column>
+						     </h:panelGrid>
+						   
+					         <p:panel    header="Permisos" style="margin-left:10px;margin-right:0;">
+					            <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+						        	<p:outputLabel value="Administracion:" for="txtAdmin" />
+      								<p:selectBooleanCheckbox id="txtAdmin" value="#{usuarioController.usuarioBeanSelect.administracionUsu}" />
+									<p:outputLabel value="Consultas:" for="txtConsultas" />
+      								<p:selectBooleanCheckbox id="txtConsultas" value="#{usuarioController.usuarioBeanSelect.consultasUsu}" />
+      								<p:outputLabel value="Ventas:" for="txtVentas" />
+      								<p:selectBooleanCheckbox id="txtVentas" value="#{usuarioController.usuarioBeanSelect.ventasUsu}" />
+      								<p:outputLabel value="Reportes:" for="txtReportes" />
+      								<p:selectBooleanCheckbox id="txtReportes" value="#{usuarioController.usuarioBeanSelect.reportesUsu}" />
+     							</h:panelGrid>        									
+					         </p:panel>
+					         
+						     <h:panelGrid columns="2">
+							     <p:inputText id="txtNombreEmpl" value="#{usuarioController.usuarioBeanSelect.tbEmpleado.nombreEmp}" readonly="true" size="15"/>
+								 <p:commandButton id="btnBuscarEmpleado" oncomplete="PF('dlgTablaEmplBuscar').show()" title="Buscar" value="Buscar"/>
+						     </h:panelGrid>   
+						     	
+                             <f:facet name="footer">
+                            	 <p:separator/>
+                                 <p:commandButton id="btnUpdateAceptar"   update=":formDataTable,:growls" actionListener="#{usuarioController.updateUsuario()}" icon="icon-save" title="Actualizar" value="Actualizar"/> 
+                                 <p:commandButton id="btnUpdateCancelar"  update=":formDataTable" oncomplete="PF('dlgUsuaioUpdate').hide()" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                             		<p:ajax update=":formUpdate" resetValues="true" />
+                                 </p:commandButton> 
+                             </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+
+
+ 				<h:form id="formBuscarEmpleado">
+                    <p:dialog styleClass="dlgTabla" header="Buscar cargos"  widgetVar="dlgTablaEmplBuscar" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" width="50%" closeOnEscape="true" closable="true">
+		                      <p:dataTable  styleClass="tablaDlg"  var="obj" value="#{empleadoController.listaEmpleado}" paginator="true" rows="10"  paginatorPosition="bottom"                                 
+		                                 emptyMessage="No hay registros."   selectionMode="single"  selection="#{empleadoController.empleadoBean}" rowKey="#{obj.codigoEmp}" rendered="#{empleadoController.cargarListaEmpleado()}">  
+				                        <f:facet name="header">  Listado de empleados </f:facet>
+				                                                              
+				                        <p:ajax event="rowSelect" listener="#{usuarioController.onRowSelectEmpleado}" oncomplete="PF('dlgTablaEmplBuscar').hide()"/>
+				
+				                        <p:column headerText="Codigo" style="width:15px">  
+				                            <h:outputText value="#{obj.codigoEmp}" />  
+				                        </p:column>  
+										<p:column headerText="DNI" style="width:55px"   filterBy="#{obj.dniEmp}">  
+				                            <h:outputText value="#{obj.dniEmp}" />  
+				                        </p:column>  				                        
+				                        <p:column headerText="Nombre" style="width:15px">  
+				                            <h:outputText value="#{obj.nombreEmp}" />  
+				                        </p:column>  
+				                        <p:column headerText="Apellido" style="width:35px" filterBy="#{obj.apellidosEmp}">  
+				                            <h:outputText value="#{obj.apellidosEmp}" />  
+				                        </p:column>  
+				
+		                    </p:dataTable>  
+                    </p:dialog>  
+                </h:form>
+
+ 				<h:form id="formDelete">
+                    <p:confirmDialog id="confirmDialog" closable="false" widgetVar="dlgDelete" message="¿Esta seguro de eliminar el registro?"  showEffect="fade" hideEffect="explode" header="Eliminar empleado" severity="alert" >  
+                        <p:commandButton id="confirm" value="Aceptar" update=":formDataTable"  actionListener="#{usuarioController.deleteUsuario()}" icon="icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('dlgDelete').hide()" type="button" icon="icon-cancel"/>   
+                    </p:confirmDialog> 
+                </h:form>
+                                                
+        </c:if>
+   </ui:define>
+   </ui:composition>
+
+
+</body>
+</html>

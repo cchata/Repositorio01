@@ -1,0 +1,119 @@
+package com.ecoinnova.pe.dao.hibernate.impl;
+
+// default package
+// Generated 04-oct-2016 16:13:59 by Hibernate Tools 4.3.1
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.naming.InitialContext;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Example;
+import org.springframework.stereotype.Repository;
+
+import com.ecoinnova.pe.dao.interfaces.TbCargoDao;
+import com.ecoinnova.pe.dao.util.GenericEntityDao;
+import com.ecoinnova.pe.dao.util.GenericEntityDaoImpl;
+import com.ecoinnova.pe.model.CargoEntity;
+
+/**
+ * Home object for domain model class TbCargo.
+ * @see .TbCargo
+ * @author Hibernate Tools
+ */
+@Repository("tbCargoDao")
+public class TbCargoDaoImpl extends GenericEntityDaoImpl<CargoEntity, Serializable> implements TbCargoDao{
+
+	private static final Log log = LogFactory.getLog(TbCargoDaoImpl.class);
+
+//	private final SessionFactory sessionFactory = getSessionFactory();
+
+	@Override
+	public boolean insertCargo(CargoEntity transientInstance){
+		log.debug("persisting TbCargo instance");
+		Session sesion = getSessionFactory().getCurrentSession();
+		Transaction tx = sesion.getTransaction();
+		try {
+			tx.begin();
+			sesion.save(transientInstance);
+			tx.commit();
+			log.debug("persist successful");
+			return true;
+		} catch (Exception re) {
+			log.error("persist failed", re);
+			System.out.println(re.getMessage());
+			System.out.println(re.getLocalizedMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public boolean deleteCargo(CargoEntity persistentInstance)throws Exception {
+		log.debug("deleting TbCargo instance");
+		try {
+			Session sesion = getSessionFactory().getCurrentSession();
+			Transaction tx = sesion.getTransaction();
+			tx.begin();
+			sesion.delete(persistentInstance);
+			tx.commit();
+			log.debug("delete successful");
+			return true;
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateCargo(CargoEntity detachedInstance) throws Exception {
+		log.debug("merging TbCargo instance");
+		try {
+			Session sesion = getSessionFactory().getCurrentSession();
+			Transaction tx = sesion.getTransaction();
+			tx.begin();
+			sesion.update(detachedInstance);
+			tx.commit();
+			log.debug("merge successful");
+			return true;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			return false;
+		}
+	}
+
+	@Override
+	public CargoEntity findByIdCargo(String id) throws Exception {
+		log.debug("getting TbCargo instance with id: " + id);
+		try {
+			CargoEntity instance = (CargoEntity) getSessionFactory().getCurrentSession().get("TbCargo", id);
+			if (instance == null) {
+				log.debug("get successful, no instance found");
+			} else {
+				log.debug("get successful, instance found");
+			}
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	@Override
+	public List findAllCargo() throws Exception {
+		log.debug("finding TbCargo instance by example");
+		try {
+			List<CargoEntity> results = getSessionFactory().openSession().createQuery("from CargoEntity").list();
+			log.debug("find by example successful, result size: "+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+}

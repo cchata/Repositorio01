@@ -1,0 +1,14 @@
+
+
+--pa_cargo_generar_codigo2--
+DECLARE @codigo_generado varchar(10);
+EXECUTE pa_cargo_generar_codigo2  @codigo_generado OUTPUT;
+SELECT @codigo_generado  AS Codigo_generado;
+-- . --
+
+
+--pa_empleado_generar_codigo2--
+declare @codigo_generado varchar(10);
+EXECUTE pa_empleado_generar_codigo2  @codigo_generado OUTPUT;
+SELECT @codigo_generado AS codigo_generado_empleado;
+-- . --

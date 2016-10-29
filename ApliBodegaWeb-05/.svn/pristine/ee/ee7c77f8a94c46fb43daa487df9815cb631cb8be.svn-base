@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="bdBodega" match-name="tbBoleta"/>
+  <table-filter match-catalog="bdBodega" match-name="tbCargo"/>
+  <table-filter match-catalog="bdBodega" match-name="tbCategoria"/>
+  <table-filter match-catalog="bdBodega" match-name="tbCliente"/>
+  <table-filter match-catalog="bdBodega" match-name="tbDetalleBoleta"/>
+  <table-filter match-catalog="bdBodega" match-name="tbEmpleado"/>
+  <table-filter match-catalog="bdBodega" match-name="tbMarca"/>
+  <table-filter match-catalog="bdBodega" match-name="tbProducto"/>
+  <table-filter match-catalog="bdBodega" match-name="tbProveedor"/>
+  <table-filter match-catalog="bdBodega" match-name="tbUnidadMedida"/>
+  <table-filter match-catalog="bdBodega" match-name="tbUsuario"/>
+</hibernate-reverse-engineering>

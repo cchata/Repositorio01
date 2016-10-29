@@ -1,0 +1,128 @@
+package com.ecoinnova.pe.controller;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+
+import com.ecoinnova.pe.model.CargoEntity;
+import com.ecoinnova.pe.services.interfaces.TbCargoServices;
+
+@SessionScoped
+@ManagedBean
+public class CargoController implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+    @ManagedProperty("#{tbCargoServices}")
+	TbCargoServices   tbCargoServices;
+	
+	public CargoController() throws Exception{
+		System.out.println("Llamando constructor");
+	}
+	
+	
+	private CargoEntity       cargoBean;
+	private List<CargoEntity> listaCargo;
+	private CargoEntity       cargoBeanSelect;
+	
+	public CargoEntity getCargoBean() {
+		return cargoBean;
+	}
+	public void setCargoBean(CargoEntity cargoBean) {
+		this.cargoBean = cargoBean;
+	}
+	public void resetCargo(){
+		cargoBean = new CargoEntity();
+	}
+	
+		
+    public void updateCargo()throws Exception {
+        String msg;
+        
+        if (tbCargoServices.updateCargo(cargoBeanSelect)) {
+            msg = "Se modificó correctamente el registro.";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            msg = "Error al modificar el registro.";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
+    public void deleteCargo()throws Exception{
+        String msg;
+        if (tbCargoServices.deleteCargo(cargoBeanSelect)) {
+            msg = "Se eliminó correctamente el registro.";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            msg = "Error al eliminar el registro.";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+	
+	
+	
+	
+    public void createCargo()throws Exception{
+    	System.out.println(cargoBean.getCodigo_car());
+    	System.out.println(cargoBean.getNombre_car());
+    	System.out.println(cargoBean.getDescripcion_car());
+    	
+        String msg;
+        if (tbCargoServices.insertCargo(cargoBean)) {
+            msg = "Se creó correctamente el registro.";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgCargoCreate').hide();");
+        } else {
+            msg = "Error al crear el registro.";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgCargoCreate').hide();");
+        }
+    }
+    
+	
+	
+	
+	public List<CargoEntity> getListaCargo() throws Exception {
+		return listaCargo = tbCargoServices.findAllCargo();
+	}
+	public void setListaCargo(List<CargoEntity> listaCargo) {
+		this.listaCargo = listaCargo;
+	}
+
+	
+	public void addSelectedCargo(CargoEntity cargo){
+		cargoBeanSelect = cargo;
+	}
+	
+	
+	
+	public CargoEntity getCargoBeanSelect() {
+		return cargoBeanSelect;
+	}
+	public void setCargoBeanSelect(CargoEntity cargoBeanSelect) {
+		this.cargoBeanSelect = cargoBeanSelect;
+	}
+	
+	
+	public void setTbCargoServices(TbCargoServices tbCargoServices) {
+		this.tbCargoServices = tbCargoServices;
+	}
+	
+	
+}

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Login</title>
+        <link href="#{appUtilController.baseUrl}/resources/css/login.css" type="text/css" rel="stylesheet"/>
+    </h:head>
+    <h:body onload="deshabilitaRetroceso();">
+        <div class="conteiner">
+            <p:growl id="growl" showDetail="true" life="2000"  sticky="false"/>
+            
+            <h:form id="formLogin">
+                <p:panel header="Ingresar Usuario y Clave">  
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        <p:outputLabel for="username" value="Usuario:" />  
+                        <p:inputText value="#{loginController.usuario.login}" id="username" required="true" label="username" />  
+
+                        <p:outputLabel for="password" value="Clave:" />    
+                        <p:password value="#{loginController.usuario.clave}"  id="password" required="true" label="password"/>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="loginButton" value="Login" update=":growl" actionListener="#{loginController.login()}" icon="icon-login" oncomplete="handleLoginRequest(xhr, status, args)"/>
+                        </f:facet>  
+                    </h:panelGrid> 
+                </p:panel> 
+            </h:form>
+        </div>
+        
+       <script type="text/javascript" >
+				function handleLoginRequest(xhr, status, args) {
+					if (args.loggedIn) {
+						setTimeout(function() { window.location = args.view; }, 2250);
+					}
+				}
+        </script>
+        <script src="#{appUtilController.baseUrl}/resources/js/fitcoders/util.cjavaperu.js" />
+    </h:body>
+</html>

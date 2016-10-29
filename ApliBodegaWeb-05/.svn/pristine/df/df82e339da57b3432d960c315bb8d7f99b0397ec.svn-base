@@ -1,0 +1,301 @@
+package com.ecoinnova.pe.controller;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+
+import com.ecoinnova.pe.model.TbCargoEntity;
+import com.ecoinnova.pe.model.TbEmpleadoEntity;
+import com.ecoinnova.pe.services.interfaces.TbEmpleadoServices;
+
+@SessionScoped
+@ManagedBean
+public class EmpleadoController implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+    @ManagedProperty("#{tbEmpleadoServices}")
+	TbEmpleadoServices   tbEmpleadoServices;
+    
+    private TbEmpleadoEntity       empleadoBean;
+	private List<TbEmpleadoEntity> listaEmpleado;
+	private TbEmpleadoEntity       empleadoBeanSelect;
+	private TbCargoEntity          cargoBeanSelect;
+	private TbCargoEntity          cargoBean;
+    
+	public EmpleadoController(){
+		System.out.println("Llamando constructor EmpleadoController()");
+		cargoBean = new TbCargoEntity();
+		empleadoBean = new TbEmpleadoEntity();
+	}
+	
+	
+	
+	
+	
+	public TbCargoEntity getCargoBean() {
+		return cargoBean;
+	}
+	public void setCargoBean(TbCargoEntity cargoBean) {
+		this.cargoBean = cargoBean;
+	}
+	public TbEmpleadoEntity getEmpleadoBean() {
+		return empleadoBean;
+	}
+	public void setEmpleadoBean(TbEmpleadoEntity empleadoBean) {
+		this.empleadoBean = empleadoBean;
+	}
+	
+		
+    public TbCargoEntity getCargoBeanSelect() {
+		return cargoBeanSelect;
+	}
+	public void setCargoBeanSelect(TbCargoEntity cargoBeanSelect) {
+		this.cargoBeanSelect = cargoBeanSelect;
+	}
+	
+	
+	public void updateEmpleado() {
+        String msg;
+        
+        try {
+//        	    empleadoBeanSelect.setTbCargo(cargoBeanSelect);
+        	    tbEmpleadoServices.updateEmpleado(empleadoBeanSelect);
+                msg = "Se modificó correctamente el registro.";
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Empleado", msg);
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                RequestContext.getCurrentInstance().update("growls");
+                RequestContext.getCurrentInstance().execute("PF('dialogEmpleadoUpdate').hide()");
+                
+		} catch (Exception e) {
+			 msg = ""+e.getMessage();
+             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error update", msg);
+             FacesContext.getCurrentInstance().addMessage(null, message);
+             RequestContext.getCurrentInstance().update("messages");
+             RequestContext.getCurrentInstance().execute("PF('dialogEmpleadoUpdate').hide()");
+		}finally{
+		    empleadoBeanSelect=null;
+//            cargoBeanSelect=null;			
+		}
+    }
+
+    public void deleteEmpleado(){
+    	String msg;
+    	try {
+    		tbEmpleadoServices.deleteEmpleado(empleadoBeanSelect);
+//    		tbCargoServices.delete(cargoBeanSelect);
+    		msg = "Se eliminó correctamente el registro.";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Empleado", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("growls");
+            RequestContext.getCurrentInstance().execute("PF('dialogEmpleadoDelete').hide()");
+            
+			
+		} catch (Exception e) {
+			msg = ""+e.getMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error delete", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().execute("PF('dialogEmpleadoDelete').hide()");
+		}finally{
+			empleadoBeanSelect = null;
+		}
+    }
+	
+	
+	
+    public void createEmpleado(){
+    	String msg;
+    	try {
+    		
+    		empleadoBean.setTbCargo(cargoBean);
+    		
+    		if(empleadoBean.getTbCargo().getCodigoCar() != null){
+    		
+//    			empleadoBean.setTbCargo(cargoBean);
+        		tbEmpleadoServices.insertEmpleado(empleadoBean);
+        		msg = "Se creó correctamente el registro.";
+        	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Empleado", msg);
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                RequestContext.getCurrentInstance().update("growls");
+                RequestContext.getCurrentInstance().execute("PF('dlgEmpleadoCreate').hide()");
+                cargoBean = new TbCargoEntity();
+				empleadoBean = new TbEmpleadoEntity();
+	    		RequestContext.getCurrentInstance().update("formCreate");
+                
+    		}else{
+    			msg = "Se necesita elegir un cargo.";
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validacion:", msg);
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                RequestContext.getCurrentInstance().update("growls");
+                return;
+//                RequestContext.getCurrentInstance().execute("PF('dlgEmpleadoCreate').hide()");
+    		}
+    		
+    		
+		} catch (Exception e) {
+			msg = ""+e.getMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insert", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().execute("PF('dlgEmpleadoCreate').hide()");
+            
+            cargoBean = new TbCargoEntity();
+			empleadoBean = new TbEmpleadoEntity();
+    		RequestContext.getCurrentInstance().update("formCreate");
+		}
+    }
+	
+	
+    
+    
+    public boolean cargarListaEmpleado(){
+    	System.out.println("Llamando cargarListaEmpleado().");
+    	String msg;
+    	try {
+    		listaEmpleado = tbEmpleadoServices.findAllEmpleado();
+//    		System.out.println("listaEmpleado.size()= "+listaEmpleado.size());
+    		msg = "Lista cargada";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Lista Empleado", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+//            RequestContext.getCurrentInstance().update("formDataTable");
+//            RequestContext.getCurrentInstance().update("growls");
+		} catch (Exception e) {
+			msg = ""+e.getMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error  lista Empleado", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+//            RequestContext.getCurrentInstance().update("messages");
+		}
+    	return true;
+    }
+	
+	
+	
+	public List<TbEmpleadoEntity> getListaEmpleado() {
+		System.out.println("Llamando getListaEmpleado().");
+		return listaEmpleado;
+	}
+	public void setListaEmpleado(List<TbEmpleadoEntity> listaEmpleado) {
+		this.listaEmpleado = listaEmpleado;
+	}
+
+	
+	public void addSelectedEmpleado(TbEmpleadoEntity empleado){
+		empleadoBeanSelect = empleado;
+//		cargoBeanSelect = empleadoBeanSelect.getTbCargo();
+		if(cargoBeanSelect!=null){
+			System.out.println("cargoBeanSelect ok");
+			System.out.println(cargoBeanSelect.getCodigoCar());
+			System.out.println(cargoBeanSelect.getNombreCar());
+		}else{
+			System.out.println("cargoBeanSelect null");
+		}
+		
+	}
+	
+	public TbEmpleadoEntity getEmpleadoBeanSelect() {
+		return empleadoBeanSelect;
+	}
+	public void setEmpleadoBeanSelect(TbEmpleadoEntity empleadoBeanSelect) {
+		this.empleadoBeanSelect = empleadoBeanSelect;
+	}
+	
+	
+	public void setTbEmpleadoServices(TbEmpleadoServices tbEmpleadoServices) {
+		this.tbEmpleadoServices = tbEmpleadoServices;
+	}
+	
+	public void generarCodigoEmpleado(){
+		
+//		RequestContext.getCurrentInstance().update("formCreate");
+//		RequestContext.getCurrentInstance().update("formUpdate:txtIdCargo");
+//		RequestContext.getCurrentInstance().update("formUpdate:txtNombCargo");
+//		RequestContext.getCurrentInstance().update("formCreate:txtIdCargo");
+//		RequestContext.getCurrentInstance().update("formCreate:txtNombCargo");
+		try {
+			cargoBean = new TbCargoEntity();
+			empleadoBean = new TbEmpleadoEntity();
+			empleadoBean.setCodigoEmp((tbEmpleadoServices.generarCodigoEmpleado()));
+			empleadoBean.setTbCargo(cargoBean);
+			System.out.println("empleadoBean.getApellidosEmp()= "+empleadoBean.getApellidosEmp());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getCause());
+			e.printStackTrace();
+		}finally{
+			RequestContext.getCurrentInstance().update("formCreate:txtCodigo");
+			RequestContext.getCurrentInstance().update("formCreate:txtIdCargo");
+			RequestContext.getCurrentInstance().update("formCreate:txtNombCargo");			
+		}
+		
+		
+	}
+	
+	public void onRowSelectCargo(SelectEvent event){
+//		this.cargoBeanSelect = carg;
+		
+		
+		if(empleadoBeanSelect!=null){
+			System.out.println("empleadoBeanSelect = ok");
+//			cargoBean = ((TbCargoEntity) event.getObject());
+//			RequestContext.getCurrentInstance().update("formUpdate:txtIdCargo");
+//			RequestContext.getCurrentInstance().update("formUpdate:txtNombCargo");
+			
+//			RequestContext.getCurrentInstance().update("formUpdate");
+//			cargoBean = ((TbCargoEntity) event.getObject());
+//			RequestContext.getCurrentInstance().execute("PF('dialogEmpleadoUpdate').show()");
+			cargoBeanSelect = ((TbCargoEntity) event.getObject());
+			empleadoBeanSelect.setTbCargo(cargoBeanSelect);
+			Collection<String> colUpdate = new HashSet<String>();
+			colUpdate.add("formUpdate:txtIdCargo");
+			colUpdate.add("formUpdate:txtNombCargo");
+			RequestContext.getCurrentInstance().update(colUpdate);
+			
+		}else{
+			System.out.println("empleadoBeanSelect = null");
+			
+//			cargoBean = ((TbCargoEntity) event.getObject());
+//			RequestContext.getCurrentInstance().update("formCreate:txtIdCargo");
+//			RequestContext.getCurrentInstance().update("formCreate:txtNombCargo");
+			
+//			RequestContext.getCurrentInstance().update("formCreate");
+//			cargoBean = ((TbCargoEntity) event.getObject());
+//			RequestContext.getCurrentInstance().execute("PF('dlgEmpleadoCreate').show()");
+			
+			cargoBean = ((TbCargoEntity) event.getObject());
+			empleadoBean.setTbCargo(cargoBean);
+			Collection<String> colCreater = new HashSet<String>();
+			colCreater.add("formCreate:txtIdCargo");
+			colCreater.add("formCreate:txtNombCargo");
+			RequestContext.getCurrentInstance().update(colCreater);
+
+		}
+		System.out.println(((TbCargoEntity) event.getObject()).getCodigoCar());
+		System.out.println(((TbCargoEntity) event.getObject()).getNombreCar());
+		
+	}
+
+	public void  onRowSelectEmpleado(SelectEvent event){
+		empleadoBeanSelect = ((TbEmpleadoEntity) event.getObject());
+		System.out.println(empleadoBeanSelect.getTbCargo().getCodigoCar());
+		System.out.println(empleadoBeanSelect.getTbCargo().getNombreCar());
+		RequestContext.getCurrentInstance().update("formUpdate");
+		RequestContext.getCurrentInstance().update("formUpdate:txtIdCargo");
+		RequestContext.getCurrentInstance().update("formUpdate:txtNombCargo");
+	}
+	
+	public void resetEmpSelect(){
+		System.out.println("Llamando resetEmpSelect()");
+		empleadoBeanSelect = null;
+}
+}

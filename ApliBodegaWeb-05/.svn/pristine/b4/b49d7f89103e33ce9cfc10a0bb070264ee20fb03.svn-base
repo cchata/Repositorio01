@@ -1,0 +1,46 @@
+package com.ecoinnova.pe.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tbCargo",schema="dbo")
+public class CargoEntity implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="codigo_car", nullable=false)
+	private String codigo_car;
+	
+	@Column(name="nombre_car", length=150)
+	private String nombre_car;
+	
+	@Column(name="descripcion_car",  length=450)
+	private String descripcion_car;
+	
+	
+	public String getCodigo_car() {
+		return codigo_car;
+	}
+	public void setCodigo_car(String codigo_car) {
+		this.codigo_car = codigo_car;
+	}
+	public String getNombre_car() {
+		return nombre_car;
+	}
+	public void setNombre_car(String nombre_car) {
+		this.nombre_car = nombre_car;
+	}
+	public String getDescripcion_car() {
+		return descripcion_car;
+	}
+	public void setDescripcion_car(String descripcion_car) {
+		this.descripcion_car = descripcion_car;
+	}
+	
+}

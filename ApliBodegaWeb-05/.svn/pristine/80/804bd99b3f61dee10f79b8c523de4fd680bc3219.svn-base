@@ -1,0 +1,20 @@
+package com.ecoinnova.pe.services.interfaces;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.ecoinnova.pe.model.CargoEntity;
+import com.ecoinnova.pe.services.util.GenericService;
+
+public interface TbCargoServices extends GenericService<CargoEntity, Serializable> {
+
+	public boolean insertCargo(CargoEntity transientInstance) throws Exception;
+
+	public boolean deleteCargo(CargoEntity persistentInstance) throws Exception;
+		
+	public boolean updateCargo(CargoEntity detachedInstance) throws Exception;
+		
+	public CargoEntity findByIdCargo(java.lang.String id) throws Exception;
+		
+	public List<CargoEntity> findAllCargo() throws Exception;
+}

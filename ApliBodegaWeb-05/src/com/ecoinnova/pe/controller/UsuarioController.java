@@ -1,0 +1,268 @@
+package com.ecoinnova.pe.controller;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+
+import com.ecoinnova.pe.model.TbEmpleadoEntity;
+import com.ecoinnova.pe.model.TbUsuarioEntity;
+import com.ecoinnova.pe.services.interfaces.TbUsuarioServices;
+import com.ecoinnova.pe.util.MyUtil;
+
+@SessionScoped
+@ManagedBean
+public class UsuarioController implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+    @ManagedProperty("#{tbUsuarioServices}")
+	TbUsuarioServices   tbUsuarioServices;
+    
+    private TbUsuarioEntity       usuarioBean;
+	private TbUsuarioEntity       usuarioBeanSelect;
+	private TbEmpleadoEntity      empleadoBean;
+	private TbEmpleadoEntity      empleadoBeanSelect;
+	private List<TbUsuarioEntity> listaUsuario;
+
+    
+	public UsuarioController(){
+		MyUtil.systemOutPrintln("Llamando constructor UsuarioController()");
+		usuarioBean = new TbUsuarioEntity();
+	}
+	
+	
+	
+    public boolean cargarListaUsuario(){
+    	String msg;
+    	try {
+    		MyUtil.systemOutPrintln("Llamando cargarListaUsuario()");
+    		listaUsuario = tbUsuarioServices.findAllUsuario();
+    		msg = "¡Lista usuario completa!";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+//            RequestContext.getCurrentInstance().update("growls");
+//            RequestContext.getCurrentInstance().update("formDataTable");
+//            RequestContext.getCurrentInstance().update("formDataTable:dataTable1");
+//            RequestContext.getCurrentInstance().update("growls");
+            
+		} catch (Exception e) {
+			msg = ""+e.getMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en  listar usuario", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().update("growls");
+		}
+    	return true;
+    }
+    
+    
+    public boolean recargarListaUsuario(){
+    	String msg;
+    	try {
+    		MyUtil.systemOutPrintln("Llamando recargarListaUsuario()");
+    		listaUsuario = tbUsuarioServices.findAllUsuario();
+    		msg = "¡Recarga completa!";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+//            RequestContext.getCurrentInstance().update("growls");
+            RequestContext.getCurrentInstance().update("formDataTable");
+//            RequestContext.getCurrentInstance().update("formDataTable:dataTable1");
+            RequestContext.getCurrentInstance().update("growls");
+            
+		} catch (Exception e) {
+			msg = ""+e.getMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en  listar usuario", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().update("growls");
+		}
+    	return true;
+    }
+    
+    
+    
+    public void crearUsuario(){
+    	
+    	try {
+    		if(usuarioBean.getTbEmpleado()!=null){
+    			tbUsuarioServices.insertUsuario(usuarioBean);
+    			String msg = "Se creó correctamente el registro.";
+        	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Empleado", msg);
+                FacesContext.getCurrentInstance().addMessage(null, message);
+        		RequestContext.getCurrentInstance().update("formDataTable");
+        		RequestContext.getCurrentInstance().update("growls");
+        		RequestContext.getCurrentInstance().execute("PF('dlgUsuaioCreate').hide()");
+    		}else{
+    			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validacion campo", "Se necesita elegir un empleado.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                RequestContext.getCurrentInstance().update("growls");
+    		}
+    		
+		} catch (Exception e) {
+			String msg = "";
+			msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+			msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insert", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().execute("PF('dlgUsuaioCreate').hide()");
+		}finally{
+			resetUsuario();
+		}
+    }
+    
+    public void updateUsuario(){
+    	try {
+    		
+    		tbUsuarioServices.updateUsuario(usuarioBeanSelect);
+    		String msg = "Se actualizo satisfactoriamente.";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+    		RequestContext.getCurrentInstance().update("formDataTable");
+    		RequestContext.getCurrentInstance().update("growls");
+    		RequestContext.getCurrentInstance().execute("PF('dlgUsuaioUpdate').hide()");
+    		
+		} catch (Exception e) {
+			String msg = "";
+			msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+			msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Update", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().execute("PF('dlgUsuaioUpdate').hide()");
+		}finally{
+			resetUsuario();
+		}
+    }
+    
+    public void addSelectedDelete(TbUsuarioEntity obj){
+    	usuarioBeanSelect = obj;
+    }
+    
+    
+    public void deleteUsuario(){
+    	try {
+    		tbUsuarioServices.deleteUsuario(usuarioBeanSelect);
+    		String msg = "Se eliminó satisfactoriamente.";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+    		RequestContext.getCurrentInstance().update("formDataTable");
+    		RequestContext.getCurrentInstance().update("growls");
+    		RequestContext.getCurrentInstance().execute("PF('dlgDelete').hide()");
+		} catch (Exception e) {
+			String msg = "";
+			msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+			msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Delete", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().execute("PF('dlgDelete').hide()");
+		}finally{
+			resetUsuario();
+		}
+    }
+    public void generarCodigoUsuario(){
+    	MyUtil.systemOutPrintln("Llamando generarCodigoUsuario()");
+    	resetUsuario();
+    	try {
+    		usuarioBean.setCodigoUsu(tbUsuarioServices.generarCodigoUsuario());
+    		RequestContext.getCurrentInstance().update("formCreate:txtCodUsuario");
+    		RequestContext.getCurrentInstance().update("formCreate:txtCodigoEmpl");
+    		RequestContext.getCurrentInstance().update("formCreate:txtNombreEmpl");
+    		RequestContext.getCurrentInstance().update("formCreate:txtLogin");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
+    
+    public void onRowSelectUsuario(SelectEvent event){
+    	MyUtil.systemOutPrintln("Llamando onRowSelectUsuario()");
+    	usuarioBeanSelect = (TbUsuarioEntity) event.getObject();
+    	//Para que no se quede pegado cod, nombre del empleado
+    	RequestContext.getCurrentInstance().update("formUpdate:txtCodigo");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtLogin");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtPassword");
+    	
+    	RequestContext.getCurrentInstance().update("formUpdate:txtAdmin");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtConsultas");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtVentas");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtReportes");
+    	     
+    	RequestContext.getCurrentInstance().update("formUpdate:txtCodigoEmpl");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtNombreEmpl");
+    }
+	
+    public void onRowSelectEmpleado(SelectEvent event){
+    	
+    	if(usuarioBeanSelect==null){
+    		usuarioBean.setTbEmpleado((TbEmpleadoEntity)event.getObject());
+        	RequestContext.getCurrentInstance().update("formCreate:txtCodigoEmpl");
+        	RequestContext.getCurrentInstance().update("formCreate:txtNombreEmpl");	
+    	}else{
+    		usuarioBeanSelect.setTbEmpleado((TbEmpleadoEntity)event.getObject());
+    		RequestContext.getCurrentInstance().update("formUpdate:txtCodigoEmpl");
+        	RequestContext.getCurrentInstance().update("formUpdate:txtNombreEmpl");
+    	}
+    	
+    }
+    
+	
+	public void resetUsuario(){
+    	MyUtil.systemOutPrintln("Llamando resetUsuario()");
+		usuarioBean = new TbUsuarioEntity();
+		usuarioBeanSelect = null;
+	}
+	
+	
+	
+	
+	
+//-------------getter y setter-----------------
+	public TbUsuarioEntity getUsuarioBean() {
+		return usuarioBean;
+	}
+	public void setUsuarioBean(TbUsuarioEntity usuarioBean) {
+		this.usuarioBean = usuarioBean;
+	}
+	public TbUsuarioEntity getUsuarioBeanSelect() {
+		return usuarioBeanSelect;
+	}
+	public void setUsuarioBeanSelect(TbUsuarioEntity usuarioBeanSelect) {
+		this.usuarioBeanSelect = usuarioBeanSelect;
+	}
+	public TbEmpleadoEntity getEmpleadoBean() {
+		return empleadoBean;
+	}
+	public void setEmpleadoBean(TbEmpleadoEntity empleadoBean) {
+		this.empleadoBean = empleadoBean;
+	}
+	public TbEmpleadoEntity getEmpleadoBeanSelect() {
+		return empleadoBeanSelect;
+	}
+	public void setEmpleadoBeanSelect(TbEmpleadoEntity empleadoBeanSelect) {
+		this.empleadoBeanSelect = empleadoBeanSelect;
+	}
+	public List<TbUsuarioEntity> getListaUsuario() {
+		MyUtil.systemOutPrintln("Llamando a getListaUsuario()");
+		return listaUsuario;
+	}
+	public void setListaUsuario(List<TbUsuarioEntity> listaUsuario) {
+		this.listaUsuario = listaUsuario;
+	}
+	public void setTbUsuarioServices(TbUsuarioServices tbUsuarioServices) {
+		this.tbUsuarioServices = tbUsuarioServices;
+	}
+//---------------------fin-------------------------
+
+	
+	
+	
+}

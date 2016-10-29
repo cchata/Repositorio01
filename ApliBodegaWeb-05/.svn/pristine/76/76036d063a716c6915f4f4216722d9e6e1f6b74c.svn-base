@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+<body>
+
+ <ui:composition template="./template.xhtml">
+            <ui:define name="content">
+                <p:growl id="growls" showDetail="true" showSummary="false" sticky="false" />
+				<p:messages id="messages" showDetail="true" closable="true" />
+ 
+                <h:form rendered="#{loginController.verificarSesion()}">
+                    <p:commandButton id="btnUsuarioCreate"  title="Crear cargo" value="Crear" actionListener="#{cargoController.resetCargo()}" update=":formCreate" oncomplete="PF('dlgCargoCreate').show()" icon="icon-new"/> 
+                </h:form>
+                
+                
+                <h:form id="formDataTable" rendered="#{loginController.verificarSesion()}">  
+                    <p:dataTable  styleClass="tablaF" id="cars" var="carg" value="#{cargoController.listaCargo}" paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 emptyMessage="No hay registros."  selectionMode="single" selection="#{cargoController.cargoBean}" rowKey="#{carg.codigoCar}">  
+                        <f:facet name="header">  Listado de Usuarios </f:facet> 
+                        
+                        <p:column headerText="Id" style="width:8%">  
+                            <h:outputText value="#{carg.codigoCar}" />  
+                        </p:column>  
+
+                        <p:column headerText="Nombre cargo" style="width:20%" filterBy="#{carg.nombreCar}">  
+                            <h:outputText value="#{carg.nombreCar}" />  
+                        </p:column>  
+
+                        <p:column headerText="Descripcion" style="width:*%"   filterBy="#{carg.descripcionCar}" filterMatchMode="contains">  
+                            <h:outputText value="#{carg.descripcionCar}" />  
+                        </p:column>  
+
+                        <p:column style="width:6%">  
+                            <p:commandButton id="btnUpdate" actionListener="#{cargoController.addSelectedCargo(carg)}"  update=":formUpdate" oncomplete="PF('dialogUsuarioUpdate').show()" icon="icon-edit" title="Modificar"/>  
+                            <p:commandButton id="btnDelete"  actionListener="#{cargoController.addSelectedCargo(carg)}" update=":formDelete" oncomplete="PF('dialogUsuarioDelete').show()" icon="icon-delete" title="Eliminar"/>  
+                        </p:column>  
+                    </p:dataTable>  
+                </h:form>
+                
+                
+                <h:form id="formCreate">
+                    <p:dialog id="dlgUsuarioCreate"  resizable="false" modal="true" widgetVar="dlgCargoCreate"  header="Crear cargo"  showEffect="fade" hideEffect="explode" >  
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <h:outputText value="Id: " />  
+                            <p:inputText value="#{cargoController.cargoBean.codigoCar}" readonly="true"/>  
+                        
+                            <h:outputText value="Nombre cargo: " />  
+                            <p:inputText value="#{cargoController.cargoBean.nombreCar}"/>  
+
+                            <h:outputText value="Descripcion:" />  
+                            <p:inputTextarea rows="6" cols="25" value="#{cargoController.cargoBean.descripcionCar}"/>  
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":formDataTable"  actionListener="#{cargoController.createCargo()}" icon="icon-save" title="Guardar" value="Guardar"/> 
+                                <p:commandButton id="btnCreateCancelar"  oncomplete="PF('dlgCargoCreate').hide();" icon="icon-cancel" title="Cancelar" value="Cancelar"/> 
+                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+                
+                
+                <h:form id="formUpdate">
+                    <p:dialog header="Modificar Usuario" widgetVar="dialogUsuarioUpdate" resizable="false" id="dlgUsuarioUpdate"  
+                              showEffect="fade" hideEffect="explode" modal="true">  
+                              
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputText value="Id: " />  
+                            <p:inputText value="#{cargoController.cargoBeanSelect.codigoCar}" readonly="true"/>  
+                        
+                        
+                            <h:outputText value="Nombre cargo: " />  
+                            <p:inputText value="#{cargoController.cargoBeanSelect.nombreCar}"/>  
+
+                            <h:outputText value="Descripcion:" />  
+                            <p:inputTextarea rows="6" cols="25" value="#{cargoController.cargoBeanSelect.descripcionCar}"/>  
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnUpdateAceptar"   update=":formDataTable"  actionListener="#{cargoController.updateCargo()}" icon="icon-save" title="Guardar" value="Guardar"/> 
+                                <p:commandButton id="btnUpdateCancelar"  oncomplete="PF('dialogUsuarioUpdate').hide()" icon="icon-cancel" title="Cancelar" value="Cancelar"/> 
+                            </f:facet>
+                        </h:panelGrid>  
+                        
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formDelete">
+                    <p:confirmDialog id="confirmDialog" widgetVar="dialogUsuarioDelete" message="¿Esta seguro de eliminar el registro?"  showEffect="fade" hideEffect="explode" header="Eliminar Usuario" severity="alert" >  
+<!--                         <h:inputHidden   value="#{cargoController.cargoBeanSelect.codigoCar}"/>   -->
+                        <p:commandButton id="confirm" value="Aceptar" update=":formDataTable"  actionListener="#{cargoController.deleteCargo()}" icon="icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('dialogUsuarioDelete').hide()" type="button" icon="icon-cancel"/>   
+                    </p:confirmDialog> 
+                </h:form>
+                
+                
+            </ui:define>
+        </ui:composition>
+          
+
+    </body>
+</html>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<body>
+	 <ui:composition template="./template.xhtml">
+	 <ui:define name="content">
+	      <c:if test='#{loginController.verificarSesion()}'>
+	            <p:growl id="growls" showDetail="true" showSummary="false" sticky="false" />
+		        <p:messages id="messages" showDetail="true" closable="true" />
+		        
+		        
+<!-- 		        	private String codigoMar; -->
+<!-- 	private String nombreMar; -->
+<!-- 	private String descripcionMar; -->
+		        
+                <h:form id="formDataTable"  >  
+                    <p:dataTable  styleClass="tablaF" id="idMarca" var="obj" value="#{marcaController.marcaList}" paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 emptyMessage="No hay registros."  selectionMode="single" selection="#{marcaController.marcaBeanSelect}" rowKey="#{obj.codigoMar}"  rendered="#{marcaController.cargarListaMarca()}">  
+                        <f:facet name="header">  Listado de Marca </f:facet> 
+                        
+                        <p:ajax event="rowSelect" listener="#{marcaController.onRowSelectMarca}" oncomplete="PF('dlgUpdate').show()"/>
+                        
+                        <p:column headerText="Codigo" style="width:8%">  
+                            <h:outputText value="#{obj.codigoMar}" />  
+                        </p:column>  
+
+                        <p:column headerText="Nombre" style="width:20%" filterBy="#{obj.nombreMar}">  
+                            <h:outputText value="#{obj.nombreMar}" />  
+                        </p:column>  
+
+                        <p:column headerText="Descripcion" style="width:*%"   filterBy="#{obj.descripcionMar}">  
+                            <h:outputText value="#{obj.descripcionMar}" />  
+                        </p:column>  
+
+                        <p:column style="width:6%">  
+								<p:commandButton id="btnDelete" styleClass="btnDelete" actionListener="#{marcaController.addSelectedDelete(obj)}" update=":formDelete" oncomplete="PF('dlgDelete').show()" icon="icon-delete" title="Eliminar"/>  
+                        </p:column>  
+                    </p:dataTable>  
+                </h:form>
+<!--                 <br/> -->
+				<h:form>
+                    <div style="height:30px; margin-bottom:5px; margin-left:5px;margin-top:5px;margin-right:5px;">
+                    	<p:commandButton id="btnCreate" value="Nuevo Marca"  actionListener="#{marcaController.generarCodigoMarca()}"  icon="icon-new"   oncomplete="PF('dlgCreate').show()" style="float:left;">
+                    	    <p:ajax update=":formCreate" resetValues="true" />
+                    	</p:commandButton>
+                    	<p:commandButton id="btnUpdate" value="Actualizar"     actionListener="#{marcaController.recargarListaMarca()}"    icon="icon-check" style="float: right;"/>
+                    </div>  	
+                </h:form>
+                                
+                <h:form id="formCreate">
+                    <p:dialog id="idDialogCreate"  widgetVar="dlgCreate" closable="false"  resizable="false" modal="true"   header="Crear Marca"  showEffect="fade" hideEffect="explode" >  
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <p:outputLabel value="Codigo: " for="txtCodigo"/>  
+                            <p:inputText id="txtCodigo" value="#{marcaController.marcaBean.codigoMar}" size="12" readonly="true"/>  
+                        
+                            <p:outputLabel value="Nombre: " for="txtNombre"/>  
+                            <p:inputText id="txtNombre" value="#{marcaController.marcaBean.nombreMar}" size="12" required="true"/>  
+
+                            <p:outputLabel value="Descripcion:" for="txtDescripcion"/>  
+                            <p:inputTextarea id="txtDescripcion" rows="6" cols="25" value="#{marcaController.marcaBean.descripcionMar}" /> 
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":formDataTable,:growls"  actionListener="#{marcaController.createMarca()}" icon="icon-save" title="Guardar" value="Guardar"/>
+                                <p:commandButton id="btnCreateCancelar"  oncomplete="PF('dlgCreate').hide();" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                	<p:ajax update=":formCreate" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formUpdate">
+                    <p:dialog id="idDialogCreate" widgetVar="dlgUpdate" header="Modificar Marca" resizable="false"   
+                              showEffect="fade" hideEffect="explode" modal="true" closable="false">  
+                              
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+	                            <p:outputLabel value="Codigo: " for="txtCodigo"/>  
+                                <p:inputText id="txtCodigo" value="#{marcaController.marcaBeanSelect.codigoMar}" size="12" readonly="true"/>  
+                        
+                                <p:outputLabel value="Nombre: " for="txtNombre"/>  
+	                            <p:inputText id="txtNombre" value="#{marcaController.marcaBeanSelect.nombreMar}" size="12" required="true"/>  
+	
+	                            <p:outputLabel value="Descripcion:" for="txtDescripcion"/>  
+	                            <p:inputTextarea id="txtDescripcion" rows="6" cols="25" value="#{marcaController.marcaBeanSelect.descripcionMar}" /> 
+                            
+                            
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnUpdateAceptar"   update=":formDataTable,:growls"  actionListener="#{marcaController.updateMarca()}" icon="icon-save" title="Guardar" value="Guardar"/> 
+                                <p:commandButton id="btnUpdateCancelar"  oncomplete="PF('dlgUpdate').hide()" icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                	<p:ajax update=":formUpdate" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                        
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formDelete">
+                    <p:confirmDialog id="IdConfirmDialog" widgetVar="dlgDelete" message="¿Esta seguro de eliminar el registro?"  showEffect="fade" hideEffect="explode" header="Eliminar Marca" severity="alert" >  
+                        <p:commandButton id="confirm" value="Aceptar" update=":formDataTable"  actionListener="#{marcaController.deleteMarca()}" icon="icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('dlgDelete').hide()" type="button" icon="icon-cancel"/>   
+                    </p:confirmDialog> 
+                </h:form>
+          </c:if>                
+     </ui:define>
+     </ui:composition>
+  </body>
+</html>

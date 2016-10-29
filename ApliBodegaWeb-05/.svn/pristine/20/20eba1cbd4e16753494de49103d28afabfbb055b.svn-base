@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="#{appUtilController.baseUrl}/resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="#{appUtilController.baseUrl}/resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Facelets Template</title>
+    </h:head>
+
+    <h:body onload="deshabilitaRetroceso();">
+    
+        <div id="conteiner">
+        
+             <div id="dialogSesionCaducada">
+	            <h:form id="idVerificaSession">
+		            <p:idleMonitor onactive="PF('sessionTimeOutDialog').show();" timeout="#{session.maxInactiveInterval * 1000}" />
+					<p:dialog header="Sesión caducada" widgetVar="sessionTimeOutDialog" modal="true" fixedCenter="true" closable="false" width="300" height="130" visible="false" style="width:400px; height:800px; margin:10px auto; text-align:left; font-size:15px;">
+							<h:outputText value="La sesión ha caducada, por favor, pulse sobre el siguiente botón  pada volver	 iniciar sesión." />
+							<br/>
+							<br/>
+							<div align="center">
+								 <p:commandButton id="confirmBackToLogin" value="Iniciar sesión" action="/login?faces-redirect=true" style="margin:0 auto;"/>
+		    				</div>
+					</p:dialog>
+				</h:form>
+            </div>
+        
+            <div id="top" class="ui-widget-header ui-corner-all">
+                <ui:insert name="top">
+                      Usuario: <p:outputLabel  value="#{loginController.nombreUsuario()}"/>
+                </ui:insert>
+            </div>
+            
+            <div id="menu">
+                <p:growl id="growlSession" showDetail="true" life="1200"  sticky="false"/>
+                <h:form rendered="#{loginController.verificarSesion()}">
+	                    <p:menubar>  
+	                        <p:submenu label="Administracion" icon="ui-icon-document">
+	                        	<p:menuitem value="Usuario"   outcome="/views/usuario" />  
+	                        	<p:menuitem value="Empleado"  outcome="/views/empleado" />
+	                        	<p:menuitem value="Cargo"     outcome="/views/cargo" />
+	                        	<p:separator />  
+	                        	<p:menuitem value="Proveedor" outcome="/views/proveedor"/>
+	                        	<p:menuitem value="Cliente" outcome="/views/cliente" />
+	                        	<p:separator />  
+	                            <p:menuitem value="Producto" url="#" />  
+	                            <p:menuitem value="Categoria" outcome="/views/categoria" />
+	                            <p:menuitem value="Marca" outcome="/views/marca" />
+	                            <p:menuitem value="Unidad de medida"  outcome="/views/unidadMedida" />  
+	                        </p:submenu>  
+	
+	                        <p:submenu label="Ventas" icon="ui-icon-pencil">  
+	                            <p:menuitem value="Gestion ventas" url="#" icon="ui-icon-arrowreturnthick-1-w" />  
+	                            <p:menuitem value="Reporte ventas" url="#" icon="ui-icon-arrowreturnthick-1-e" />  
+	                        </p:submenu>  
+	                        
+							<p:submenu label="Consultas" icon="ui-icon-pencil">  
+	                            <p:menuitem value="Usuarios" url="#" icon="ui-icon-arrowreturnthick-1-w" />  
+	                            <p:menuitem value="Empleados" url="#" icon="ui-icon-arrowreturnthick-1-e" />  
+	                            <p:menuitem value="Proveedores" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+	                            <p:menuitem value="Clientes" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+	                            <p:menuitem value="Productos" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+	                        </p:submenu>  	
+	
+	                        <p:submenu label="Reportes" icon="ui-icon-pencil">  
+	                            <p:menuitem value="Gestion ventas" url="#" icon="ui-icon-arrowreturnthick-1-w" />  
+	                            <p:menuitem value="Reporte ventas" url="#" icon="ui-icon-arrowreturnthick-1-e" />  
+	                        </p:submenu>  
+	                       
+	                        <p:submenu label="Ayuda" icon="ui-icon-pencil">  
+	                            <p:menuitem value="Acerca de" url="#" icon="ui-icon-arrowreturnthick-1-w" />  
+	                        </p:submenu>  
+	                       
+	                        <f:facet name="options">
+                                    <p:outputLabel   value="Bienvenido   #{loginController.nombreUsuario()} &nbsp;&nbsp;&nbsp;&nbsp;"/>
+                                    <p:commandButton value="Cerrar Sesión"  actionListener="#{loginController.logout()}" update=":growlSession" icon="ui-icon-close" oncomplete="handleLoginRequest(xhr, status, args)"/>
+                            </f:facet>
+	                    </p:menubar>  
+                </h:form> 
+                
+                  <p:panel rendered="#{loginController.verificarSesion() eq false}">
+                            <h:form>
+                                <p:outputLabel value="Sesión no Iniciada &nbsp;&nbsp;&nbsp;&nbsp;"/>
+                                <p:commandButton value="Iniciar Sesión" action="/login?faces-redirect=true"/>
+                            </h:form>
+                  </p:panel> 
+            </div>
+            
+            
+            <div id="content" class="center_content ui-widget-content ui-corner-all" style="padding:0;" >
+	                <ui:insert name="content">Content 1</ui:insert>
+            </div>
+            
+            <div id="bottom" class="ui-widget-header ui-corner-all">
+                     <ui:insert name="bottom"> &copy; 2016</ui:insert>
+            </div>
+            
+        </div>
+     <script src="#{appUtilController.baseUrl}/resources/js/fitcoders/util.cjavaperu.js" />
+     <script type="text/javascript">
+	     	function handleLoginRequest(xhr, status, args) {
+	     		if (!args.validationFailed &amp;&amp; args.loggetOut) {
+	     			setTimeout(function() { window.location = args.view; }, 1400);
+	     		}else{
+	                 //location.href =  args.view;					
+	     		}
+	     	}
+     </script>
+    </h:body>
+
+</html>

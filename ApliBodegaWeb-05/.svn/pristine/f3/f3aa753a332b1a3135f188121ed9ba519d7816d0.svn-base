@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductosReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0e1c81d9-c5a7-4ca6-9147-c077b8defbf1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="codigoPro" class="java.lang.String"/>
+	<field name="nombrePro" class="java.lang.String"/>
+	<field name="stockMaxPro" class="java.lang.Integer"/>
+	<field name="precioVentaPro" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="0914e713-c932-4283-9030-916e0e7f0d14" x="154" y="29" width="256" height="38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Reporte de productos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="85812ded-fdd1-42eb-927e-c33201026dc8" x="0" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[codigoPro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e4437508-5d4e-49cc-b6a2-75528153ba0b" x="138" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[nombrePro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="15d8bc52-13f7-4e4f-9d90-6a7a60dd00b1" x="276" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[stockMaxPro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="185f0d0b-9cdd-453d-a602-86e55222b99f" x="414" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[precioVentaPro]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3d6f158c-eaec-401a-9ad9-4215bb675e4a" x="0" y="3" width="138" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{codigoPro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0b651943-bcc8-4c12-873f-488a796dbd2f" x="138" y="3" width="138" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombrePro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6572e302-0d2b-451c-b496-672bcca1415f" x="276" y="3" width="138" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{stockMaxPro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="20abbb38-e9e7-45de-9161-38bb435467eb" x="414" y="3" width="138" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{precioVentaPro}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="28f514cc-dc70-483d-87c1-987c882ef772" x="0" y="1" width="552" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

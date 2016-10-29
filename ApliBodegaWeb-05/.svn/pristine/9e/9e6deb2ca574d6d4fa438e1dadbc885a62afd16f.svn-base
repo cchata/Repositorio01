@@ -1,0 +1,235 @@
+package com.ecoinnova.pe.controller;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+
+import com.ecoinnova.pe.model.TbCategoriaEntity;
+import com.ecoinnova.pe.services.interfaces.TbCategoriaServices;
+import com.ecoinnova.pe.util.MyUtil;
+
+@SessionScoped
+@ManagedBean
+public class CategoriaController implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+    @ManagedProperty("#{tbCategoriaServices}")
+    TbCategoriaServices   tbCategoriaServices;
+	
+	private TbCategoriaEntity       categoriaBean;
+	private TbCategoriaEntity       categoriaBeanSelect;
+	private List<TbCategoriaEntity> categoriaList;
+
+	public CategoriaController(){
+		MyUtil.systemOutPrintln("Llamando constructor CategoriaController()");
+		categoriaBean = new TbCategoriaEntity();
+	}	
+	
+	
+
+	public boolean cargarListaCategoria() throws Exception{
+		
+		String msg;
+    	try {
+    		MyUtil.systemOutPrintln("Llamando cargarListaCategoria()");
+    	
+    		categoriaList = tbCategoriaServices.findAllCategoria();
+    		
+    		msg = "¡Lista Categoria completa!";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Categoria", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+//            RequestContext.getCurrentInstance().update("formDataTable");
+            
+		} catch (Exception e) {
+			msg = ""+e.getMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en  listar Categoria", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().update("growls");
+		}
+    	return true;
+	}
+	
+	
+	public void onRowSelectCategoria(SelectEvent event ){
+		MyUtil.systemOutPrintln("Llamando onRowSelectCategoria()");
+    	categoriaBeanSelect = (TbCategoriaEntity) event.getObject();
+    	//Para que no se quede pegado cod, nombre del empleado
+        
+    	RequestContext.getCurrentInstance().update("formUpdate:txtCodigo");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtNombre");
+    	RequestContext.getCurrentInstance().update("formUpdate:txtDescripcion");
+    	
+	}
+	
+	public void updateCategoria(){
+		try {
+    		tbCategoriaServices.updateCategoria(categoriaBeanSelect);
+    		String msg = "Se actualizo satisfactoriamente.";
+    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Categoria", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+    		RequestContext.getCurrentInstance().update("formDataTable");
+    		RequestContext.getCurrentInstance().update("growls");
+    		RequestContext.getCurrentInstance().execute("PF('dlgUpdate').hide()");
+    		
+		} catch (Exception e) {
+			String msg = "";
+			msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+			msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Update", msg);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("messages");
+            RequestContext.getCurrentInstance().execute("PF('dlgUpdate').hide()");
+		}finally{
+			resetCategoria();
+		}
+	}
+	
+	public void resetCategoria(){
+    	MyUtil.systemOutPrintln("Llamando resetCategoria()");
+		categoriaBean = new TbCategoriaEntity();
+		categoriaBeanSelect = null;
+	}
+	
+    public void addSelectedDelete(TbCategoriaEntity obj){
+    	categoriaBeanSelect = obj;
+    }
+    
+	public void deleteCategoria(){
+	    	try {
+	    		tbCategoriaServices.deleteCategoria(categoriaBeanSelect);
+	    		String msg = "Se eliminó satisfactoriamente.";
+	    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Categoria", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	    		RequestContext.getCurrentInstance().update("formDataTable");
+	    		RequestContext.getCurrentInstance().update("growls");
+	    		RequestContext.getCurrentInstance().execute("PF('dlgDelete').hide()");
+			} catch (Exception e) {
+				String msg = "";
+				msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+				msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+	            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Delete", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("messages");
+	            RequestContext.getCurrentInstance().execute("PF('dlgDelete').hide()");
+			}finally{
+				resetCategoria();
+			}
+	    }
+	
+	 public void generarCodigoCategoria(){
+	    	MyUtil.systemOutPrintln("Llamando generarCodigoCategoria()");
+	    	resetCategoria();
+	    	try {
+	    		categoriaBean.setCodigoCat(tbCategoriaServices.generarCodigoCategoria());
+	        	RequestContext.getCurrentInstance().update("formCreate:txtCodigo");
+	        	RequestContext.getCurrentInstance().update("formCreate:txtNombre");
+	        	RequestContext.getCurrentInstance().update("formCreate:txtDescripcion");
+
+			} catch (Exception e) {
+				MyUtil.systemOutPrintln(e.getMessage()+"");
+				MyUtil.systemOutPrintln(e.getCause()+"");
+			}
+	    }
+	    
+	    public boolean recargarListaCategoria(){
+	    	String msg;
+	    	try {
+	    		MyUtil.systemOutPrintln("Llamando recargarListaCategoria()");
+	    		categoriaList = tbCategoriaServices.findAllCategoria();
+	    		msg = "¡Recarga completa!";
+	    	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Categoria", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("formDataTable");
+	            RequestContext.getCurrentInstance().update("growls");
+	            
+			} catch (Exception e) {
+				msg = ""+e.getMessage();
+	            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en  listar Categoria", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("messages");
+	            RequestContext.getCurrentInstance().update("growls");
+			}
+	    	return true;
+	    }
+	    
+	    public void createCategoria(){
+	    	
+	    	try {
+	    			tbCategoriaServices.insertCategoria(categoriaBean);
+	    			String msg = "Se creó correctamente el registro.";
+	        	    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Categoria", msg);
+	                FacesContext.getCurrentInstance().addMessage(null, message);
+	        		RequestContext.getCurrentInstance().update("formDataTable");
+	        		RequestContext.getCurrentInstance().update("growls");
+	        		RequestContext.getCurrentInstance().execute("PF('dlgCreate').hide()");
+	    		
+			} catch (Exception e) {
+				String msg = "";
+				msg =e.getMessage()!=null?"Mensaje: "+e.getMessage()+"\n":"";
+				msg +=e.getCause()!=null?"Causa: "+e.getCause()+"":"";
+	            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insert", msg);
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            RequestContext.getCurrentInstance().update("messages");
+	            RequestContext.getCurrentInstance().execute("PF('dlgCreate').hide()");
+			}finally{
+				resetCategoria();
+			}
+	    }
+
+
+
+		public TbCategoriaEntity getCategoriaBean() {
+			return categoriaBean;
+		}
+
+
+
+		public void setCategoriaBean(TbCategoriaEntity categoriaBean) {
+			this.categoriaBean = categoriaBean;
+		}
+
+
+
+		public TbCategoriaEntity getCategoriaBeanSelect() {
+			return categoriaBeanSelect;
+		}
+
+
+
+		public void setCategoriaBeanSelect(TbCategoriaEntity categoriaBeanSelect) {
+			this.categoriaBeanSelect = categoriaBeanSelect;
+		}
+
+
+
+		public List<TbCategoriaEntity> getCategoriaList() {
+			return categoriaList;
+		}
+
+
+
+		public void setCategoriaList(List<TbCategoriaEntity> categoriaList) {
+			this.categoriaList = categoriaList;
+		}
+
+
+
+		public void setTbCategoriaServices(TbCategoriaServices tbCategoriaServices) {
+			this.tbCategoriaServices = tbCategoriaServices;
+		}
+	
+
+	    
+	
+	
+}

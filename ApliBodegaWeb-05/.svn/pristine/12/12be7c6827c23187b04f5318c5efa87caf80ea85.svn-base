@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+ <script type="text/javascript">
+//  document.getElementById("txtIdCargo").readOnly = true;
+
+function soloLectura(id){
+// 	id.readOnly = true;
+console.log("holass");
+	
+// 	document.getElementById('txtIdCargo').readOnly = true;
+//     document.getElementById('txtNombCargo').readOnly = true;
+	
+}
+</script>  
+</head>    
+<body>
+
+ <ui:composition template="./template.xhtml">
+            <ui:define name="content">
+                <p:growl id="growls" showDetail="true" showSummary="false" sticky="false" />
+				<p:messages id="messages" showDetail="true" closable="true" />
+ 
+                <h:form rendered="#{loginController.verificarSesion()}">
+                    <p:commandButton id="btnUsuarioCreate"  title="Crear cargo" value="Crear" actionListener="#{empleadoController.generarCodigoEmpleado()}"  oncomplete="PF('dlgEmpleadoCreate').show()" icon="icon-new"/> 
+                </h:form>
+                
+                
+                <h:form id="formDataTable" rendered="#{loginController.verificarSesion()}">  
+                    <p:dataTable  styleClass="tablaF" id="cars" var="empl" value="#{empleadoController.listaEmpleado}" paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                 emptyMessage="No hay registros."  selectionMode="single" selection="#{empleadoController.empleadoBean}" rowKey="#{empl.codigoEmp}">  
+                        <f:facet name="header">  Listado de empleado </f:facet> 
+                        
+                        <p:column headerText="Codigo" style="width:8%">  
+                            <h:outputText value="#{empl.codigoEmp}" />  
+                        </p:column>  
+
+                        <p:column headerText="DNI" style="width:8%" filterBy="#{empl.dniEmp}">  
+                            <h:outputText value="#{empl.dniEmp}" />  
+                        </p:column>  
+
+                        <p:column headerText="Nombres" style="width:40%"   filterBy="#{empl.nombreEmp}" filterMatchMode="contains">  
+                            <h:outputText value="#{empl.nombreEmp}" />  
+                        </p:column>  
+                        
+                        <p:column headerText="Apellidos" style="width:40%"   filterBy="#{empl.apellidosEmp}" filterMatchMode="contains">  
+                            <h:outputText value="#{empl.apellidosEmp}" />  
+                        </p:column>  
+
+                        <p:column style="width:6%">  
+                            <p:commandButton id="btnUpdate" actionListener="#{empleadoController.addSelectedEmpleado(empl)}"  update=":formUpdate" oncomplete="PF('dialogEmpleadoUpdate').show()" icon="icon-edit" title="Modificar"/>  
+                            <p:commandButton id="btnDelete"  actionListener="#{empleadoController.addSelectedEmpleado(empl)}" update=":formDelete" oncomplete="PF('dialogEmpleadoDelete').show()" icon="icon-delete" title="Eliminar"/>  
+                        </p:column>  
+                    </p:dataTable>  
+                </h:form>
+                
+                
+                <h:form id="formCreate">
+                    <p:dialog id="dlgEmpleadoCreate" closable="false" resizable="false" modal="true" widgetVar="dlgEmpleadoCreate"  header="Crear empleado"  showEffect="fade" hideEffect="explode" >  
+                        <h:panelGrid id="display" columns="4" cellpadding="4" style="margin:0 auto;" >  
+								        <p:column><p:outputLabel value="Codigo: " for="txtCodigo"/></p:column>
+								        <p:column><p:inputText  id="txtCodigo" value="#{empleadoController.empleadoBean.codigoEmp}" required="true" readonly="true" size="20"/></p:column>
+								        <p:column><p:outputLabel value="DNI: "  rendered="true" for="txtDni"/></p:column>
+								        <p:column><p:inputText id="txtDni" value="#{empleadoController.empleadoBean.dniEmp}" required="true" size="20"/></p:column>
+
+								        <p:column><p:outputLabel value="Nombre: " for="txtNombre"/></p:column>
+								        <p:column><p:inputText id="txtNombre" value="#{empleadoController.empleadoBean.nombreEmp}" required="true" size="20"/></p:column>
+								        <p:column><p:outputLabel value="Apellidos: " for="txtApellido"/></p:column>
+								        <p:column><p:inputText id="txtApellido" value="#{empleadoController.empleadoBean.apellidosEmp}" required="true" size="20"/></p:column>
+
+
+								        <p:column><p:outputLabel value="Sexo: " for="selectMenu"/></p:column>
+								        <p:column> 
+								        	<p:selectOneMenu id="selectMenu"  value="#{empleadoController.empleadoBean.sexoEmp}" required="true" style="width:125px">
+									                            <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+									                            <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+								            </p:selectOneMenu>  
+								        </p:column>
+								        <p:column><p:outputLabel value="Fech. nac.: " for="fech"/></p:column>
+								        <p:column><p:calendar id="fech" value="#{empleadoController.empleadoBean.fechaNacimientoEmp}" required="true" showOn="button" size="20"/></p:column>
+								        
+								        <p:column><p:outputLabel value="Direccion: " for="txtDirec"/>  </p:column>
+								        <p:column><p:inputText id="txtDirec" value="#{empleadoController.empleadoBean.direccionEmp}" required="true" size="20"/></p:column>
+								        <p:column><p:outputLabel value="Telefono: " for="txtTelef"/></p:column>  
+								        <p:column><p:inputText id="txtTelef" value="#{empleadoController.empleadoBean.telefonoEmp}"  size="20"/></p:column>
+								        
+								        <p:column><p:outputLabel value="Celular: " for="txtCelu"/></p:column>  
+								        <p:column><p:inputText id="txtCelu" value="#{empleadoController.empleadoBean.celularEmp}" size="20"/></p:column>
+								        <p:column><p:outputLabel value="Email " for="txtEmail"/></p:column>
+								        <p:column><p:inputText id="txtEmail" value="#{empleadoController.empleadoBean.emailEmp}" size="20"/></p:column>
+								        
+								        <p:column><p:outputLabel value="Cargo:" for="txtIdCargo"/></p:column>
+								        <p:column><p:inputText id="txtIdCargo" value="#{empleadoController.empleadoBean.tbCargo.codigoCar}"  readonly="true"  size="10"/></p:column>
+								        <p:column><p:commandButton id="btnBuscarCargo"  title="Buscar" value="Cargo" oncomplete="PF('dialogCargoBuscar').show()" icon="fa fa-binoculars"/> </p:column>
+								        <p:column colspan="4" style="align:right"> 
+								             <p:inputText id="txtNombCargo" value="#{empleadoController.empleadoBean.tbCargo.nombreCar}"  readonly="true"  size="20"/>
+								        </p:column>
+
+	                            <f:facet name="footer">
+	                                <p:separator/>
+	                                <p:commandButton id="btnCreateAceptar" update=":formDataTable, :growls"  actionListener="#{empleadoController.createEmpleado()}" icon="icon-save" title="Guardar" value="Guardar"/> 
+	                                <p:commandButton id="btnCreateCancelar" oncomplete="PF('dlgEmpleadoCreate').hide();"  icon="icon-cancel" title="Cancelar" value="Cancelar">
+	                                	  <p:ajax update=":formCreate" resetValues="true" />
+	                                </p:commandButton> 
+	                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+                
+                
+                <h:form id="formUpdate">
+                    <p:dialog header="Modificar empleado" closable="false" widgetVar="dialogEmpleadoUpdate" resizable="false" id="dlgEmpleadoUpdate"  
+                              showEffect="fade" hideEffect="explode" modal="true">  
+                              
+                        <h:panelGrid id="display" columns="4" cellpadding="4" style="margin:0 auto;">  
+									    <p:column><p:outputLabel value="Codigo: " /></p:column>
+								        <p:column><p:inputText value="#{empleadoController.empleadoBeanSelect.codigoEmp}" readonly="true" size="20"/></p:column>
+								        <p:column><p:outputLabel value="DNI: "/></p:column>
+								        <p:column><p:inputText value="#{empleadoController.empleadoBeanSelect.dniEmp}" readonly="true" size="20" /></p:column>
+
+								        <p:column><p:outputLabel value="Nombre: " /></p:column>
+								        <p:column><p:inputText value="#{empleadoController.empleadoBeanSelect.nombreEmp}" rendered="true" size="20"/></p:column>
+								        <p:column><p:outputLabel value="Apellidos: " /></p:column>
+								        <p:column><p:inputText value="#{empleadoController.empleadoBeanSelect.apellidosEmp}" rendered="true" size="20"/></p:column>
+
+
+								        <p:column><p:outputLabel value="Sexo: " for="selectMenu"/></p:column>
+								        <p:column> 
+								        	<p:selectOneMenu id="selectMenu"  value="#{empleadoController.empleadoBeanSelect.sexoEmp}" required="true" style="width:125px">
+									                            <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+									                            <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+								            </p:selectOneMenu>  
+								        </p:column>
+								        <p:column><p:outputLabel value="Fech. nac.: " for="fech"/></p:column>
+								        <p:column><p:calendar id="fech" value="#{empleadoController.empleadoBeanSelect.fechaNacimientoEmp}" rendered="true" showOn="button" size="20"/></p:column>
+								        
+								        <p:column><p:outputLabel value="Direccion: " for="txtDirec"/>  </p:column>
+								        <p:column><p:inputText id="txtDirec" value="#{empleadoController.empleadoBeanSelect.direccionEmp}" rendered="true" size="20"/></p:column>
+								        <p:column><p:outputLabel value="Telefono: " for="txtTelef"/></p:column>  
+								        <p:column><p:inputText id="txtTelef" value="#{empleadoController.empleadoBeanSelect.telefonoEmp}" size="20"/></p:column>
+								        
+								        <p:column><p:outputLabel value="Celular: " for="txtCelu"/></p:column>  
+								        <p:column><p:inputText id="txtCelu" value="#{empleadoController.empleadoBeanSelect.celularEmp}" size="20"/></p:column>
+								        <p:column><p:outputLabel value="Email " for="txtEmail"/></p:column>
+								        <p:column><p:inputText id="txtEmail" value="#{empleadoController.empleadoBeanSelect.emailEmp}" size="20"/></p:column>
+								        
+								        <p:column><p:outputLabel value="Cargo:" for="txtIdCargo"/></p:column>
+								        <p:column><p:inputText id="txtIdCargo" value="#{empleadoController.cargoBeanSelect.codigoCar}"  readonly="true" size="10"/></p:column>
+								        <p:column><p:commandButton id="btnBuscarCargo"  title="Buscar" value="Cargo" oncomplete="PF('dialogCargoBuscar').show()" icon="fa fa-binoculars"/> </p:column>
+								        <p:column colspan="4" style="align:right"> 
+								             <p:inputText id="txtNombCargo" value="#{empleadoController.cargoBeanSelect.nombreCar}"  readonly="true" size="20"/>
+								        </p:column>
+		
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnUpdateAceptar"   update=":formDataTable"  actionListener="#{empleadoController.updateEmpleado()}" icon="icon-save" title="Actualizar" value="Actualizar"/> 
+                                <p:commandButton id="btnUpdateCancelar"  oncomplete="PF('dialogEmpleadoUpdate').hide()"  icon="icon-cancel" title="Cancelar" value="Cancelar">
+                                		 <p:ajax update=":formUpdate" resetValues="true" />
+                                </p:commandButton> 
+                            </f:facet>
+                        </h:panelGrid>  
+                        
+                    </p:dialog>  
+                </h:form>
+                
+                <h:form id="formDelete">
+                    <p:confirmDialog id="confirmDialog" closable="false" widgetVar="dialogEmpleadoDelete" message="¿Esta seguro de eliminar el registro?"  showEffect="fade" hideEffect="explode" header="Eliminar empleado" severity="alert" >  
+                        <p:commandButton id="confirm" value="Aceptar" update=":formDataTable"  actionListener="#{empleadoController.deleteEmpleado()}" icon="icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="PF('dialogEmpleadoDelete').hide()" type="button" icon="icon-cancel"/>   
+                    </p:confirmDialog> 
+                </h:form>
+<!--                 formCreate dlgEmpleadoCreate -->
+
+                <h:form id="formBuscarCargo">
+                    <p:dialog header="Buscar cargos" closable="false" widgetVar="dialogCargoBuscar" resizable="false"  styleClass="dlgTabla"  
+                              showEffect="fade" hideEffect="explode" modal="true" width="50%">
+                                
+		                      <p:dataTable  styleClass="tablaDlg"  var="carg" value="#{cargoController.listaCargo}" paginator="true" rows="10"  paginatorPosition="bottom"                                 
+		                                 emptyMessage="No hay registros."   selectionMode="single"  selection="#{cargoController.cargoBean}" rowKey="#{carg.codigoCar}">  
+				                        <f:facet name="header">  Listado de Cargos </f:facet>
+				                         
+				                        <p:ajax event="rowSelect" listener="#{empleadoController.onRowSelect}" oncomplete="PF('dialogCargoBuscar').hide()"/>
+				                        
+				                        <p:column headerText="Id" style="width:15px">  
+				                            <h:outputText value="#{carg.codigoCar}" />  
+				                        </p:column>  
+				
+				                        <p:column headerText="Nombre cargo" style="width:35px" filterBy="#{carg.nombreCar}">  
+				                            <h:outputText value="#{carg.nombreCar}" />  
+				                        </p:column>  
+				
+				                        <p:column headerText="Descripcion" style="width:55px"   filterBy="#{carg.descripcionCar}" filterMatchMode="contains">  
+				                            <h:outputText value="#{carg.descripcionCar}" />  
+				                        </p:column>  
+		                    </p:dataTable>  
+                        
+                    </p:dialog>  
+                </h:form>
+
+                
+            </ui:define>
+        </ui:composition>
+        
+
+    </body>
+</html>

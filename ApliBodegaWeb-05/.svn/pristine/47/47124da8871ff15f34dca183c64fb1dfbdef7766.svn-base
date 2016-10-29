@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boleta_venta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="503f2263-1459-433d-a2cc-f534e1cda506">
+	<property name="ireport.zoom" value="1.6500000000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="BOLETA_N" class="java.lang.String"/>
+	<parameter name="FECHA_EMISION" class="java.lang.String"/>
+	<parameter name="CLIENTE" class="java.lang.String"/>
+	<field name="nombreProducto" class="java.lang.String"/>
+	<field name="precioBol" class="java.math.BigDecimal"/>
+	<field name="cantidadBol" class="java.lang.Integer"/>
+	<field name="importe" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b26561db-c096-47d0-9595-9728c04b9b72" x="150" y="17" width="274" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Boleta de venta]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d62e65ab-0ccf-4c60-af02-2d1f2a47db1c" x="50" y="14" width="55" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Boleta Nro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff24dd6d-444a-4945-8646-44b3d8189043" x="50" y="34" width="55" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="23213f63-fba6-4e28-b0b3-26c838acd0c5" x="50" y="54" width="55" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="88bade7b-fc03-4ebb-a079-c70993e6806a" x="107" y="14" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{BOLETA_N}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="42cafd9b-d9af-4d97-aedd-ff2d1ac2cc44" x="107" y="34" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{FECHA_EMISION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="17dd66e4-95f1-4021-b7c4-94c7f8b6c529" x="107" y="54" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{CLIENTE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="13cf79f4-1697-4ed8-a802-8309712b32a5" x="0" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[nombreProducto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cbb96d70-6b5b-4996-9391-a8d152564a57" x="138" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[precioBol]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="120349ac-67e0-470c-bb99-4341714e1c75" x="276" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[cantidadBol]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a3159c5b-beed-4ae6-98a4-b7daabedf5cf" x="414" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[importe]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d210b9a9-b002-47e6-8836-d6bce50b6b5c" x="0" y="3" width="138" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7c049fd7-db0f-4156-83af-c4386e4b3240" x="138" y="3" width="138" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precioBol}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="31d87c81-51fb-4eb8-a60a-c5297f8666c8" x="276" y="3" width="138" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidadBol}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7e9a6d37-dbd6-433e-afc0-2ab45caea1f2" x="414" y="3" width="138" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="8c6743aa-48e2-4bb2-b285-bafe2fd0d6e9" x="0" y="1" width="552" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
