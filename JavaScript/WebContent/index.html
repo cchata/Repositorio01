@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+// 	function mostraralerta() {
+// 		alert('hizo clic!');
+// 	}
+// 	function hacerclic() {
+// 		document.getElementsByTagName('p')[0].onclick = mostraralerta;
+// 	}
+	
+	
+	
+	function mostraralerta2() {
+		alert('Click');
+	}
+	function hacerclic2() {
+		document.getElementsByTagName('input')[2].onclick = mostraralerta2;
+		document.getElementById('principal').onmouseover=resaltarBorde;
+		document.getElementById('principal').onmouseout =normalBorde;
+	}
+	
+	function resaltarBorde(){
+		document.getElementById('principal').style.borderColor='red';
+	}
+	
+	function normalBorde(){
+		document.getElementById('principal').style.borderColor='black';
+	}
+	
+	window.onload = hacerclic2;
+</script>
+
+
+</head>
+<body>
+	<div id="principal" style="width:250px; height:160px; border:thin solid silver">
+		<p>Hacer Clic</p>
+		<input type="text" name="txtcadena1" id="txtcadena1" value=""/>
+		<input type="text" name="txtcadena2" id="txtcadena2" value=""/>
+		<input type="button" name="btnEnviar" value="Enviar"/>
+	</div>
+</body>
+</html>
